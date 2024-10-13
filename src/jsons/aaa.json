@@ -1,0 +1,117 @@
+{
+  "name": "CEO",
+  "attributes": {
+    "department": "Executive",
+    "yearsInRole": 10,
+    "location": "Headquarters"
+  },
+  "children": [
+    {
+      "name": "CTO",
+      "attributes": {
+        "department": "Technology",
+        "yearsInRole": 8,
+        "location": "Tech Hub"
+      },
+      "children": [
+        {
+          "name": "Engineering Manager",
+          "attributes": {
+            "department": "Engineering",
+            "yearsInRole": 5,
+            "teamSize": 15
+          },
+          "children": [
+            {
+              "name": "Software Engineer",
+              "attributes": {
+                "department": "Frontend",
+                "yearsInRole": 2,
+                "project": "Website Redesign"
+              }
+            },
+            {
+              "name": "Software Engineer",
+              "attributes": {
+                "department": "Backend",
+                "yearsInRole": 3,
+                "project": "API Optimization"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Data Scientist",
+          "attributes": {
+            "department": "Data Science",
+            "yearsInRole": 4,
+            "focus": "Machine Learning Models"
+          },
+          "children": [
+            {
+              "name": "Data Engineer",
+              "attributes": {
+                "department": "Data Infrastructure",
+                "yearsInRole": 3,
+                "focus": "ETL Pipelines"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CFO",
+      "attributes": {
+        "department": "Finance",
+        "yearsInRole": 9,
+        "location": "Headquarters"
+      },
+      "children": [
+        {
+          "name": "Financial Analyst",
+          "attributes": {
+            "department": "Investment Analysis",
+            "yearsInRole": 2,
+            "focus": "Market Trends"
+          }
+        },
+        {
+          "name": "Accountant",
+          "attributes": {
+            "department": "Accounting",
+            "yearsInRole": 6,
+            "focus": "Budget Planning"
+          }
+        }
+      ]
+    },
+    {
+      "name": "COO",
+      "attributes": {
+        "department": "Operations",
+        "yearsInRole": 7,
+        "location": "Headquarters"
+      },
+      "children": [
+        {
+          "name": "Operations Manager",
+          "attributes": {
+            "department": "Logistics",
+            "yearsInRole": 3,
+            "teamSize": 20
+          }
+        },
+        {
+          "name": "HR Manager",
+          "attributes": {
+            "department": "Human Resources",
+            "yearsInRole": 5,
+            "teamSize": 10,
+            "focus": "Employee Retention"
+          }
+        }
+      ]
+    }
+  ]
+}
