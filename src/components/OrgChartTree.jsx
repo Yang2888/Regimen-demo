@@ -90,11 +90,13 @@ export default function OrgChartTree({ width = '800px', height = '600px' }) {
       id="treeWrapper"
       ref={treeWrapperRef}
       style={{
-        width: width,
+        // width: width,
         height: height,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: '0px',
+        margin: '0px',
       }}
     >
       <Tree
