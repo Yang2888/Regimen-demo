@@ -16,7 +16,7 @@ let exmaple_json = {
             "definition": "The process of compiling options that could satisfy current hunger and cravings.",
             "priority": "Medium",
             "milestones": [],
-            "current_status": [],
+            "Current_status": [],
             "deadline": "12:00 PM"
         },
         {
@@ -27,7 +27,7 @@ let exmaple_json = {
             "definition": "The critical decision-making step of selecting one snack from the list.",
             "priority": "High",
             "milestones": [],
-            "current_status": [],
+            "Current_status": [],
             "deadline": "12:05 PM"
         },
         {
@@ -38,7 +38,7 @@ let exmaple_json = {
             "definition": "The collection of everything needed to prepare the selected snack.",
             "priority": "High",
             "milestones": [],
-            "current_status": [],
+            "Current_status": [],
             "deadline": "12:15 PM"
         },
         {
@@ -49,7 +49,7 @@ let exmaple_json = {
             "definition": "The act of cooking, preparing, or assembling the snack selected.",
             "priority": "High",
             "milestones": [],
-            "current_status": [],
+            "Current_status": [],
             "deadline": "12:25 PM"
         },
         {
@@ -60,7 +60,7 @@ let exmaple_json = {
             "definition": "The final step of experiencing the product of your decision and preparation.",
             "priority": "High",
             "milestones": [],
-            "current_status": [],
+            "Current_status": [],
             "deadline": "12:30 PM"
         }
     ],
@@ -68,6 +68,7 @@ let exmaple_json = {
 }
 
 exmaple_json = {"a": "adfadf"}
+exmaple_json = {}
 
 const InitialData = {
     data_global: exmaple_json, // Start with an empty array for the data list

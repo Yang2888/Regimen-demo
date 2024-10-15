@@ -12,12 +12,13 @@ const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps }) => {
   return (
     <g>
       <foreignObject {...foreignObjectProps}>
+        
         <div style={{ display: 'flex', alignItems: 'center', width: '220px', height: 'auto', padding: '5px', backgroundColor: '#f0f2f5', borderRadius: '8px', boxShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>
           <div style={{ flex: 1, textAlign: 'center' }}>
-            <h3 style={{ fontSize: '14px', margin: 0 }}>{nodeDatum.name}</h3>
+            <h3 style={{ fontSize: '15px', margin: 0 }}>{nodeDatum?.Title && nodeDatum.Title}</h3>
             <hr style={{ margin: '4px 0', borderColor: '#d9d9d9' }} />
-            {nodeDatum.attributes?.department && (
-              <div style={{ fontSize: '12px', marginTop: '8px' }}>{nodeDatum.attributes.department}</div>
+            {nodeDatum?.Summary && (
+              <div style={{ fontSize: '8px', marginTop: '8px' }}>{nodeDatum.Summary}</div>
             )}
           </div>
 
@@ -84,7 +85,7 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
     }
   }, []);
 
-  const foreignObjectProps = { width: 220, height: 100, x: -110, y: -50 };
+  const foreignObjectProps = { width: 270, height: 200, x: -110, y: -50 };
 
   return (
     <div
@@ -99,8 +100,11 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
         padding: '0px',
         margin: '0px',
       }}
+      onDoubleClick={(e) => {e.preventDefault()}}
+
     >
       <Tree
+        
         data={treeData}  // Use the imported orgChart JSON
         nodeSize={{ x: 270, y: 120 }}  // Keep the node size for better spacing
         renderCustomNodeElement={(rd3tProps) => renderRectSvgNode({ ...rd3tProps, foreignObjectProps })}  // Custom node rendering
