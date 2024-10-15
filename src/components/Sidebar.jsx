@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import { Layout, Button, Card } from 'antd'; // Ant Design components
 import { DataContext } from './dataProcess/dataContext'; // Access data context
+import { saveAs } from 'file-saver'; // Import FileSaver for saving files
 
 const { Sider } = Layout;
 
 const Sidebar = () => {
-  const { updateDataGlobal } = useContext(DataContext); // Access data from context
+  const { data_global, updateDataGlobal } = useContext(DataContext); // Access data from context
 
   // Function to handle file upload and read the JSON file
   const handleFileUpload = (event) => {
@@ -24,6 +25,16 @@ const Sidebar = () => {
       reader.readAsText(file); // Read the file as text
     } else {
       console.error("Please upload a valid JSON file");
+    }
+  };
+
+  // Function to save the JSON data to a user-selected folder
+  const handleSaveClick = () => {
+    if (data_global) {
+      const blob = new Blob([JSON.stringify(data_global, null, 2)], { type: "application/json" });
+      saveAs(blob, "data.json"); // Prompt user to save the file with a default name "data.json"
+    } else {
+      console.error("No data available to save.");
     }
   };
 
@@ -47,10 +58,14 @@ const Sidebar = () => {
           type="primary"
           style={{ marginBottom: '20px', padding: '25px', width: '100%' }}
         >
-          Upload JSON
+          Upload Data
         </Button>
-        <Button type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
-          Button 2
+        <Button
+          onClick={handleSaveClick} // Trigger file save on button click
+          type="primary"
+          style={{ marginBottom: '20px', padding: '25px', width: '100%' }}
+        >
+          Save Data
         </Button>
         <Button type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
           Button 3
