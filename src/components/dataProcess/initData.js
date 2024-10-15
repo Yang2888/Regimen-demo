@@ -70,7 +70,7 @@ let exmaple_json = {
 exmaple_json = {"a": "adfadf"}
 
 const InitialData = {
-    dataList: exmaple_json, // Start with an empty array for the data list
+    data_global: exmaple_json, // Start with an empty array for the data list
   };
   
   export default InitialData;

@@ -8,7 +8,7 @@ import AppFooter from './components/Footer';
 import { DataProvider } from './components/dataProcess/dataContext';
 
 const App = () => {
-  const dataList = [
+  const data_global = [
     { title: 'Data Item 1', description: 'Description for item 1' },
     { title: 'Data Item 2', description: 'Description for item 2' },
     { title: 'Data Item 3', description: 'Description for item 3' },
@@ -21,7 +21,7 @@ const App = () => {
       <Layout style={{ padding: '20px' }}>
         <Sidebar />
         <OrgChartV1 />
-        <RightPanel dataList={dataList} />
+        <RightPanel data_global={data_global} />
       </Layout>
       <AppFooter />
     </Layout>

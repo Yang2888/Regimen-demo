@@ -6,19 +6,17 @@ export const DataContext = createContext();
 
 // Create a provider component
 export const DataProvider = ({ children }) => {
-  const [dataList, setDataList] = useState(InitialData.dataList);
+  const [data_global, setdata_global] = useState(InitialData.data_global);
 
-  // Function to update a specific item in the data list
-  const updateDataItem = (index, newData) => {
-    setDataList((prevData) => {
-      const updatedData = [...prevData];
-      updatedData[index] = newData;
-      return updatedData;
+  const updateDataGlobal = (inputDict) => {
+    setdata_global((prevData) => {
+      // Merge inputDict into the existing data_global
+      return { ...prevData, ...inputDict };
     });
   };
 
   return (
-    <DataContext.Provider value={{ dataList, updateDataItem }}>
+    <DataContext.Provider value={{ data_global, updateDataGlobal }}>
       {children}
     </DataContext.Provider>
   );
