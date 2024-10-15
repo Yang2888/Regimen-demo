@@ -11,7 +11,8 @@ export const DataProvider = ({ children }) => {
   const updateDataGlobal = (inputDict) => {
     setdata_global((prevData) => {
       // Merge inputDict into the existing data_global
-      return { ...prevData, ...inputDict };
+      return { ...inputDict };
+      // return { ...prevData, ...inputDict };
     });
   };
 
