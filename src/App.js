@@ -18,8 +18,8 @@ const App = () => {
       <Header style={{ backgroundColor: '#001529', padding: 0, marginBottom: '20px' }}>
         <Menu mode="horizontal" theme="dark" style={{ lineHeight: '64px' }}>
           <Menu.Item key="1" style={{ width: '150px', textAlign: 'center' }}>Home</Menu.Item>
-          <Menu.Item key="2" style={{ width: '150px', textAlign: 'center' }}>About</Menu.Item>
-          <Menu.Item key="3" style={{ width: '150px', textAlign: 'center' }}>Contact</Menu.Item>
+          {/* <Menu.Item key="2" style={{ width: '150px', textAlign: 'center' }}>About</Menu.Item> */}
+          {/* <Menu.Item key="3" style={{ width: '150px', textAlign: 'center' }}>Contact</Menu.Item> */}
         </Menu>
       </Header>
 
