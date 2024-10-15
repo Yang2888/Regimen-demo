@@ -2,78 +2,118 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Input, Button, Form } from 'antd';
 import { DataContext } from './dataProcess/dataContext'; // Import the context
 
-const EditContent = ({ onCancel }) => {
+const EditContent = () => {
   const { data_global, updateDataGlobal, set_node_displayed, node_displayed } = useContext(DataContext); // Access data from context
-  const [form] = Form.useForm(); // Use Ant Design form to manage inputs
-  const [formData, setFormData] = useState({}); // Initialize state to hold form data
+  const [formData, setFormData] = useState({}); // Initialize state to hold original form data
+  const [formDraft, setFormDraft] = useState({}); // Initialize state to hold draft form data
 
   // Load the JSON data into the form on component mount
   useEffect(() => {
-    if (node_displayed && node_displayed) {
-      setFormData(node_displayed);
-      form.setFieldsValue(node_displayed); // Populate the form with initial values
+    if (node_displayed) {
+      setFormData(node_displayed); // Store original data in formData
+      setFormDraft(node_displayed); // Sync formDraft with node_displayed
     }
-  }, [node_displayed, form]);
+  }, [node_displayed]);
 
-  // Handle form field changes and update the form data
-  const handleChange = (changedValues) => {
-    setFormData({ ...formData, ...changedValues });
+  // Handle input change for two-way binding
+  const handleInputChange = (field, value) => {
+    setFormDraft((prevState) => ({
+      ...prevState,
+      [field]: value,
+    }));
   };
 
-  // Confirm the changes by passing the updated form data back to the context
+  // Confirm the changes and pass formDraft back to the context
   const handleConfirm = () => {
-   
-    
+    setFormData(formDraft); // Save the draft as the new original data
+    updateDataGlobal(formDraft); // Update the global context or save the changes
+  };
+
+  const onCancel = () => {
+    // Reset formDraft to the original formData
+    setFormDraft(formData); // Sync formDraft back to formData
   };
 
   return (
     <div style={styles.container}>
       <h2 style={styles.title}>Edit Goal</h2>
-      <Form
-        form={form}
-        initialValues={formData}
-        onValuesChange={(_, allValues) => handleChange(allValues)} // Update the form data on changes
-        layout="vertical"
-      >
-        {/* Fields for each property */}
-        <Form.Item label="Title" name="Title" style={styles.formItem}>
-          <Input placeholder="Enter the goal title" />
+      <Form layout="vertical">
+        {/* Two-way binding: value is from formDraft, onChange updates formDraft */}
+        <Form.Item label="Title" style={styles.formItem}>
+          <Input
+            value={formDraft.Title || ''}
+            onChange={(e) => handleInputChange('Title', e.target.value)}
+            placeholder="Enter the goal title"
+          />
         </Form.Item>
 
-        <Form.Item label="Summary" name="Summary" style={styles.formItem}>
-          <Input.TextArea rows={3} placeholder="Enter a brief summary" />
+        <Form.Item label="Summary" style={styles.formItem}>
+          <Input.TextArea
+            rows={3}
+            value={formDraft.Summary || ''}
+            onChange={(e) => handleInputChange('Summary', e.target.value)}
+            placeholder="Enter a brief summary"
+          />
         </Form.Item>
 
-        <Form.Item label="Note" name="Note" style={styles.formItem}>
-          <Input.TextArea rows={7} placeholder="Enter additional notes" />
+        <Form.Item label="Note" style={styles.formItem}>
+          <Input.TextArea
+            rows={7}
+            value={formDraft.Note || ''}
+            onChange={(e) => handleInputChange('Note', e.target.value)}
+            placeholder="Enter additional notes"
+          />
         </Form.Item>
 
-        <Form.Item label="Content" name="Content" style={styles.formItem}>
-          <Input.TextArea rows={7} placeholder="Enter the content" />
+        <Form.Item label="Content" style={styles.formItem}>
+          <Input.TextArea
+            rows={7}
+            value={formDraft.Content || ''}
+            onChange={(e) => handleInputChange('Content', e.target.value)}
+            placeholder="Enter the content"
+          />
         </Form.Item>
 
-        <Form.Item label="Definition" name="Definition" style={styles.formItem}>
-          <Input.TextArea rows={3} placeholder="Enter the definition" />
+        <Form.Item label="Definition" style={styles.formItem}>
+          <Input.TextArea
+            rows={3}
+            value={formDraft.Definition || ''}
+            onChange={(e) => handleInputChange('Definition', e.target.value)}
+            placeholder="Enter the definition"
+          />
         </Form.Item>
 
-        <Form.Item label="Priority" name="Priority" style={styles.formItem}>
-          <Input placeholder="Enter the priority level" />
+        <Form.Item label="Priority" style={styles.formItem}>
+          <Input
+            value={formDraft.Priority || ''}
+            onChange={(e) => handleInputChange('Priority', e.target.value)}
+            placeholder="Enter the priority level"
+          />
         </Form.Item>
 
-        <Form.Item label="Current Status" name="Current_status" style={styles.formItem}>
-          <Input.TextArea rows={3} placeholder="Enter the current status" />
+        <Form.Item label="Current Status" style={styles.formItem}>
+          <Input.TextArea
+            rows={3}
+            value={formDraft.Current_status || ''}
+            onChange={(e) => handleInputChange('Current_status', e.target.value)}
+            placeholder="Enter the current status"
+          />
         </Form.Item>
 
-        <Form.Item label="Deadline" name="Deadline" style={styles.formItem}>
-          <Input placeholder="Enter the deadline" />
+        <Form.Item label="Deadline" style={styles.formItem}>
+          <Input
+            value={formDraft.Deadline || ''}
+            onChange={(e) => handleInputChange('Deadline', e.target.value)}
+            placeholder="Enter the deadline"
+          />
         </Form.Item>
 
         {/* Disabled fields for empty properties */}
-        <Form.Item label="Difficulty Rating" name="difficulty_rating" style={styles.formItem}>
+        <Form.Item label="Difficulty Rating" style={styles.formItem}>
           <Input.TextArea rows={1} placeholder="Currently empty" disabled />
         </Form.Item>
 
-        <Form.Item label="Relationship to Others" name="relationship_to_others" style={styles.formItem}>
+        <Form.Item label="Relationship to Others" style={styles.formItem}>
           <Input.TextArea rows={1} placeholder="Currently empty" disabled />
         </Form.Item>
 
