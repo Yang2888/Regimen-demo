@@ -6,7 +6,7 @@ export const DataContext = createContext();
 
 // Create a provider component
 export const DataProvider = ({ children }) => {
-  const [data_global, setdata_global] = useState(InitialData.data_global);
+  const [data_global, setdata_global] = useState(InitialData);
 
   const updateDataGlobal = (inputDict) => {
     setdata_global((prevData) => {

@@ -3,6 +3,8 @@ import { Layout, Button, Card } from 'antd'; // Ant Design components
 import { DataContext } from './dataProcess/dataContext'; // Access data context
 import { saveAs } from 'file-saver'; // Import FileSaver for saving files
 
+import InitialData from './dataProcess/initData';
+
 const { Sider } = Layout;
 
 const Sidebar = () => {
@@ -43,6 +45,10 @@ const Sidebar = () => {
     document.getElementById('fileInput').click(); // Programmatically click the file input
   };
 
+  const handleCreateClick = () => {
+    updateDataGlobal(InitialData)
+  }
+
   return (
     <Card style={{ marginRight: '20px', marginBottom: '20px' }}>
       <Sider style={{ backgroundColor: '#FFFFFF', padding: '20px' }}>
@@ -67,8 +73,11 @@ const Sidebar = () => {
         >
           Save Data
         </Button>
-        <Button type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
-          Button 3
+        <Button 
+          onClick={handleCreateClick} // Trigger file save on button click
+        
+        type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
+          Create Data
         </Button>
       </Sider>
     </Card>

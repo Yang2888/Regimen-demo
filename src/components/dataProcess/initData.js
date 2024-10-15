@@ -68,11 +68,15 @@ let exmaple_json = {
 }
 
 exmaple_json = {"a": "adfadf"}
-exmaple_json = {}
+exmaple_json = {"Title": "Final Goal", "Summary": "The goal is to ..."}
 
-const InitialData = {
-    data_global: exmaple_json, // Start with an empty array for the data list
-  };
+
+
+// const InitialData = {
+//     data_global: exmaple_json, // Start with an empty array for the data list
+//   };
   
+const InitialData = exmaple_json
+
   export default InitialData;
   
