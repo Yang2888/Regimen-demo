@@ -21,7 +21,7 @@ const App = () => {
       <Layout style={{ padding: '20px' }}>
         <Sidebar />
         <OrgChartV1 />
-        <RightPanel data_global={data_global} />
+        <RightPanel />
       </Layout>
       <AppFooter />
     </Layout>

@@ -42,11 +42,10 @@ const RightPanel = () => {
 
       {/* Divider to separate buttons and content */}
       <Divider style={{ borderWidth: '1px', borderColor: '#000' }} />
-
-      <Sider style={{ backgroundColor: '#FFFFFF', padding: '0px' }}>
-        {/* Content based on the selected button */}
+      {renderContent()}
+      {/* <Sider style={{ backgroundColor: '#FFFFFF', padding: '0px' }}>
         {renderContent()}
-      </Sider>
+      </Sider> */}
     </Card>
   );
 };

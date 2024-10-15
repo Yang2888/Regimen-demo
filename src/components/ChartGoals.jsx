@@ -1,12 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Tree from 'react-d3-tree';
 import orgChart from '../jsons/aaa.json'; // Adjusted path to reflect that jsons is inside src
-
+import { useContext } from 'react';
+import { DataContext } from './dataProcess/dataContext';
 // Custom node rendering function with adjusted toggle button size and margin
-const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps }) => {
+const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps, set_node_fun = (data)=>{console.log("111")} }) => {
+
+  
   const showDetails = (e) => {
-    console.log("details");
+    console.log((nodeDatum))
+  console.log((toggleNode))
+  console.log((foreignObjectProps))
+  console.log((set_node_fun))
+  
+
+
     console.log(nodeDatum)
+
+
+    set_node_fun(nodeDatum)
   };
 
   return (
@@ -75,6 +87,8 @@ const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps }) => {
 export default function OrgChartTree({ width = '800px', height = '600px', treeData = orgChart }) {
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const treeWrapperRef = useRef(null);
+  const { data_global, updateDataGlobal, node_displayed, set_node_displayed } = useContext(DataContext); 
+
 
   useEffect(() => {
     if (treeWrapperRef.current) {
@@ -86,6 +100,8 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
   }, []);
 
   const foreignObjectProps = { width: 270, height: 200, x: -110, y: -50 };
+
+  let trialFunc = (e) => {console.log("222")}
 
   return (
     <div
@@ -106,8 +122,8 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
       <Tree
         
         data={treeData}  // Use the imported orgChart JSON
-        nodeSize={{ x: 270, y: 120 }}  // Keep the node size for better spacing
-        renderCustomNodeElement={(rd3tProps) => renderRectSvgNode({ ...rd3tProps, foreignObjectProps })}  // Custom node rendering
+        nodeSize={{ x: 270, y: 150 }}  // Keep the node size for better spacing
+        renderCustomNodeElement={(rd3tProps) => renderRectSvgNode({ ...rd3tProps, foreignObjectProps, set_node_fun: set_node_displayed })}  // Custom node rendering
         orientation="horizontal"  // Set orientation to horizontal
         pathFunc="diagonal"  // Use diagonal path for smoother lines
         translate={translate}  // Automatically center the tree

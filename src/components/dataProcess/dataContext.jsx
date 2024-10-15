@@ -7,6 +7,7 @@ export const DataContext = createContext();
 // Create a provider component
 export const DataProvider = ({ children }) => {
   const [data_global, setdata_global] = useState(InitialData);
+  const [node_displayed, set_node_displayed] = useState(InitialData)
 
   const updateDataGlobal = (inputDict) => {
     setdata_global((prevData) => {
@@ -17,7 +18,7 @@ export const DataProvider = ({ children }) => {
   };
 
   return (
-    <DataContext.Provider value={{ data_global, updateDataGlobal }}>
+    <DataContext.Provider value={{ data_global, updateDataGlobal, node_displayed, set_node_displayed }}>
       {children}
     </DataContext.Provider>
   );

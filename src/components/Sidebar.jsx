@@ -8,7 +8,7 @@ import InitialData from './dataProcess/initData';
 const { Sider } = Layout;
 
 const Sidebar = () => {
-  const { data_global, updateDataGlobal } = useContext(DataContext); // Access data from context
+  const { data_global, updateDataGlobal, set_node_displayed } = useContext(DataContext); // Access data from context
 
   // Function to handle file upload and read the JSON file
   const handleFileUpload = (event) => {
@@ -20,6 +20,7 @@ const Sidebar = () => {
         try {
           const jsonData = JSON.parse(fileContent); // Parse the JSON content
           updateDataGlobal(jsonData); // Update the context with the parsed data
+          set_node_displayed(jsonData); // Update the context with the parsed data
         } catch (error) {
           console.error("Error parsing JSON:", error);
         }
@@ -64,7 +65,7 @@ const Sidebar = () => {
           type="primary"
           style={{ marginBottom: '20px', padding: '25px', width: '100%' }}
         >
-          Upload Data
+          Read Data
         </Button>
         <Button
           onClick={handleSaveClick} // Trigger file save on button click
