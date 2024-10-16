@@ -47,13 +47,6 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
     if (node_displayed) {
       setFormData(node_displayed); // Store original data in formData
       setFormDraft(node_displayed); // Sync formDraft with node_displayed
-
-      // Initialize the milestone status (true = keep, false = delete)
-      // if (node_displayed.children) {
-      //   setMilestoneStatus(node_displayed.children.map(() => true)); // Default: keep all milestones
-      // }
-
-      // Initialize editable state for fields
       editAllLock()
     }
   }, [node_displayed]);
@@ -74,33 +67,14 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
     }));
   };
 
-  // Confirm the changes and pass formDraft back to the context
   const handleConfirm = () => {
-    // const updatedMilestones = formDraft.children.filter((_, index) => milestoneStatus[index]); // Only keep milestones marked as "kept"
-    // const updatedFormDraft = { ...formDraft, children: updatedMilestones };
-    // setMilestoneStatus(node_displayed.children.map(() => true));
-
     setFormData(formDraft); // Save the draft as the new original data
-    // edit_certain_node(updatedFormDraft); // Update the global context or save the changes
-
     confirmGenerate(formDraft, fieldEditable)
   };
 
   const onCancel = () => {
     setFormDraft(formData); // Sync formDraft back to formData
   };
-
-  // Handle "keep" or "delete" action for milestones
-  // const handleMilestoneAction = (index, action) => {
-  //   setMilestoneStatus((prevStatus) => {
-  //     const newStatus = [...prevStatus];
-  //     newStatus[index] = action === 'keep'; // Set true for "keep" and false for "delete"
-  //     return newStatus;
-  //   });
-  // };
-  // return (<div>
-  //   <h1>aaa</h1>
-  // </div>)
   return (
     <div style={styles.container}>
       <h2 style={styles.title}>Generate Goal</h2>
@@ -287,7 +261,7 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
   </Form.Item>
 
         {/* Render milestones with "Keep" and "Delete" buttons */}
-        {formDraft.children && formDraft.children.length > 0 && (
+        {(
           <div>
             <div>
             <h3 style={styles.milestonesHeading}>Milestones</h3>
@@ -302,7 +276,7 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
             </Button>
             </div>
 
-            {formDraft.children.map((milestone, index) => (
+            {formDraft.children && formDraft.children.length > 0 && formDraft.children.map((milestone, index) => (
               <Card  bodyStyle={{ padding: '0' }} key={index} style={!fieldEditable.children ? styles.milestoneCardDisabled : styles.milestoneCard}>
                 <Row>
                   <Col span={16}>
@@ -336,7 +310,7 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
           <Button onClick={onCancel} style={styles.cancelButton}>
             Cancel
           </Button>
-          <Button type="primary" onClick={handleConfirm} style={styles.confirmButton}>
+          <Button type="primary" disabled={Object.values(fieldEditable).every(value => value === false)} onClick={handleConfirm} style={styles.confirmButton}>
             Confirm
           </Button>
         </div>

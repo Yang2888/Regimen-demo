@@ -69,6 +69,20 @@ let exmaple_json = {
 
 exmaple_json = {"a": "adfadf"}
 exmaple_json = {"Title": "Final Goal", "Summary": "The goal is to ..."}
+exmaple_json = {
+    Title: "Final Goal",
+    Summary: "The goal is to ...",
+    Note: "",
+    Content: "",
+    Definition: "",
+    Priority: "",
+    Milestones: [],
+    Current_status: "",
+    // difficulty_rating: {},
+    Deadline: "",
+    // relationship_to_others: {},
+    children: []
+};
 
 
 
