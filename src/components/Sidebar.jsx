@@ -48,6 +48,7 @@ const Sidebar = () => {
 
   const handleCreateClick = () => {
     updateDataGlobal(InitialData)
+    set_node_displayed(InitialData)
   }
 
   return (

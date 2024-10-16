@@ -80,7 +80,7 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
       const dimensions = treeWrapperRef.current.getBoundingClientRect();
       const centerX = dimensions.width / 2;
       const centerY = dimensions.height / 2;
-      setTranslate({ x: centerX / 2, y: centerY });
+      setTranslate({ x: centerX / 2, y: centerY / 2 });
     }
   }, []);
 

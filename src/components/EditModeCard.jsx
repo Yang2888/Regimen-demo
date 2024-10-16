@@ -37,14 +37,14 @@ const EditContent = () => {
   return (
     <div style={styles.container}>
       <h2 style={styles.title}>Edit Goal</h2>
-      <div style={styles.buttonGroup}>
+      {/* <div style={styles.buttonGroup}>
           <Button onClick={onCancel} style={styles.cancelButton}>
             Cancel
           </Button>
           <Button type="primary" onClick={handleConfirm} style={styles.confirmButton}>
             Confirm
           </Button>
-        </div>
+        </div> */}
       <Form layout="vertical">
         {/* Two-way binding: value is from formDraft, onChange updates formDraft */}
         <Form.Item label="Title" style={styles.formItem}>
