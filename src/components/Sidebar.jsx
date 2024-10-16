@@ -8,7 +8,7 @@ import InitialData from './dataProcess/initData';
 const { Sider } = Layout;
 
 const Sidebar = () => {
-  const { data_global, updateDataGlobal, set_node_displayed } = useContext(DataContext); // Access data from context
+  const { data_global, updateDataGlobal, set_node_displayed, node_displayed, set_refresh_key, refresh_key } = useContext(DataContext); // Access data from context
 
   // Function to handle file upload and read the JSON file
   const handleFileUpload = (event) => {
@@ -51,6 +51,15 @@ const Sidebar = () => {
     set_node_displayed(InitialData)
   }
 
+  const handleResetPos = () => {
+    set_refresh_key(!refresh_key)
+    // console.log(refresh_key)
+  }
+
+  const handleDebug = () => {
+    console.log(node_displayed)
+  }
+
   return (
     <Card style={{ marginRight: '20px', marginBottom: '20px' }}>
       <Sider style={{ backgroundColor: '#FFFFFF', padding: '20px' }}>
@@ -81,6 +90,21 @@ const Sidebar = () => {
         type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
           Create Data
         </Button>
+
+        <Button 
+          onClick={handleResetPos} // Trigger file save on button click
+        
+        type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
+          Reset Position
+        </Button>
+
+        <Button 
+          onClick={handleDebug} // Trigger file save on button click
+        
+        type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
+          Debug
+        </Button>
+
       </Sider>
     </Card>
   );

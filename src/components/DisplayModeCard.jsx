@@ -63,7 +63,7 @@ const DisplayContent = ({ onCancel }) => {
       <Divider style={styles.divider} />
 
       {/* Render Milestones if available */}
-      {renderMilestones(formData.Milestones)}
+      {renderMilestones(formData.children)}
 
       {/* Button for cancel */}
       <div style={styles.buttonGroup}>

@@ -52,7 +52,7 @@ const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps, set_node
             <span style={{ fontSize: '16px', position: 'relative', top: '-2.5px' }}>i</span>
           </div>
 
-          {nodeDatum.children && (
+          {nodeDatum.children && nodeDatum.children.length > 0 && (
             <div
               onClick={toggleNode}
               style={{
@@ -84,22 +84,38 @@ const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps, set_node
 };
 
 // Main component wrapping the tree
-export default function OrgChartTree({ width = '800px', height = '600px', treeData = orgChart }) {
+export default function OrgChartTree({ width = '800px', height = '600px', treeData = orgChart, }) {
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const [zoomLevel, setZoomLevel] = useState(1.5); 
   const treeWrapperRef = useRef(null);
-  const { data_global, updateDataGlobal, node_displayed, set_node_displayed } = useContext(DataContext); 
+  const { data_global, updateDataGlobal, node_displayed, set_node_displayed, refresh_key } = useContext(DataContext); 
 
+  const [text, setText] = useState(200)
 
-  useEffect(() => {
+  const moveInitChart = () => {
     if (treeWrapperRef.current) {
       const dimensions = treeWrapperRef.current.getBoundingClientRect();
       const centerX = dimensions.width / 2;
       const centerY = dimensions.height / 2;
       setTranslate({ x: centerX / 2, y: centerY / 2 });
+      // console.log("moved...")
     }
+  };
+
+  useEffect(() => {
+    moveInitChart()
   }, []);
 
-  const foreignObjectProps = { width: 270, height: 200, x: -110, y: -50 };
+  useEffect(() => {
+    if (treeWrapperRef.current) {
+      setTranslate({ x: text, y: text });
+      setText(text + 1e-9)
+      // console.log(translate)
+      // console.log("Tree moved and zoom reset...");
+    }
+  }, [refresh_key]);
+
+  const foreignObjectProps = { width: 270, height: 270, x: -110, y: -50 };
 
   let trialFunc = (e) => {console.log("222")}
 
@@ -122,12 +138,12 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
       <Tree
         
         data={treeData}  // Use the imported orgChart JSON
-        nodeSize={{ x: 270, y: 150 }}  // Keep the node size for better spacing
+        nodeSize={{ x: 270, y: 200 }}  // Keep the node size for better spacing
         renderCustomNodeElement={(rd3tProps) => renderRectSvgNode({ ...rd3tProps, foreignObjectProps, set_node_fun: set_node_displayed })}  // Custom node rendering
         orientation="horizontal"  // Set orientation to horizontal
         pathFunc="diagonal"  // Use diagonal path for smoother lines
         translate={translate}  // Automatically center the tree
-        zoom={1.5}  // Set initial zoom to 150% of default for a bigger view
+        zoom={zoomLevel}  // Set initial zoom to 150% of default for a bigger view
         scaleExtent={{ min: 0.1, max: 100 }}  // Allow zooming in to 300% and out to 10%
       />
     </div>

@@ -10,12 +10,12 @@ const { Header, Sider, Content, Footer } = Layout;
 
 
 const OrgChartV1 = () => {
-  const { data_global, updateDataGlobal, node_displayed } = useContext(DataContext); 
+  const { data_global, updateDataGlobal, node_displayed, refresh_key } = useContext(DataContext); 
   // console.log(node_displayed)
   return (
   // <Content style={{ padding: '0 0px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '70%' }}>
     <Card bodyStyle={{ padding: '0' }} style={{ width: '100%', height: '100%', marginBottom: '20px' }}>
-      <OrgChartTree width="1800px" height="1200px" treeData={data_global} />
+      <OrgChartTree width="1800px" height="1200px" treeData={data_global}  />
     </Card>
   // </Content>
 )};
