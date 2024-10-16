@@ -9,6 +9,39 @@ const EditContent = () => {
   const [milestoneStatus, setMilestoneStatus] = useState([]); // Initialize state to track the keep/delete status of milestones
   const [fieldEditable, setFieldEditable] = useState({}); // Track the editable status for each field
 
+  const editAllLock = () => {
+    const initialEditableState = {};
+      Object.keys(node_displayed).forEach(key => {
+        initialEditableState[key] = false; // All fields start as non-editable
+      });
+      setFieldEditable(initialEditableState);
+  }
+
+  const editAllOpen = () => {
+    const initialEditableState = {};
+      Object.keys(node_displayed).forEach(key => {
+        initialEditableState[key] = true; // All fields start as non-editable
+      });
+      setFieldEditable(initialEditableState);
+  }
+
+  const editAllCounter = () => {
+    const initialEditableState = {};
+      Object.keys(fieldEditable).forEach(key => {
+        initialEditableState[key] = !fieldEditable[key]; // All fields start as non-editable
+      });
+      setFieldEditable(initialEditableState);
+  }
+
+  const editMilestones = () => {
+    const initialEditableState = {};
+      Object.keys(fieldEditable).forEach(key => {
+        initialEditableState[key] = false; // All fields start as non-editable
+      });
+      initialEditableState['children'] = true
+      setFieldEditable(initialEditableState);
+  }
+
   // Load the JSON data into the form on component mount
   useEffect(() => {
     if (node_displayed) {
@@ -21,11 +54,7 @@ const EditContent = () => {
       }
 
       // Initialize editable state for fields
-      const initialEditableState = {};
-      Object.keys(node_displayed).forEach(key => {
-        initialEditableState[key] = false; // All fields start as non-editable
-      });
-      setFieldEditable(initialEditableState);
+      editAllLock()
     }
   }, [node_displayed]);
 
@@ -67,10 +96,27 @@ const EditContent = () => {
       return newStatus;
     });
   };
-
+  // return (<div>
+  //   <h1>aaa</h1>
+  // </div>)
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>Edit Goal</h2>
+      <h2 style={styles.title}>Generate Goal</h2>
+
+      <div style={styles.buttonGroup}>
+        <Button type="primary" onClick={() => editAllOpen()} style={styles.selectButton}>
+          Edit All
+        </Button>
+        <Button type="primary" onClick={() => editAllLock()} style={styles.selectButton}>
+          Edit None
+        </Button>
+        <Button type="primary" onClick={() => editAllCounter() } style={styles.selectButton}>
+          Reverse
+        </Button>
+        <Button type="primary" onClick={() => editMilestones() } style={styles.selectButton}>
+          Edit Milestones
+        </Button>
+      </div>
 
       <Form layout="vertical">
       <Form.Item label={
@@ -247,23 +293,23 @@ const EditContent = () => {
 
             <Button
               type="link"
-              onClick={() => toggleEditable('Deadline')}
+              onClick={() => toggleEditable('children')}
               style={{ marginLeft: 10 }}
             >
-              {fieldEditable.Deadline ? 'Lock' : 'Edit'}
+              {fieldEditable.children ? 'Lock' : 'Edit'}
             </Button>
             </div>
 
             {formDraft.children.map((milestone, index) => (
-              <Card bodyStyle={{ padding: '0' }} key={index} style={styles.milestoneCard}>
+              <Card  bodyStyle={{ padding: '0' }} key={index} style={!fieldEditable.children ? styles.milestoneCardDisabled : styles.milestoneCard}>
                 <Row>
                   <Col span={16}>
                     <h3>{index + 1}. {milestone.Title}</h3>
                     <p>{milestone.Summary || 'No summary available'}</p>
                   </Col>
                   <Col span={8} style={styles.milestoneButtonGroup}>
-                    {milestoneStatus[index] ? (
-                      <Button
+                    {/* {milestoneStatus[index] ? (
+                      <Button disabled={!fieldEditable.children}
                         type="primary"
                         onClick={() => handleMilestoneAction(index, 'delete')}
                       >
@@ -276,7 +322,7 @@ const EditContent = () => {
                       >
                         Keep
                       </Button>
-                    )}
+                    )} */}
                   </Col>
                 </Row>
               </Card>
@@ -322,6 +368,15 @@ const styles = {
     borderRadius: '6px',
     boxShadow: '0 1px 4px rgba(0, 0, 0, 0.1)',
   },
+
+  milestoneCardDisabled: {
+    marginBottom: '15px',
+    backgroundColor: '#f0f0f0',
+    padding: '15px',
+    borderRadius: '6px',
+    boxShadow: '0 1px 4px rgba(0, 0, 0, 0.1)',
+  },
+
   milestoneButtonGroup: {
     display: 'flex',
     justifyContent: 'center',
@@ -340,6 +395,12 @@ const styles = {
   confirmButton: {
     backgroundColor: '#4caf50',
     color: 'white',
+  },
+
+  selectButton: {
+    marginRight: '10px', 
+    backgroundColor: '#ff8e1c',
+
   },
 
   milestonesHeading: {

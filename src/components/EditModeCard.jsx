@@ -4,7 +4,7 @@ import { DataContext } from './dataProcess/dataContext'; // Import the context
 import { formatCountdown } from 'antd/es/statistic/utils';
 
 const EditContent = () => {
-  const { node_displayed, edit_certain_node } = useContext(DataContext); // Access data from context
+  const { node_displayed, edit_certain_node, data_global, set_node_displayed } = useContext(DataContext); // Access data from context
   const [formData, setFormData] = useState({}); // Initialize state to hold original form data
   const [formDraft, setFormDraft] = useState({}); // Initialize state to hold draft form data
   const [milestoneStatus, setMilestoneStatus] = useState([]); // Initialize state to track the keep/delete status of milestones
@@ -32,7 +32,6 @@ const EditContent = () => {
 
   // Confirm the changes and pass formDraft back to the context
   const handleConfirm = () => {
-    console.log(formDraft)
     const updatedMilestones = formDraft.children.filter((_, index) => milestoneStatus[index]); // Only keep milestones marked as "kept"
     const updatedFormDraft = { ...formDraft, children: updatedMilestones };
     // console.log(updatedFormDraft)
@@ -41,8 +40,12 @@ const EditContent = () => {
     setFormData(updatedFormDraft); // Save the draft as the new original data
     setFormDraft(updatedFormDraft); // Save the draft as the new original data
     edit_certain_node(updatedFormDraft); // Update the global context or save the changes
+    
+    set_node_displayed(updatedFormDraft)
     // console.log(updatedMilestones)
     // console.log(milestoneStatus)
+    console.log(formDraft)
+    console.log(data_global)
   };
 
   const onCancel = () => {
