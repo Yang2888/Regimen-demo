@@ -15,7 +15,7 @@ const OrgChartV1 = () => {
   return (
   // <Content style={{ padding: '0 0px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '70%' }}>
     <Card bodyStyle={{ padding: '0' }} style={{ width: '100%', height: '100%', marginBottom: '20px' }}>
-      <OrgChartTree width="1800px" height="1200px" treeData={data_global}  />
+      <OrgChartTree width="1800px" height="1800px" treeData={data_global}  />
     </Card>
   // </Content>
 )};

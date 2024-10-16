@@ -18,6 +18,29 @@ export const DataProvider = ({ children }) => {
     });
   };
 
+  const delete_certain_node = (nodeToDelete) => {
+    const deleteNodeRecursively = (parentNode, uidToDelete) => {
+      if (!parentNode.children) return;
+  
+      // Filter out the child with the matching uid
+      parentNode.children = parentNode.children.filter(child => child.uid !== uidToDelete);
+  
+      // Recursively check the remaining children
+      parentNode.children.forEach(child => deleteNodeRecursively(child, uidToDelete));
+    };
+  
+    // If the node to delete is the root itself
+    if (data_global.uid === nodeToDelete.uid) {
+      // Handle deleting the root node (data_global) itself
+      setdata_global(InitialData); // Update the state to null (or handle this as needed)
+    } else {
+      // Otherwise, update the tree recursively
+      const updatedTree = { ...data_global }; // Create a copy of the current tree state
+      deleteNodeRecursively(updatedTree, nodeToDelete.uid);
+      setdata_global(updatedTree); // Update the state with the modified tree
+    }
+  };
+
   const edit_certain_node = (updatedNode) => {
     const node_uid = updatedNode.uid;
 
@@ -42,12 +65,13 @@ export const DataProvider = ({ children }) => {
 
     // Update the global data with the modified node
     setdata_global((prevData) => updateNode(prevData));
+    set_node_displayed(data_global);
     // console.log(data_global)
   };
 
 
   return (
-    <DataContext.Provider value={{ data_global, updateDataGlobal, node_displayed, set_node_displayed, edit_certain_node, set_refresh_key, refresh_key }}>
+    <DataContext.Provider value={{ data_global, updateDataGlobal, node_displayed, set_node_displayed, edit_certain_node, set_refresh_key, refresh_key, delete_certain_node }}>
       {children}
     </DataContext.Provider>
   );

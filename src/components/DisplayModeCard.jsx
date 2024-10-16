@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Typography, Button, Row, Col, Divider, Card } from 'antd';
+import { Typography, Button, Row, Col, Divider, Card, Modal } from 'antd';
 import { DataContext } from './dataProcess/dataContext'; // Import the context
+
 
 const { Text, Title } = Typography;
 
-const DisplayContent = ({ onCancel }) => {
-  const { node_displayed } = useContext(DataContext); // Access data from context
+const DisplayContent = () => {
+  const { node_displayed, delete_certain_node } = useContext(DataContext); // Access data from context
   const [formData, setFormData] = useState({}); // Initialize state to hold form data
 
   // Load the JSON data on component mount
@@ -25,6 +26,21 @@ const DisplayContent = ({ onCancel }) => {
       </Col>
     </Row>
   );
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    delete_certain_node(node_displayed);
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   const renderMilestones = (milestones) => (
     <div>
@@ -67,10 +83,26 @@ const DisplayContent = ({ onCancel }) => {
 
       {/* Button for cancel */}
       <div style={styles.buttonGroup}>
-        <Button onClick={onCancel} style={styles.cancelButton}>
-          Close
-        </Button>
-      </div>
+      <Button onClick={showModal} style={styles.cancelButton}>
+        Delete
+      </Button>
+      <Modal
+        title="Confirm Deletion"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        okText="Yes"
+        cancelText="No"
+      >
+        <p>
+  Are you sure you want to delete this node? <br />
+  Node title:
+  <span style={{ fontSize: '16px', fontWeight: 'bold', fontStyle: 'italic', marginLeft: '8px' }}>
+    {node_displayed.Title}
+  </span>
+</p>
+      </Modal>
+    </div>
     </div>
   );
 };
