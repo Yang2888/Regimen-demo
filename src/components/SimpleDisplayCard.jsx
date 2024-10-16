@@ -9,10 +9,10 @@ const DisplaySimpleCard = ({formData}) => {
 
   const renderField = (label, value) => (
     <Row style={styles.fieldRow}>
-      <Col span={6} style={styles.label}>
+      <Col span={24} style={styles.label}>
         <Text strong style={styles.labelText}>{label}</Text>
       </Col>
-      <Col span={18} style={styles.value}>
+      <Col span={24} style={styles.value}>
         <Text>{value || 'N/A'}</Text>
       </Col>
     </Row>
@@ -68,7 +68,7 @@ const DisplaySimpleCard = ({formData}) => {
 const styles = {
   container: {
     maxWidth: '1200px', // Increased width
-    margin: '0 auto',
+    margin: '10px',
     padding: '30px', // Added padding for a more spacious layout
     backgroundColor: '#f9f9f9',
     borderRadius: '8px',

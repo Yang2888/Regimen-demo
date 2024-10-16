@@ -1,6 +1,7 @@
 import React, { useState, useContext, createContext } from 'react';
 import { Button, Card, Spin, Modal } from 'antd';
 import GenerateContentSelect from './GenerateModeCardSelect';
+import InitialData from './dataProcess/initData';
 
 import DisplayCardsRow from './MergeDiffs';
 import { isVisible } from '@testing-library/user-event/dist/utils';
@@ -14,6 +15,8 @@ const ModePanel = () => {
   const [cancelled, setCancelled] = useState(false);  // Track cancel state
 
   const [isVisible2, setIsVisible2] = useState(true);
+
+  const [generated_data, set_generated_data] = useState(InitialData)
 
   const cancelRequest2 = () => {
     setIsVisible2(false); // Hide the modal when the "Close" button is clicked or Esc is pressed
@@ -44,8 +47,9 @@ const ModePanel = () => {
 
       if (!cancelled) {
         // Handle result only if not cancelled
+        set_generated_data(result)
         setCurrentMode('DealGenerated');
-
+        setIsVisible2(true)
 
 
       }
@@ -95,14 +99,14 @@ const ModePanel = () => {
           <Modal
           visible={isVisible2}
           footer={null}
-          closable={true}
+          closable={false}
           centered
           keyboard={true}
           style={{ padding: '40px' }} 
           width={"90%"} // Set a wider width to allow more space for the cards
           onCancel={cancelRequest2}
         >
-          <DisplayCardsRow />
+          <DisplayCardsRow generated_data={generated_data} />
           <div style={{ textAlign: 'center' }}>
               {/* <p>Generating...</p> */}
               <Button style={{marginTop: 20}}  onClick={closePanel} color="danger" variant="solid">
