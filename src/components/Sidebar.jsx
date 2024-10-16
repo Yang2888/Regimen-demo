@@ -57,7 +57,10 @@ const Sidebar = () => {
   }
 
   const handleDebug = () => {
+    console.clear();
+
     console.log(node_displayed)
+    
   }
 
   return (
