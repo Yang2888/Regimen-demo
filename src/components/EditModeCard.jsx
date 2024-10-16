@@ -197,7 +197,11 @@ const styles = {
   },
   formItem: {
     marginBottom: '16px',
-  },
+    fontSize: '1.75em', // Typical size for h3
+    fontWeight: 'bold', // Make it bold like h3
+    lineHeight: '1.2',  // Adjust line height similar to h3
+    marginTop: '1em',   // Add some space above like h3
+},
   milestoneCard: {
     marginBottom: '15px',
     backgroundColor: '#fafafa',
