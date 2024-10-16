@@ -8,14 +8,14 @@ const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps, set_node
 
   
   const showDetails = (e) => {
-    console.log((nodeDatum))
-  console.log((toggleNode))
-  console.log((foreignObjectProps))
-  console.log((set_node_fun))
+  //   console.log((nodeDatum))
+  // console.log((toggleNode))
+  // console.log((foreignObjectProps))
+  // console.log((set_node_fun))
   
 
 
-    console.log(nodeDatum)
+  //   console.log(nodeDatum)
 
 
     set_node_fun(nodeDatum)

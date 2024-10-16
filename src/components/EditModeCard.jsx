@@ -3,7 +3,7 @@ import { Input, Button, Form } from 'antd';
 import { DataContext } from './dataProcess/dataContext'; // Import the context
 
 const EditContent = () => {
-  const { data_global, updateDataGlobal, set_node_displayed, node_displayed } = useContext(DataContext); // Access data from context
+  const { data_global, updateDataGlobal, set_node_displayed, node_displayed, edit_certain_node } = useContext(DataContext); // Access data from context
   const [formData, setFormData] = useState({}); // Initialize state to hold original form data
   const [formDraft, setFormDraft] = useState({}); // Initialize state to hold draft form data
 
@@ -26,7 +26,7 @@ const EditContent = () => {
   // Confirm the changes and pass formDraft back to the context
   const handleConfirm = () => {
     setFormData(formDraft); // Save the draft as the new original data
-    updateDataGlobal(formDraft); // Update the global context or save the changes
+    edit_certain_node(formDraft); // Update the global context or save the changes
   };
 
   const onCancel = () => {
@@ -37,6 +37,14 @@ const EditContent = () => {
   return (
     <div style={styles.container}>
       <h2 style={styles.title}>Edit Goal</h2>
+      <div style={styles.buttonGroup}>
+          <Button onClick={onCancel} style={styles.cancelButton}>
+            Cancel
+          </Button>
+          <Button type="primary" onClick={handleConfirm} style={styles.confirmButton}>
+            Confirm
+          </Button>
+        </div>
       <Form layout="vertical">
         {/* Two-way binding: value is from formDraft, onChange updates formDraft */}
         <Form.Item label="Title" style={styles.formItem}>
