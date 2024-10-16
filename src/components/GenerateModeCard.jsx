@@ -8,22 +8,38 @@ const ModeContext = createContext();
 const ModePanel = () => {
   const [currentMode, setCurrentMode] = useState("GenerateContentSelect");
 
-  const generateMilestone = (draft, flag) => {
-    console.log(draft)
-    console.log(flag)
-  }
+  const generateMilestone = async (draft, flag) => {
+    console.log(draft);
+    console.log(flag);
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/process-inputs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          input1: draft,  // Send the draft as input1
+          input2: flag,   // Send the flag as input2
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const result = await response.json();  // Assuming the backend sends raw text
+      console.log('Backend result:', result);
+  
+      // Do something with the result here (e.g., updating state)
+    } catch (error) {
+      console.error('Error during backend call:', error);
+    }
+  };
+  
 
   const renderContent = () => {
-    switch (currentMode) {
-      case "GenerateContentSelect":
-        return <GenerateContentSelect confirmGenerate = {generateMilestone}></GenerateContentSelect>;
-      case "Generating":
-        return <Card>Generating...</Card>;
-      case "DealGenerated":
-        return <Card>Deal Generated Successfully!</Card>;
-      default:
-        return null;
-    }
+    return <GenerateContentSelect confirmGenerate = {generateMilestone}></GenerateContentSelect>;
   };
 
   const changeToGenerating = () => {
@@ -37,17 +53,6 @@ const ModePanel = () => {
 
   return (
     <ModeContext.Provider value={{ currentMode, setCurrentMode }}>
-        {/* <div style={{ marginBottom: '16px' }}>
-          <Button type="primary" onClick={() => setCurrentMode("GenerateContentSelect")} style={{ marginRight: '8px' }}>
-            Generate Content
-          </Button>
-          <Button type="default" onClick={() => setCurrentMode("Generating")} style={{ marginRight: '8px' }}>
-            Generating
-          </Button>
-          <Button type="default" onClick={() => setCurrentMode("DealGenerated")}>
-            Deal Generated
-          </Button>
-        </div> */}
         <div>
           {renderContent()}
         </div>
