@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Typography, Button, Row, Col, Divider } from 'antd';
+import { Typography, Button, Row, Col, Divider, Card } from 'antd';
 import { DataContext } from './dataProcess/dataContext'; // Import the context
 
 const { Text, Title } = Typography;
@@ -26,6 +26,25 @@ const DisplayContent = ({ onCancel }) => {
     </Row>
   );
 
+  const renderMilestones = (milestones) => (
+    <div>
+      <Title level={3} style={styles.milestoneTitle}>Milestones</Title>
+      {milestones && milestones.length > 0 ? (
+        milestones.map((milestone, index) => (
+          <Card key={index} style={styles.milestoneCard} bordered={false}>
+            <Title level={4} style={styles.milestoneIndex}>
+              {index + 1}. {milestone.Title}
+            </Title>
+            <Text style={styles.milestoneSummary}>{milestone.Summary || 'No summary available'}</Text>
+            <Divider style={styles.milestoneDivider} />
+          </Card>
+        ))
+      ) : (
+        <Text>No milestones available.</Text>
+      )}
+    </div>
+  );
+
   return (
     <div style={styles.container}>
       <Title level={2} style={styles.title}>Goal Overview</Title>
@@ -42,6 +61,9 @@ const DisplayContent = ({ onCancel }) => {
       {renderField('Relationship to Others', formData.relationship_to_others ? JSON.stringify(formData.relationship_to_others) : 'Currently empty')}
 
       <Divider style={styles.divider} />
+
+      {/* Render Milestones if available */}
+      {renderMilestones(formData.Milestones)}
 
       {/* Button for cancel */}
       <div style={styles.buttonGroup}>
@@ -99,6 +121,30 @@ const styles = {
   divider: {
     margin: '20px 0',
     borderColor: '#ddd',
+  },
+  milestoneTitle: {
+    marginTop: '20px',
+    color: '#333',
+  },
+  milestoneCard: {
+    marginBottom: '15px', // Spacing between milestone cards
+    backgroundColor: '#fafafa', // Light background for milestones
+    padding: '15px', // Padding inside each card
+    borderRadius: '6px',
+    boxShadow: '0 1px 4px rgba(0, 0, 0, 0.1)', // Subtle shadow for each milestone
+  },
+  milestoneIndex: {
+    fontWeight: 'bold',
+    color: '#3f51b5', // Accent color for milestone index and title
+  },
+  milestoneSummary: {
+    display: 'block', // Ensure the summary is displayed as a block element
+    marginTop: '8px', // Spacing below the title
+    color: '#666', // Lighter text color for summary
+  },
+  milestoneDivider: {
+    marginTop: '10px',
+    borderColor: '#eee',
   },
 };
 
