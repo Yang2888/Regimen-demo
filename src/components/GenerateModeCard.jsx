@@ -2,6 +2,9 @@ import React, { useState, useContext, createContext } from 'react';
 import { Button, Card, Spin, Modal } from 'antd';
 import GenerateContentSelect from './GenerateModeCardSelect';
 
+import DisplayCardsRow from './MergeDiffs';
+import { isVisible } from '@testing-library/user-event/dist/utils';
+
 // Create the context within this component
 const ModeContext = createContext();
 
@@ -9,6 +12,12 @@ const ModePanel = () => {
   const [currentMode, setCurrentMode] = useState("GenerateContentSelect");
   const [loading, setLoading] = useState(false);  // Track loading state
   const [cancelled, setCancelled] = useState(false);  // Track cancel state
+
+  const [isVisible2, setIsVisible2] = useState(true);
+
+  const cancelRequest2 = () => {
+    setIsVisible2(false); // Hide the modal when the "Close" button is clicked or Esc is pressed
+  };
 
   const generateMilestone = async (draft, flag) => {
     setLoading(true);  // Start loading
@@ -36,6 +45,9 @@ const ModePanel = () => {
       if (!cancelled) {
         // Handle result only if not cancelled
         setCurrentMode('DealGenerated');
+
+
+
       }
     } catch (error) {
       console.error('Error during backend call:', error);
@@ -50,6 +62,10 @@ const ModePanel = () => {
     setCurrentMode("GenerateContentSelect"); // Reset the mode or update based on cancellation logic
   };
 
+  const closePanel = () => {
+    setCurrentMode("GenerateContentSelect");
+  }
+
   const renderContent = () => {
     return <GenerateContentSelect confirmGenerate={generateMilestone}></GenerateContentSelect>;
   };
@@ -62,6 +78,7 @@ const ModePanel = () => {
             visible={loading}
             footer={null}
             closable={false}
+            keyboard={true}
             centered
           >
             <div style={{ textAlign: 'center' }}>
@@ -72,6 +89,27 @@ const ModePanel = () => {
               </Button>
             </div>
           </Modal>
+        )}
+
+{currentMode === "DealGenerated" && (
+          <Modal
+          visible={isVisible2}
+          footer={null}
+          closable={true}
+          centered
+          keyboard={true}
+          style={{ padding: '40px' }} 
+          width={"90%"} // Set a wider width to allow more space for the cards
+          onCancel={cancelRequest2}
+        >
+          <DisplayCardsRow />
+          <div style={{ textAlign: 'center' }}>
+              {/* <p>Generating...</p> */}
+              <Button style={{marginTop: 20}}  onClick={closePanel} color="danger" variant="solid">
+                Close
+              </Button>
+            </div>
+        </Modal>
         )}
         {renderContent()}
       </div>
