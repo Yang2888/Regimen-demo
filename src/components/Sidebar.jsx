@@ -30,6 +30,7 @@ const Sidebar = () => {
       console.error("Please upload a valid JSON file");
     }
     handleResetPos()
+    event.target.value = null
   };
 
   // Function to save the JSON data to a user-selected folder

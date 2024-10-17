@@ -13,13 +13,18 @@ const FinalEditContentCard = ({generatedData}) => {
 
   useEffect(() => {
       setFormData(node_displayed);
-      setFormDraft(generatedData);
+    //   setFormDraft(generatedData);
+
+      setFormDraft({
+        ...generatedData,
+        "uid": node_displayed.uid,
+      })
 
       if (node_displayed.children) {
         setMilestoneStatusOrig(node_displayed.children.map(() => true));
         setMilestoneStatusGene(generatedData.children.map(() => true));
-        console.log(milestoneStatusGene)
-        console.log(milestoneStatusOrig)
+        // console.log(milestoneStatusGene)
+        // console.log(milestoneStatusOrig)
       }
   }, [node_displayed]);
 
@@ -31,8 +36,8 @@ const FinalEditContentCard = ({generatedData}) => {
   };
 
   const onGeneratedClick = (field) => {
-    console.log(field)
-    console.log(generatedData[field])
+    // console.log(field)
+    // console.log(generatedData[field])
     setFormDraft((prevState) => ({
         ...prevState,
         [field]: generatedData[field],
@@ -41,8 +46,8 @@ const FinalEditContentCard = ({generatedData}) => {
 
 
   const onOriginalClick = (field) => {
-    console.log(field)
-    console.log(formData[field])
+    // console.log(field)
+    // console.log(formData[field])
     
     setFormDraft((prevState) => ({
         ...prevState,
@@ -51,14 +56,21 @@ const FinalEditContentCard = ({generatedData}) => {
   }
 
   const handleConfirm = () => {
-    // const updatedMilestones = formDraft.children.filter((_, index) => milestoneStatus[index]);
-    // const updatedFormDraft = { ...formDraft, children: updatedMilestones };
+    const updatedMilestones1 = node_displayed.children.filter((_, index) => milestoneStatusOrig[index]);
+    const updatedMilestones2 = generatedData.children.filter((_, index) => milestoneStatusGene[index]);
+
+    const mergedMilestones = [...updatedMilestones1, ...updatedMilestones2];
+
+    const updatedFormDraft = { ...formDraft, children: mergedMilestones };
     
-    // setMilestoneStatus(node_displayed.children.map(() => true));
-    // setFormData(updatedFormDraft);
-    // setFormDraft(updatedFormDraft);
-    // edit_certain_node(updatedFormDraft);
-    // set_node_displayed(updatedFormDraft);
+    setMilestoneStatusOrig(node_displayed.children.map(() => true));
+    setMilestoneStatusGene(generatedData.children.map(() => true));
+    // setFormData(generatedData);
+    setFormDraft(updatedFormDraft)
+    edit_certain_node(updatedFormDraft);
+    set_node_displayed(updatedFormDraft);
+    console.log(updatedFormDraft)
+    console.log(data_global)
   };
 
   const onCancel = () => {

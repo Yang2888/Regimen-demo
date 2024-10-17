@@ -43,7 +43,8 @@ export const DataProvider = ({ children }) => {
 
   const edit_certain_node = (updatedNode) => {
     const node_uid = updatedNode.uid;
-
+    console.log(data_global)
+    console.log(updatedNode)
     // Recursive function to find and update the node by uid
     const updateNode = (node) => {
       if (node.uid === node_uid) {
