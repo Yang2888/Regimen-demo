@@ -35,7 +35,7 @@ const EditContent = () => {
   };
 
   const handleConfirm = () => {
-    alert("This will return the output of the fine-tuned model later. ")
+    alert("This will return the output of the fine-tuned model in the future. Currently only this pop-out. ")
   };
 
   const onCancel = () => {
