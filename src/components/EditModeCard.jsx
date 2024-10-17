@@ -188,7 +188,7 @@ const styles = {
   container: {
     maxWidth: '1200px', 
     margin: '0 auto',
-    padding: '30px',
+    padding: '30px', 
     backgroundColor: '#f9f9f9',
     borderRadius: '8px',
     border: '1px solid #ddd',
