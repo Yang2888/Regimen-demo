@@ -33,11 +33,11 @@ const RightPanel = () => {
           Display
         </Button>
         <Button type="primary" onClick={() => setActiveContent('Edit')} style={{ marginRight: '10px' }}>
-          Edit
+          Question-Answer
         </Button>
-        <Button type="primary" onClick={() => setActiveContent('Generate')}>
+        {/* <Button type="primary" onClick={() => setActiveContent('Generate')}>
           Generate
-        </Button>
+        </Button> */}
       </div>
 
       {/* Divider to separate buttons and content */}

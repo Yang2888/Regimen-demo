@@ -63,23 +63,24 @@ const DisplayContent = () => {
 
   return (
     <div style={styles.container}>
-      <Title level={2} style={styles.title}>Goal Overview</Title>
+      <Title level={2} style={styles.title}>Details</Title>
 
       {renderField('Title', formData.Title)}
       {renderField('Summary', formData.Summary)}
-      {renderField('Note', formData.Note)}
+      {/* {renderField('Note', formData.Note)} */}
       {renderField('Content', formData.Content)}
-      {renderField('Definition', formData.Definition)}
-      {renderField('Priority', formData.Priority)}
-      {renderField('Current Status', formData.Current_status)}
-      {renderField('Deadline', formData.Deadline)}
-      {renderField('Difficulty Rating', formData.difficulty_rating ? JSON.stringify(formData.difficulty_rating) : 'Currently empty')}
-      {renderField('Relationship to Others', formData.relationship_to_others ? JSON.stringify(formData.relationship_to_others) : 'Currently empty')}
+      {renderField('Other infos', formData.Infos)}
+      {/* {renderField('Definition', formData.Definition)} */}
+      {/* {renderField('Priority', formData.Priority)} */}
+      {/* {renderField('Current Status', formData.Current_status)} */}
+      {/* {renderField('Deadline', formData.Deadline)} */}
+      {/* {renderField('Difficulty Rating', formData.difficulty_rating ? JSON.stringify(formData.difficulty_rating) : 'Currently empty')} */}
+      {/* {renderField('Relationship to Others', formData.relationship_to_others ? JSON.stringify(formData.relationship_to_others) : 'Currently empty')} */}
 
-      <Divider style={styles.divider} />
+      {/* <Divider style={styles.divider} /> */}
 
       {/* Render Milestones if available */}
-      {renderMilestones(formData.children)}
+      {/* {renderMilestones(formData.children)} */}
 
       {/* Button for cancel */}
       <div style={styles.buttonGroup}>

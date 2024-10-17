@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Layout, Button, Card } from 'antd'; // Ant Design components
+import React, { useContext, useState } from 'react';
+import { Layout, Button, Card, Modal } from 'antd'; // Ant Design components
 import { DataContext } from './dataProcess/dataContext'; // Access data context
 import { saveAs } from 'file-saver'; // Import FileSaver for saving files
 
@@ -65,6 +65,27 @@ const Sidebar = () => {
     
   }
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // Function to show the modal when button is clicked
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  // Function to handle "OK" button click in the modal
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  // Function to handle "Cancel" button click in the modal
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  // Content for the modal
+  const modalContent = "This website helps you visualize various data and offers a great user experience.";
+
+
   return (
     <Card style={{ marginRight: '20px', marginBottom: '20px' }}>
       <Sider style={{ backgroundColor: '#FFFFFF', padding: '20px' }}>
@@ -89,12 +110,12 @@ const Sidebar = () => {
         >
           Save Data
         </Button>
-        <Button 
+        {/* <Button 
           onClick={handleCreateClick} // Trigger file save on button click
         
         type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
           Create Data
-        </Button>
+        </Button> */}
 
         <Button 
           onClick={handleResetPos} // Trigger file save on button click
@@ -103,12 +124,36 @@ const Sidebar = () => {
           Reset Position
         </Button>
 
-        <Button 
+        {/* <Button 
           onClick={handleDebug} // Trigger file save on button click
         
         type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
           Debug
-        </Button>
+        </Button> */}
+
+        <Button 
+        onClick={showModal} // Trigger modal on button click
+        type="primary" 
+        style={{ 
+          backgroundColor: 'green', 
+          borderColor: 'green', 
+          marginBottom: '20px', 
+          padding: '25px', 
+          width: '100%' 
+        }}>
+        Readme
+      </Button>
+
+      {/* Modal component with content */}
+      <Modal 
+        title="About This Website" 
+        visible={isModalVisible} 
+        onOk={handleOk} 
+        onCancel={handleCancel}
+      >
+        <p>{modalContent}</p>
+      </Modal>
+
 
       </Sider>
     </Card>

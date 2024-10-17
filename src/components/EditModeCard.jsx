@@ -11,7 +11,14 @@ const EditContent = () => {
   useEffect(() => {
     if (node_displayed) {
       setFormData(node_displayed);
-      setFormDraft(node_displayed);
+      setFormDraft({
+        ...node_displayed,
+        "Question": "",
+      })
+      setFormDraft({
+        ...node_displayed,
+        "Question": "",
+      });
 
       if (node_displayed.children) {
         setMilestoneStatus(node_displayed.children.map(() => true));
@@ -28,46 +35,31 @@ const EditContent = () => {
   };
 
   const handleConfirm = () => {
-    const updatedMilestones = formDraft.children.filter((_, index) => milestoneStatus[index]);
-    const updatedFormDraft = { ...formDraft, children: updatedMilestones };
-    
-    setMilestoneStatus(node_displayed.children.map(() => true));
-    setFormData(updatedFormDraft);
-    setFormDraft(updatedFormDraft);
-    edit_certain_node(updatedFormDraft);
-    set_node_displayed(updatedFormDraft);
+    alert("This will return the output of the fine-tuned model later. ")
   };
 
   const onCancel = () => {
     setFormDraft(formData);
   };
 
-  const handleMilestoneAction = (index, action) => {
-    setMilestoneStatus((prevStatus) => {
-      const newStatus = [...prevStatus];
-      newStatus[index] = action === 'keep';
-      return newStatus;
-    });
+  const [textareaValue, setTextareaValue] = useState('');
+
+  const handleTextareaChange = (e) => {
+    setTextareaValue(e.target.value);
   };
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>Edit Goal</h2>
+      <h2 style={styles.title}>Ask any question</h2>
       <Form layout="vertical">
-        <FormItem label="Title" value={formDraft.Title} onChange={handleInputChange} field="Title" />
-        <FormItem label="Summary" value={formDraft.Summary} onChange={handleInputChange} field="Summary" type="textarea" rows={3} />
-        <FormItem label="Note" value={formDraft.Note} onChange={handleInputChange} field="Note" type="textarea" rows={7} />
-        <FormItem label="Content" value={formDraft.Content} onChange={handleInputChange} field="Content" type="textarea" rows={7} />
-        <FormItem label="Definition" value={formDraft.Definition} onChange={handleInputChange} field="Definition" type="textarea" rows={3} />
-        <FormItem label="Priority" value={formDraft.Priority} onChange={handleInputChange} field="Priority" />
-        <FormItem label="Current Status" value={formDraft.Current_status} onChange={handleInputChange} field="Current_status" type="textarea" rows={3} />
-        <FormItem label="Deadline" value={formDraft.Deadline} onChange={handleInputChange} field="Deadline" />
-
-        <MilestoneList
-          milestones={formDraft.children || []}
-          milestoneStatus={milestoneStatus}
-          handleMilestoneAction={handleMilestoneAction}
+      <Form.Item label="Question">
+        <Input.TextArea
+          rows={4}
+          value={textareaValue}
+          onChange={handleTextareaChange}
+          placeholder="Enter question"
         />
+      </Form.Item>
 
         <div style={styles.buttonGroup}>
           <Button onClick={onCancel} style={styles.cancelButton}>Cancel</Button>
