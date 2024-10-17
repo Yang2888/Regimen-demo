@@ -15,6 +15,7 @@ const EditContent = () => {
 
       if (node_displayed.children) {
         setMilestoneStatus(node_displayed.children.map(() => true));
+        console.log(milestoneStatus)
       }
     }
   }, [node_displayed]);

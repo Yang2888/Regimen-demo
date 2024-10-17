@@ -5,7 +5,7 @@ import { DataContext } from './dataProcess/dataContext'; // Import the context
 
 const { Text, Title } = Typography;
 
-const DisplaySimpleCard = ({formData}) => {
+const DisplaySimpleCard = ({name, formData}) => {
 
   const renderField = (label, value) => (
     <Row style={styles.fieldRow}>
@@ -40,7 +40,7 @@ const DisplaySimpleCard = ({formData}) => {
 
   return (
     <div style={styles.container}>
-      <Title level={2} style={styles.title}>Goal Overview</Title>
+      <Title level={2} style={styles.title}>{name}</Title>
 
       {renderField('Title', formData.Title)}
       {renderField('Summary', formData.Summary)}

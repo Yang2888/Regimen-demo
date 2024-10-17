@@ -11,10 +11,10 @@ const DisplayCardsRow = ({generated_data}) => {
   return (
     <Row gutter={16} justify="center">
       <Col span={8}>
-        <DisplaySimpleCard formData={node_displayed} />
+        <DisplaySimpleCard name={"Original"} formData={node_displayed} />
       </Col>
       <Col span={8}>
-        <DisplaySimpleCard formData={generated_data} />
+        <DisplaySimpleCard name={"Generated"} formData={generated_data} />
       </Col>
       <Col span={8}>
         <FinalEditContentCard generatedData={generated_data} />
