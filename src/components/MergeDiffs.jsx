@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Row, Col } from 'antd';
 import DisplaySimpleCard from './SimpleDisplayCard';
 import { DataContext } from './dataProcess/dataContext';
+import FinalEditContentCard from './GenerateFinalEditCard';
 
 const DisplayCardsRow = ({generated_data}) => {
 
@@ -16,7 +17,7 @@ const DisplayCardsRow = ({generated_data}) => {
         <DisplaySimpleCard formData={generated_data} />
       </Col>
       <Col span={8}>
-        <DisplaySimpleCard formData={data_global} />
+        <FinalEditContentCard generatedData={generated_data} />
       </Col>
     </Row>
   );

@@ -2,21 +2,19 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Input, Button, Form, Row, Col, Card } from 'antd';
 import { DataContext } from './dataProcess/dataContext'; // Import the context
 
-const EditContent = () => {
+const FinalEditContentCard = ({generatedData}) => {
   const { node_displayed, edit_certain_node, data_global, set_node_displayed } = useContext(DataContext);
   const [formData, setFormData] = useState({});
   const [formDraft, setFormDraft] = useState({});
   const [milestoneStatus, setMilestoneStatus] = useState([]);
 
   useEffect(() => {
-    if (node_displayed) {
-      setFormData(node_displayed);
-      setFormDraft(node_displayed);
+      setFormData(generatedData);
+      setFormDraft(generatedData);
 
-      if (node_displayed.children) {
+      if (generatedData.children) {
         setMilestoneStatus(node_displayed.children.map(() => true));
       }
-    }
   }, [node_displayed]);
 
   const handleInputChange = (field, value) => {
@@ -172,4 +170,4 @@ const styles = {
   },
 };
 
-export default EditContent;
+export default FinalEditContentCard;
