@@ -1,7 +1,7 @@
 {
   "name": "org-chart-tree",
   "version": "0.1.0",
-  "homepage": "https://Yang2888.github.io/",
+  "homepage": "https://yang2888.github.io/Regimen-demo",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
