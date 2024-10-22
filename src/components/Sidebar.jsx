@@ -83,7 +83,7 @@ const Sidebar = () => {
   };
 
   // Content for the modal
-  const modalContent = "This website is a demo website for regimen visualization. The left panel are buttons like getting user input/saving regimen; the middle panel is the regimen visualization; the right panel is the details of the regimen, and user can ask questitons about the regimen.\n For the visualization, clikc i to show the detail of this certain node, click + and - to see/hide subnodes.";
+  const modalContent = "This website is a demo website for regimen visualization. The left panel are buttons like getting user input/saving regimen; the middle panel is the regimen visualization; the right panel is the details of the regimen, and user can ask questitons about the regimen.\n For the visualization, click i to show the detail of this certain node, click + and - to see/hide subnodes.";
 
 
   return (
