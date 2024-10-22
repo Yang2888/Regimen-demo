@@ -1,3 +1,17 @@
+# develop:
+
+after running git clone and cd into the folder,
+run: 
+1.  npm i  (this is to download packages, only needed for first time)
+2.  npm start (start local server)
+
+for deployment(update the website), run:
+1. npm run deploy
+
+(using repo [react-gh-pages](https://github.com/gitname/react-gh-pages) for deployment, and command is from it)
+
+More info about react app:
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
