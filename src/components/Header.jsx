@@ -1,5 +1,7 @@
 import React from 'react';
 import { Menu, Layout } from 'antd';
+import 'antd/dist/antd.css';  // Import Ant Design styles for version 4
+
 
 const { Header } = Layout;
 
