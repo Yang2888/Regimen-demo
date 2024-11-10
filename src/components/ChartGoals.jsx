@@ -129,6 +129,8 @@ export default function OrgChartTree({
       const dimensions = treeWrapperRef.current.getBoundingClientRect();
       const centerX = dimensions.width / 2;
       const centerY = dimensions.height / 2;
+      setZoomLevel(1.8);
+
       setTranslate({ x: centerX / 2, y: centerY / 2 });
       // console.log("moved...")
     }
@@ -142,6 +144,7 @@ export default function OrgChartTree({
     if (treeWrapperRef.current) {
       setTranslate({ x: text, y: text });
       setText(text + 1e-9);
+      setZoomLevel(1.8);
     }
   }, [refresh_key]);
 
@@ -169,45 +172,39 @@ export default function OrgChartTree({
     };
   }, []);
 
-
-  
-
   const handlePointerDown = (event) => {
-      // Start the drag
-      setDragging(true);
-      setStartPosition({ x: event.clientX, y: event.clientY });
-      console.log('Pointer down at:', event.clientX, event.clientY);
+    // Start the drag
+    setDragging(true);
+    setStartPosition({ x: event.clientX, y: event.clientY });
+    console.log("Pointer down at:", event.clientX, event.clientY);
   };
 
   const handlePointerMove = (event) => {
     if (dragging) {
       const dx = event.clientX - startPosition.x;
       const dy = event.clientY - startPosition.y;
-      
+
       // Update the translation based on drag distance
       setTranslate((prevTranslate) => ({
-          x: prevTranslate.x + dx,
-          y: prevTranslate.y + dy,
+        x: Math.min(prevTranslate.x + dx, 500), // Ensure x is always >= 0
+        y: prevTranslate.y + dy, // No restrictions on y
       }));
 
       // Update start position for the next move event
       setStartPosition({ x: event.clientX, y: event.clientY });
-  }
+    }
   };
 
   const handlePointerUp = () => {
-      // End the drag
-      setDragging(false);
+    // End the drag
+    setDragging(false);
   };
 
   return (
-    <div 
-    
-
-    onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-
+    <div
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
     >
       <div
         id="treeWrapper"
@@ -244,10 +241,12 @@ export default function OrgChartTree({
           scaleExtent={{ min: 0.01, max: 10 }} // Lock zoom level to 100%
         />
       </div>
-      <DateLine zoom={zoomLevel} translate={{x:translate.x -200, y: 0}}></DateLine>
+      <DateLine
+        zoom={zoomLevel}
+        translate={{ x: translate.x, y: 0 }}
+      ></DateLine>
       {/* <DateLine zoom={1} translate={{x:translate.x -200, y: 0}}></DateLine> */}
       {/* <DateLine zoom={2} translate={{x:translate.x -200, y: 0}}></DateLine> */}
-     
     </div>
   );
 }

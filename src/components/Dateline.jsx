@@ -6,14 +6,14 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
   useEffect(() => {
     const svg = d3.select(calendarRef.current);
-
+    const dates = 8
     const margin = { top: 10, right: 20, bottom: 30, left: 20 };
     const width = 800 - margin.left - margin.right;
     const height = 50;
 
     // Initial x-axis scale
     const xScale = d3.scaleLinear()
-      .domain([1, 30]) // Dates from 1 to 30
+      .domain([0, dates]) // Dates from 1 to 30
       .range([0, width]);
 
     // Create the axis group if it doesn't already exist
@@ -22,7 +22,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         .attr("class", "axis-group")
         .attr("transform", `translate(${margin.left}, ${height / 2})`);
 
-      const xAxis = d3.axisBottom(xScale).ticks(30).tickFormat(d3.format("d"));
+      const xAxis = d3.axisBottom(xScale).ticks(dates).tickFormat(d3.format("d"));
       g.call(xAxis);
 
       // Apply larger font size for tick labels and bolder axis line
@@ -32,7 +32,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
     // Update scale and transformation based on zoom and translate props
     const newXScale = xScale.copy().range([0, width * zoom]);
-    const adjustedTicks = Math.max(1, Math.floor(30 / zoom));
+    const adjustedTicks = Math.max(1, Math.floor(dates / zoom));
     const xAxis = d3.axisBottom(newXScale).ticks(adjustedTicks).tickFormat(d3.format("d"));
 
     svg.select(".axis-group")
