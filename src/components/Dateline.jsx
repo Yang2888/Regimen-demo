@@ -25,8 +25,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       const xAxis = d3.axisBottom(xScale).ticks(30).tickFormat(d3.format("d"));
       g.call(xAxis);
 
-      // Apply initial font size to keep a base size consistent across zooms
-      svg.selectAll(".tick text").style("font-size", "16px");
+      // Apply larger font size for tick labels and bolder axis line
+      svg.selectAll(".tick text").style("font-size", "20px"); // Larger font size for tick labels
+      svg.selectAll(".domain").style("stroke-width", "2px"); // Bolder axis line
     }
 
     // Update scale and transformation based on zoom and translate props
@@ -36,10 +37,11 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
     svg.select(".axis-group")
       .call(xAxis)
-      .attr("transform", `translate(${translate.x + margin.left}, ${height / 2 + translate.y}) scale(${zoom})`);
-      
-    // Keep font size visually consistent by scaling the whole axis group
-    svg.selectAll(".axis-group .tick text").style("font-size", `${16 / zoom}px`);
+      .attr("transform", `translate(${translate.x + margin.left}, ${height / 2 + translate.y})`);
+
+    // Ensure the font size and line thickness stay consistent after updating the axis
+    svg.selectAll(".tick text").style("font-size", "20px"); // Keep font large
+    svg.selectAll(".domain").style("stroke-width", "2px"); // Keep line bold
 
   }, [zoom, translate]); // Re-run effect whenever zoom or translate changes
 
