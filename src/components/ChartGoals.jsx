@@ -1,23 +1,16 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import Tree from 'react-d3-tree';
 import orgChart from '../jsons/aaa.json'; // Adjusted path to reflect that jsons is inside src
 import { useContext } from 'react';
 import { DataContext } from './dataProcess/dataContext';
+import DateLine from './Dateline';
+
 // Custom node rendering function with adjusted toggle button size and margin
 const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps, set_node_fun = (data)=>{console.log("111")} }) => {
 
   
   const showDetails = (e) => {
-  //   console.log((nodeDatum))
-  // console.log((toggleNode))
-  // console.log((foreignObjectProps))
-  // console.log((set_node_fun))
-  
-
-
-  //   console.log(nodeDatum)
-
-
     set_node_fun(nodeDatum)
   };
 
@@ -118,30 +111,9 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
   const foreignObjectProps = { width: 270, height: 270, x: -110, y: -50 };
 
 
-  const renderCalendar = () => {
-    const dates = Array.from({ length: 30 }, (_, i) => i + 1); // Replace with desired date range
-    console.log("asdf asdfsad")
-    return <div></div>
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}>
-        {dates.map((date) => (
-          <div
-            key={date}
-            style={{
-              margin: '0 5px',
-              width: '20px',
-              textAlign: 'center',
-              fontSize: '12px',
-            }}
-          >
-            {date}
-          </div>
-        ))}
-      </div>
-    );
-  };
 
   return (
+    <div>
     <div
       id="treeWrapper"
       ref={treeWrapperRef}
@@ -168,7 +140,9 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
         zoom={zoomLevel}  // Set initial zoom to 150% of default for a bigger view
         scaleExtent={{ min: 0.1, max: 100 }}  // Allow zooming in to 300% and out to 10%
       />
-      {renderCalendar()}
+
+    </div>
+    <DateLine></DateLine>
     </div>
   );
 }
