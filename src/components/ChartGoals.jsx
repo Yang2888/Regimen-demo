@@ -80,6 +80,8 @@ const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps, set_node
 export default function OrgChartTree({ width = '800px', height = '600px', treeData = orgChart, }) {
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const [zoomLevel, setZoomLevel] = useState(1.5); 
+  const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
+
   const treeWrapperRef = useRef(null);
   const { data_global, updateDataGlobal, node_displayed, set_node_displayed, refresh_key } = useContext(DataContext); 
 
@@ -99,6 +101,8 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
     moveInitChart()
   }, []);
 
+  
+
   useEffect(() => {
     if (treeWrapperRef.current) {
       setTranslate({ x: text, y: text });
@@ -110,10 +114,61 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
 
   const foreignObjectProps = { width: 270, height: 270, x: -110, y: -50 };
 
+  const [isDragging, setIsDragging] = useState(false);
 
+  const handleNodeDrag = (nodeData, event) => {
+    const { x, y } = event;
+    setDragPos({ x, y });
+    setTranslate({x,y})
+    console.log(dragPos)
+    console.log("Dragged position:", { x, y });
+  };
 
+  const handleMouseDown = () => {
+    setIsDragging(true);
+  };
+
+  // Handler to stop dragging
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Mouse move handler while dragging within the treeWrapper
+  const handleMouseMove = (event) => {
+    if (isDragging) {
+      const { left, top } = treeWrapperRef.current.getBoundingClientRect();
+      const x = event.clientX - left;
+      const y = event.clientY - top;
+      setDragPos({ x, y });
+    }
+  };
+
+  // Wheel handler for zooming within the treeWrapper
+  useEffect(() => {
+    const handleGlobalWheel = (event) => {
+      if (treeWrapperRef.current && treeWrapperRef.current.contains(event.target)) {
+        event.preventDefault();
+        event.stopPropagation();
+        setZoomLevel((prevZoom) => {
+          const newZoom = prevZoom + event.deltaY * -0.001;
+          return Math.max(1, Math.min(newZoom, 4));  // Constrain zoom level between 0.1 and 3
+        });
+      }
+    };
+
+    // Add global event listener for wheel events
+    document.addEventListener("wheel", handleGlobalWheel, { passive: false });
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      document.removeEventListener("wheel", handleGlobalWheel);
+    };
+  }, []);
   return (
-    <div>
+    <div onMouseMove={handleMouseMove}  // Track mouse movement only while dragging
+    onMouseDown={handleMouseDown}  // Start dragging on mouse down
+    onMouseUp={handleMouseUp}  // Stop dragging on mouse up
+    >
     <div
       id="treeWrapper"
       ref={treeWrapperRef}
@@ -130,19 +185,20 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
 
     >
       <Tree
-        
         data={treeData}  // Use the imported orgChart JSON
         nodeSize={{ x: 270, y: 200 }}  // Keep the node size for better spacing
         renderCustomNodeElement={(rd3tProps) => renderRectSvgNode({ ...rd3tProps, foreignObjectProps, set_node_fun: set_node_displayed })}  // Custom node rendering
         orientation="horizontal"  // Set orientation to horizontal
         pathFunc="diagonal"  // Use diagonal path for smoother lines
         translate={translate}  // Automatically center the tree
-        zoom={zoomLevel}  // Set initial zoom to 150% of default for a bigger view
-        scaleExtent={{ min: 0.1, max: 100 }}  // Allow zooming in to 300% and out to 10%
+        zoom={zoomLevel}
+        zoomable={false}  // Disable zooming
+        draggable={false}
+        scaleExtent={{ min: 0.01, max: 10 }}  // Lock zoom level to 100%
       />
 
     </div>
-    <DateLine></DateLine>
+    <DateLine zoom={zoomLevel} translate={dragPos}></DateLine>
     </div>
   );
 }
