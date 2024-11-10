@@ -233,7 +233,7 @@ export default function OrgChartTree({
             })
           } // Custom node rendering
           orientation="horizontal" // Set orientation to horizontal
-          pathFunc="diagonal" // Use diagonal path for smoother lines
+          pathFunc="step" // Use diagonal path for smoother lines
           translate={translate} // Automatically center the tree
           zoom={zoomLevel}
           zoomable={false} // Disable zooming

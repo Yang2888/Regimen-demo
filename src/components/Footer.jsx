@@ -3,8 +3,7 @@ import { Layout, Button, Menu, List, Card } from 'antd'; // Ant Design component
 const { Header, Sider, Content, Footer } = Layout;
 
 const AppFooter = () => (
-  <Footer style={{ textAlign: 'center', marginTop: '20px', backgroundColor: '#000000' }}>
-    ©2024 Your Company Name. All rights reserved.
+  <Footer style={{ textAlign: 'center', marginTop: '0px', backgroundColor: '#000000' }}>
   </Footer>
 );
 

@@ -105,7 +105,7 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
         nodeSize={{ x: 270, y: 120 }}  // Keep the node size for better spacing
         renderCustomNodeElement={(rd3tProps) => renderRectSvgNode({ ...rd3tProps, foreignObjectProps })}  // Custom node rendering
         orientation="horizontal"  // Set orientation to horizontal
-        pathFunc="diagonal"  // Use diagonal path for smoother lines
+        pathFunc="step"  // Use diagonal path for smoother lines
         translate={translate}  // Automatically center the tree
         zoom={1.5}  // Set initial zoom to 150% of default for a bigger view
         scaleExtent={{ min: 0.1, max: 100 }}  // Allow zooming in to 300% and out to 10%
