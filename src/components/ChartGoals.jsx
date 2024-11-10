@@ -117,7 +117,29 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
 
   const foreignObjectProps = { width: 270, height: 270, x: -110, y: -50 };
 
-  let trialFunc = (e) => {console.log("222")}
+
+  const renderCalendar = () => {
+    const dates = Array.from({ length: 30 }, (_, i) => i + 1); // Replace with desired date range
+    console.log("asdf asdfsad")
+    return <div></div>
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 0' }}>
+        {dates.map((date) => (
+          <div
+            key={date}
+            style={{
+              margin: '0 5px',
+              width: '20px',
+              textAlign: 'center',
+              fontSize: '12px',
+            }}
+          >
+            {date}
+          </div>
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div
@@ -146,6 +168,7 @@ export default function OrgChartTree({ width = '800px', height = '600px', treeDa
         zoom={zoomLevel}  // Set initial zoom to 150% of default for a bigger view
         scaleExtent={{ min: 0.1, max: 100 }}  // Allow zooming in to 300% and out to 10%
       />
+      {renderCalendar()}
     </div>
   );
 }

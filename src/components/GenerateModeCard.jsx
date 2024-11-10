@@ -27,7 +27,7 @@ const ModePanel = () => {
     setCancelled(false); // Reset the cancel state
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/process-inputs', {
+      const response = await fetch('http://127.0.0.1:3112/process-inputs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
