@@ -1,30 +1,37 @@
-import React, { useEffect, useRef } from 'react';
-import * as d3 from 'd3';
+import React, { useEffect, useRef } from "react";
+import * as d3 from "d3";
 
 export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
   const calendarRef = useRef(null);
 
   useEffect(() => {
     const svg = d3.select(calendarRef.current);
-    const dates = 8; // Number of dates to display
+    const dates = 3; // Number of dates to display
     const margin = { top: 10, right: 20, bottom: 30, left: 20 };
     const width = 800 - margin.left - margin.right;
     const height = 100;
 
     // Initial x-axis scale
-    const xScale = d3.scaleLinear()
-      .domain([0, dates])
+    const xScale = d3
+      .scaleLinear()
+      .domain([0, dates + 1])
       .range([0, width]);
 
     // Create the axis group if it doesn't already exist
     if (!svg.select(".axis-group").node()) {
-      const g = svg.append("g")
+      const g = svg
+        .append("g")
         .attr("class", "axis-group")
         .attr("transform", `translate(${margin.left}, ${height / 2})`);
 
-      const xAxis = d3.axisBottom(xScale)
-        .tickValues(d3.range(0, dates + 1, 1)) // Ensures all integers are displayed
-        .tickFormat(d3.format("d"));
+      const xAxis = d3
+        .axisBottom(xScale)
+        .tickValues(d3.range(0, dates + 1, 1 / 7)) 
+        .tickFormat((d) => {
+          const wholePart = Math.floor(d); // Integer part of the tick
+          const fractionPart = Math.round((d - wholePart) * 8); // Fraction part, scaled to 0-7
+          return fractionPart === 0 ? `${wholePart}` : `${wholePart} - ${fractionPart}`;
+        });
 
       g.call(xAxis);
 
@@ -35,13 +42,22 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
     // Update scale and transformation based on zoom and translate props
     const newXScale = xScale.copy().range([0, width * zoom]);
-    const xAxis = d3.axisBottom(newXScale)
-      .tickValues(d3.range(0, dates + 1, 1)) // Ensures all integers are displayed regardless of zoom
-      .tickFormat(d3.format("d"));
+    const xAxis = d3
+      .axisBottom(newXScale)
+      .tickValues(d3.range(0, dates + 1, 1 / 7)) 
+      .tickFormat((d) => {
+        const wholePart = Math.floor(d); // Integer part of the tick
+        const fractionPart = Math.round((d - wholePart) * 8); // Fraction part, scaled to 0-7
+        return fractionPart === 0 ? `${wholePart}` : `${wholePart} - ${fractionPart}`;
+      });
 
-    svg.select(".axis-group")
+    svg
+      .select(".axis-group")
       .call(xAxis)
-      .attr("transform", `translate(${translate.x + margin.left}, ${height / 2 + translate.y})`);
+      .attr(
+        "transform",
+        `translate(${translate.x + margin.left}, ${height / 2 + translate.y})`
+      );
 
     // Helper function to add hover and click effects to blocks
     const addBlockInteractivity = (selection, color) => {
@@ -60,7 +76,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     // Add red block behind the "1" tick
     const tickOnePosition = newXScale(1); // Position of tick "1"
     svg.select(".axis-group").selectAll(".red-block").remove(); // Remove any existing red block to avoid duplication
-    const redBlock = svg.select(".axis-group")
+    const redBlock = svg
+      .select(".axis-group")
       .append("rect")
       .attr("class", "red-block")
       .attr("x", tickOnePosition - 10) // Adjust position to center the block
@@ -76,7 +93,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     d3.range(0, dates + 1, 1).forEach((date) => {
       if (date % 3 === 2) {
         const tickPosition = newXScale(date);
-        const greenBlock = svg.select(".axis-group")
+        const greenBlock = svg
+          .select(".axis-group")
           .append("rect")
           .attr("class", "green-block")
           .attr("x", tickPosition - 10) // Center the green block
@@ -96,7 +114,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         const tickPosition = newXScale(date);
 
         // Blue block with higher height
-        const blueBlock = svg.select(".axis-group")
+        const blueBlock = svg
+          .select(".axis-group")
           .append("rect")
           .attr("class", "blue-block")
           .attr("x", tickPosition - 10) // Center the blue block
@@ -108,7 +127,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         addBlockInteractivity(blueBlock, "blue");
 
         // Yellow block above blue block with normal height
-        const yellowBlock = svg.select(".axis-group")
+        const yellowBlock = svg
+          .select(".axis-group")
           .append("rect")
           .attr("class", "yellow-block")
           .attr("x", tickPosition - 10) // Center the yellow block
@@ -124,10 +144,14 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     // Ensure the font size and line thickness stay consistent after updating the axis
     svg.selectAll(".tick text").style("font-size", "20px"); // Keep font large
     svg.selectAll(".domain").style("stroke-width", "2px"); // Keep line bold
-
   }, [zoom, translate]); // Re-run effect whenever zoom or translate changes
 
   return (
-    <svg ref={calendarRef} width="800" height="100" style={{ marginTop: '20px' }} />
+    <svg
+      ref={calendarRef}
+      width="800"
+      height="100"
+      style={{ marginTop: "20px" }}
+    />
   );
 }
