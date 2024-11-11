@@ -109,16 +109,20 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       );
 
     // Helper function to add hover and click effects to blocks
-    const addBlockInteractivity = (selection, color) => {
+    const addBlockInteractivity = (selection, color, drug) => {
+     
       selection
         .on("mouseover", function () {
-          d3.select(this).attr("fill", d3.color(color).darker(1)); // Darken color on hover
+          d3.select(this).attr("fill", d3.color(color).darker(2)); // Darken color on hover
         })
         .on("mouseout", function () {
           d3.select(this).attr("fill", color); // Reset color on mouse out
         })
         .on("click", function () {
-          alert(`Clicked on a ${color} block!`);
+          // console.log("asdfasf")
+          // alert(`Clicked on a ${color} block!`);
+          // console.log(drug)
+          set_node_displayed({"Title": drug.component})
         });
     };
     
@@ -167,7 +171,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     
                 // Add interactivity (e.g., logging color on click)
                 if (isScheduledForDate) {
-                  addBlockInteractivity(drugBlock, drugColor);
+                  addBlockInteractivity(drugBlock, drugColor, drug);
               }
     
                 // Increment yOffset to avoid overlapping blocks on the same date
@@ -186,15 +190,20 @@ generateDrugGroups(data_global, svg, newXScale, dates);
 
     // Ensure the font size and line thickness stay consistent after updating the axis
     svg.selectAll(".tick text").style("font-size", "20px"); // Keep font large
+    svg.selectAll(".tick text").style("opacity", zoom < 1.5 ? 0 : 1);
     svg.selectAll(".domain").style("stroke-width", "2px"); // Keep line bold
   }, [zoom, translate]); // Re-run effect whenever zoom or translate changes
-
+  const handleChildPointerDown = (event) => {
+    event.stopPropagation(); // Prevents it from affecting the parent's pointerdown
+  };
   return (
-    <svg
+    <div onPointerDown={handleChildPointerDown}>
+    <svg 
   ref={calendarRef}
   width="800"
   height="300"
   style={{ marginTop: "20px", userSelect: "none" }}
 />
+</div>
   );
 }

@@ -154,7 +154,7 @@ export default function OrgChartTree({
         treeWrapperRef.current &&
         treeWrapperRef.current.contains(event.target)
       ) {
-        event.preventDefault();
+        // event.preventDefault();
         // event.stopPropagation();
         setZoomLevel((prevZoom) => {
           const newZoom = prevZoom + event.deltaY * -0.001;
@@ -241,7 +241,7 @@ export default function OrgChartTree({
           scaleExtent={{ min: 0.00001, max: 100 }} // Lock zoom level to 100%
         />
       </div>
-      <DateLine
+      <DateLine 
         zoom={zoomLevel}
         translate={{ x: translate.x, y: 0 }}
       ></DateLine>
