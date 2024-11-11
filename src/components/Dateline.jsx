@@ -1,15 +1,64 @@
 import React, { useEffect, useRef } from "react";
 import * as d3 from "d3";
+import { useContext } from "react";
+import { DataContext } from "./dataProcess/dataContext";
 
 export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
   const calendarRef = useRef(null);
 
+  const {
+    data_global,
+    updateDataGlobal,
+    node_displayed,
+    set_node_displayed,
+    refresh_key,
+  } = useContext(DataContext);
+
+  function getJsonDepth(obj) {
+    if (typeof obj !== "object" || obj === null) {
+      return 0;
+    }
+  
+    let maxDepth = 0;
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (key === "children" && Array.isArray(obj[key]) && obj[key].length > 0) {
+          // If "children" is a non-empty array, calculate depth for each child
+          obj[key].forEach(child => {
+            const childDepth = getJsonDepth(child);
+            if (childDepth > maxDepth) {
+              maxDepth = childDepth;
+            }
+          });
+        } else if (key !== "children") {
+          // If the key is not "children", calculate depth as usual
+          const depth = getJsonDepth(obj[key]);
+          if (depth > maxDepth) {
+            maxDepth = depth;
+          }
+        }
+      }
+    }
+  
+    return maxDepth + 1;
+  }
   useEffect(() => {
     const svg = d3.select(calendarRef.current);
-    const dates = 3; // Number of dates to display
+    let dates = 3; // Number of dates to display
+    // const regimen_depth = getJsonDepth(data_global) - 1
+    const regimen_depth = data_global["metadata"]["blocks"].length - 1
+
+    const cycle_length_unit = data_global["metadata"]["cycle_length_unit"]
+    const cycle_length_ub = data_global["metadata"]["cycle_length_ub"]
+
+    dates = regimen_depth
+
+
     const margin = { top: 10, right: 20, bottom: 30, left: 20 };
-    const width = 800 - margin.left - margin.right;
-    const height = 100;
+    const width = 270 * (dates+1) - margin.left - margin.right;
+    const height = 300;
+
+    // console.log(regimen_depth)
 
     // Initial x-axis scale
     const xScale = d3
@@ -26,11 +75,11 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
       const xAxis = d3
         .axisBottom(xScale)
-        .tickValues(d3.range(0, dates + 1, 1 / 7)) 
+        .tickValues(d3.range(0, dates + 1, 1 / cycle_length_ub)) 
         .tickFormat((d) => {
           const wholePart = Math.floor(d); // Integer part of the tick
-          const fractionPart = Math.round((d - wholePart) * 8); // Fraction part, scaled to 0-7
-          return fractionPart === 0 ? `${wholePart}` : `${wholePart} - ${fractionPart}`;
+          const fractionPart = Math.round((d - wholePart) * (cycle_length_ub+2)); // Fraction part, scaled to 0-7
+          return fractionPart === 0 ? `C${wholePart}` : `${Math.round(d  * cycle_length_ub)}`;
         });
 
       g.call(xAxis);
@@ -44,11 +93,11 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     const newXScale = xScale.copy().range([0, width * zoom]);
     const xAxis = d3
       .axisBottom(newXScale)
-      .tickValues(d3.range(0, dates + 1, 1 / 7)) 
+      .tickValues(d3.range(0, dates + 1, 1 / cycle_length_ub)) 
       .tickFormat((d) => {
         const wholePart = Math.floor(d); // Integer part of the tick
-        const fractionPart = Math.round((d - wholePart) * 8); // Fraction part, scaled to 0-7
-        return fractionPart === 0 ? `${wholePart}` : `${wholePart} - ${fractionPart}`;
+        const fractionPart = Math.round((d - wholePart) * (cycle_length_ub+2)); // Fraction part, scaled to 0-7
+        return fractionPart === 0 ? `C${wholePart}` : `${Math.round(d  * cycle_length_ub) % cycle_length_ub + 1}`;
       });
 
     svg
@@ -72,74 +121,68 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           alert(`Clicked on a ${color} block!`);
         });
     };
+    
 
-    // Add red block behind the "1" tick
-    const tickOnePosition = newXScale(1); // Position of tick "1"
-    svg.select(".axis-group").selectAll(".red-block").remove(); // Remove any existing red block to avoid duplication
-    const redBlock = svg
-      .select(".axis-group")
-      .append("rect")
-      .attr("class", "red-block")
-      .attr("x", tickOnePosition - 10) // Adjust position to center the block
-      .attr("y", -15) // Position above the tick line
-      .attr("width", 20)
-      .attr("height", 20)
-      .attr("fill", "red")
-      .attr("rx", 3); // Optional: rounded corners for styling
-    addBlockInteractivity(redBlock, "red");
+    const drug_types = data_global["metadata"]["drug_len"]
+    const drugNames = data_global.drugs.map(drug => drug.component);
 
-    // Add green blocks for dates where date % 3 === 2
-    svg.select(".axis-group").selectAll(".green-block").remove(); // Remove any existing green blocks to avoid duplication
-    d3.range(0, dates + 1, 1).forEach((date) => {
-      if (date % 3 === 2) {
-        const tickPosition = newXScale(date);
-        const greenBlock = svg
-          .select(".axis-group")
-          .append("rect")
-          .attr("class", "green-block")
-          .attr("x", tickPosition - 10) // Center the green block
-          .attr("y", -15)
-          .attr("width", 20)
-          .attr("height", 20)
-          .attr("fill", "green")
-          .attr("rx", 3); // Optional: rounded corners for styling
-        addBlockInteractivity(greenBlock, "green");
-      }
+    function generateDrugGroups(data, svg, xScale, dates) {
+      // Remove any existing blocks to avoid duplication
+      svg.select(".axis-group").selectAll(".drug-block").remove();
+  
+      const colorScheme = d3.schemeTableau10;
+    const colorScale = d3.scaleOrdinal(colorScheme);
+
+    const colorMap = {};
+    data.drugs.forEach((drug, index) => {
+        colorMap[index] = colorScale(index % colorScheme.length); // Cycle through colors if needed
     });
-
-    // Add blue and yellow blocks for dates where date % 3 === 0
-    svg.select(".axis-group").selectAll(".blue-block, .yellow-block").remove(); // Remove any existing blocks to avoid duplication
-    d3.range(0, dates + 1, 1).forEach((date) => {
-      if (date % 3 === 0) {
-        const tickPosition = newXScale(date);
-
-        // Blue block with higher height
-        const blueBlock = svg
-          .select(".axis-group")
-          .append("rect")
-          .attr("class", "blue-block")
-          .attr("x", tickPosition - 10) // Center the blue block
-          .attr("y", -25) // Positioned higher
-          .attr("width", 20)
-          .attr("height", 30) // Taller blue block
-          .attr("fill", "blue")
-          .attr("rx", 3); // Optional: rounded corners for styling
-        addBlockInteractivity(blueBlock, "blue");
-
-        // Yellow block above blue block with normal height
-        const yellowBlock = svg
-          .select(".axis-group")
-          .append("rect")
-          .attr("class", "yellow-block")
-          .attr("x", tickPosition - 10) // Center the yellow block
-          .attr("y", -45) // Positioned above the blue block
-          .attr("width", 20)
-          .attr("height", 20) // Normal height for yellow block
-          .attr("fill", "yellow")
-          .attr("rx", 3); // Optional: rounded corners for styling
-        addBlockInteractivity(yellowBlock, "yellow");
-      }
+      // Iterate over each day within the specified date range
+      d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
+        // Track the vertical position offset for each drug block on the same date
+        let yOffset = -15;
+    
+        // Iterate over each drug in the data
+        data.drugs.forEach((drug, index) => {
+            // Check if the drug is scheduled for the current date
+            const isScheduledForDate = drug.days.some(day => day.number === (Math.round(date * cycle_length_ub) % cycle_length_ub) + 1);
+    
+            // If scheduled, create a block for this drug on this date
+                const tickPosition = xScale(date); // Position based on the day number
+    
+                // Get the unique color for each drug from colorMap
+                const drugColor = isScheduledForDate ? colorMap[index] : "transparent";
+    
+                // Append a colored block to the .axis-group for each scheduled date
+                const drugBlock = svg
+                    .select(".axis-group")
+                    .append("rect")
+                    .attr("class", "drug-block")
+                    .attr("x", tickPosition - 10) // Center the block around the tick
+                    .attr("y", yOffset) // Apply the vertical offset
+                    .attr("width", 20)
+                    .attr("height", 20)
+                    .attr("fill", drugColor)
+                    .attr("rx", 3); // Optional rounded corners for styling
+    
+                // Add interactivity (e.g., logging color on click)
+                if (isScheduledForDate) {
+                  addBlockInteractivity(drugBlock, drugColor);
+              }
+    
+                // Increment yOffset to avoid overlapping blocks on the same date
+                yOffset -= 25; // Adjust this value as needed for spacing between blocks
+        });
     });
+    
+  }
+  
+
+
+// Ensure axis-group exists in the SVG
+svg.append("g").attr("class", "axis-group");
+
+generateDrugGroups(data_global, svg, newXScale, dates);
 
     // Ensure the font size and line thickness stay consistent after updating the axis
     svg.selectAll(".tick text").style("font-size", "20px"); // Keep font large
@@ -148,10 +191,10 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
   return (
     <svg
-      ref={calendarRef}
-      width="800"
-      height="100"
-      style={{ marginTop: "20px" }}
-    />
+  ref={calendarRef}
+  width="800"
+  height="300"
+  style={{ marginTop: "20px", userSelect: "none" }}
+/>
   );
 }

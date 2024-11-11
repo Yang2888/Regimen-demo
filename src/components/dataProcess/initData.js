@@ -69,6 +69,469 @@ exmaple_json = {
 //     data_global: exmaple_json, // Start with an empty array for the data list
 //   };
 
+exmaple_json = {
+    "number": 1,
+    "type": "normal",
+    "drugs": [
+        {
+            "component": "Carboplatin",
+            "days": [
+                {
+                    "number": 1,
+                    "type": "normal"
+                }
+            ]
+        },
+        {
+            "component": "Etoposide",
+            "days": [
+                {
+                    "number": 1,
+                    "type": "normal"
+                },
+                {
+                    "number": 2,
+                    "type": "normal"
+                }
+            ]
+        },
+        {
+            "component": "Etoposide",
+            "days": [
+                {
+                    "number": 3,
+                    "type": "normal"
+                }
+            ]
+        }
+    ],
+    "children": [
+        {
+            "number": 2,
+            "type": "normal",
+            "drugs": [
+                {
+                    "component": "Carboplatin",
+                    "days": [
+                        {
+                            "number": 1,
+                            "type": "normal"
+                        }
+                    ]
+                },
+                {
+                    "component": "Etoposide",
+                    "days": [
+                        {
+                            "number": 1,
+                            "type": "normal"
+                        },
+                        {
+                            "number": 2,
+                            "type": "normal"
+                        }
+                    ]
+                },
+                {
+                    "component": "Etoposide",
+                    "days": [
+                        {
+                            "number": 3,
+                            "type": "normal"
+                        }
+                    ]
+                }
+            ],
+            "children": [
+                {
+                    "number": 3,
+                    "type": "normal",
+                    "drugs": [
+                        {
+                            "component": "Carboplatin",
+                            "days": [
+                                {
+                                    "number": 1,
+                                    "type": "normal"
+                                }
+                            ]
+                        },
+                        {
+                            "component": "Etoposide",
+                            "days": [
+                                {
+                                    "number": 1,
+                                    "type": "normal"
+                                },
+                                {
+                                    "number": 2,
+                                    "type": "normal"
+                                }
+                            ]
+                        },
+                        {
+                            "component": "Etoposide",
+                            "days": [
+                                {
+                                    "number": 3,
+                                    "type": "normal"
+                                }
+                            ]
+                        }
+                    ],
+                    "children": [
+                        {
+                            "number": 4,
+                            "type": "normal",
+                            "drugs": [
+                                {
+                                    "component": "Carboplatin",
+                                    "days": [
+                                        {
+                                            "number": 1,
+                                            "type": "normal"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "component": "Etoposide",
+                                    "days": [
+                                        {
+                                            "number": 1,
+                                            "type": "normal"
+                                        },
+                                        {
+                                            "number": 2,
+                                            "type": "normal"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "component": "Etoposide",
+                                    "days": [
+                                        {
+                                            "number": 3,
+                                            "type": "normal"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "children": [
+                                {
+                                    "number": 5,
+                                    "type": "normal",
+                                    "drugs": [
+                                        {
+                                            "component": "Carboplatin",
+                                            "days": [
+                                                {
+                                                    "number": 1,
+                                                    "type": "normal"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "component": "Etoposide",
+                                            "days": [
+                                                {
+                                                    "number": 1,
+                                                    "type": "normal"
+                                                },
+                                                {
+                                                    "number": 2,
+                                                    "type": "normal"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "component": "Etoposide",
+                                            "days": [
+                                                {
+                                                    "number": 3,
+                                                    "type": "normal"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "children": [
+                                        {
+                                            "number": 6,
+                                            "type": "normal",
+                                            "drugs": [
+                                                {
+                                                    "component": "Carboplatin",
+                                                    "days": [
+                                                        {
+                                                            "number": 1,
+                                                            "type": "normal"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "component": "Etoposide",
+                                                    "days": [
+                                                        {
+                                                            "number": 1,
+                                                            "type": "normal"
+                                                        },
+                                                        {
+                                                            "number": 2,
+                                                            "type": "normal"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "component": "Etoposide",
+                                                    "days": [
+                                                        {
+                                                            "number": 3,
+                                                            "type": "normal"
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "children": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "cycle_length_ub": "21",
+        "cycle_length_unit": "day",
+        "drug_len": 3,
+        "blocks": [
+            {
+                "number": 1,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Carboplatin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 2,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Carboplatin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 3,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Carboplatin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 4,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Carboplatin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 5,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Carboplatin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 6,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Carboplatin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Etoposide",
+                        "days": [
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
+
 const InitialData = exmaple_json;
 
 export default InitialData;

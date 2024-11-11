@@ -104,7 +104,7 @@ const renderRectSvgNode = ({
 // Main component wrapping the tree
 export default function OrgChartTree({
   width = "800px",
-  height = "600px",
+  height = "400px",
   treeData = orgChart,
 }) {
   const foreignObjectProps = { width: 270, height: 270, x: -110, y: -50 };
@@ -158,7 +158,7 @@ export default function OrgChartTree({
         // event.stopPropagation();
         setZoomLevel((prevZoom) => {
           const newZoom = prevZoom + event.deltaY * -0.001;
-          return Math.max(1, Math.min(newZoom, 4)); // Constrain zoom level between 0.1 and 3
+          return Math.max(0.1, Math.min(newZoom, 10)); 
         });
       }
     };
@@ -176,7 +176,7 @@ export default function OrgChartTree({
     // Start the drag
     setDragging(true);
     setStartPosition({ x: event.clientX, y: event.clientY });
-    console.log("Pointer down at:", event.clientX, event.clientY);
+    // console.log("Pointer down at:", event.clientX, event.clientY);
   };
 
   const handlePointerMove = (event) => {
@@ -238,7 +238,7 @@ export default function OrgChartTree({
           zoom={zoomLevel}
           zoomable={false} // Disable zooming
           draggable={false}
-          scaleExtent={{ min: 0.01, max: 10 }} // Lock zoom level to 100%
+          scaleExtent={{ min: 0.00001, max: 100 }} // Lock zoom level to 100%
         />
       </div>
       <DateLine
