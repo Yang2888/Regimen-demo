@@ -69,13 +69,14 @@ import Title from "antd/es/skeleton/Title";
 // //     data_global: exmaple_json, // Start with an empty array for the data list
 // //   };
 
-let exmaple_json = {
+let example_json = {
   Title: "Regimen X",
   Summary:
     "This is the root node of the regimen, containing metadata information.",
   Content: "This regimen outlines the treatment phases for cancer management.",
   Infos: "Includes various phases of treatment and their corresponding cycles.",
   uid: "1",
+  phase: "Root",
   children: [
     {
       Title: "Pre-Induction",
@@ -84,6 +85,8 @@ let exmaple_json = {
       Content: "Initial treatment to stabilize the patient's condition.",
       Infos: "Focuses on readiness for more aggressive treatment.",
       uid: "p1",
+      phase: "Pre-Induction",
+      phase_color: "#FFB6C1", // Add color if needed
       cycles: [
         {
           cycle_number: 1,
@@ -102,6 +105,8 @@ let exmaple_json = {
           Content: "Aggressive treatment to target and reduce cancer cells.",
           Infos: "Critical phase for achieving initial treatment success.",
           uid: "p2",
+          phase: "Induction",
+          phase_color: "#FF6347", // Color for Induction
           cycles: [
             {
               cycle_number: 1,
@@ -122,6 +127,8 @@ let exmaple_json = {
               Infos:
                 "Helps to ensure that any remaining cancer cells are targeted.",
               uid: "p3",
+              phase: "Intensification",
+              phase_color: "#9b59b6", // Purple color for Intensification
               cycles: [
                 {
                   cycle_number: 1,
@@ -140,6 +147,8 @@ let exmaple_json = {
               Content: "Reinforces the effectiveness of previous treatments.",
               Infos: "Key to sustaining treatment gains and long-term success.",
               uid: "p4",
+              phase: "Consolidation",
+              phase_color: "#2ecc71", // Green color for Consolidation
               cycles: [
                 {
                   cycle_number: 1,
@@ -157,6 +166,6 @@ let exmaple_json = {
   ],
 };
 
-const InitialData = exmaple_json;
+const InitialData = example_json;
 
 export default InitialData;
