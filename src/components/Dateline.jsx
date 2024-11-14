@@ -132,14 +132,14 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           lastCycleDisplayed = cycleNumber; // Update the last cycle displayed
           return `C${cycleNumber}`;
         } else {
-          // Otherwise, display the date in dd/mm format
+          // Otherwise, display the date in mm/dd format
           const tickDate = new Date(startDate);
           tickDate.setDate(startDate.getDate() + cumulativeDays);
 
-          // Format the date as "dd/mm"
+          // Format the date as "mm/dd"
           const day = String(tickDate.getDate()).padStart(2, "0");
           const month = String(tickDate.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
-          return `${day}/${month}`;
+          return `${month}/${day}`;
         }
       });
 
