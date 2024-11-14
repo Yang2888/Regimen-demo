@@ -96,19 +96,51 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       svg.selectAll(".domain").style("stroke-width", "2px"); // Bolder axis line
     }
 
+    //arbirary start date that will later be inputted from data
+    const startDate = new Date(2024, 0, 1);
+    let lastCycleDisplayed = 0;
+
     // Update scale and transformation based on zoom and translate props
     const newXScale = xScale.copy().range([0, width * zoom]);
     const xAxis = d3
       .axisBottom(newXScale)
       .tickValues(d3.range(0, dates + 1, 1 / cycle_length_ub))
       .tickFormat((d) => {
-        const wholePart = Math.floor(d); // Integer part of the tick
-        const fractionPart = Math.round(
-          (d - wholePart) * (cycle_length_ub + 2)
-        ); // Fraction part, scaled to 0-7
-        return fractionPart === 0
-          ? `C${wholePart}`
-          : `${(Math.round(d * cycle_length_ub) % cycle_length_ub) + 1}`;
+        //   const wholePart = Math.floor(d); // Integer part of the tick
+        //   const fractionPart = Math.round(
+        //     (d - wholePart) * (cycle_length_ub + 2)
+        //   ); // Fraction part, scaled to 0-7
+        //   return fractionPart === 0
+        //     ? `C${wholePart}`
+        //     : `${(Math.round(d * cycle_length_ub) % cycle_length_ub) + 1}`;
+        // Calculate the number of days from the start date
+        // Calculate the cumulative day count from the start date
+
+        // sketch of date implementation
+
+        // Calculate the cumulative day count from the start date
+        const cumulativeDays = Math.floor(d * cycle_length_ub);
+
+        // Determine if the current tick is at the boundary of a new cycle
+        const cycleNumber = Math.floor(cumulativeDays / cycle_length_ub) + 1;
+
+        // Check if the tick is at a cycle boundary (every cycle_length_ub days)
+        const isCycleBoundary = cumulativeDays % cycle_length_ub === 0;
+
+        // Only show the cycle label if it hasn't been displayed already
+        if (isCycleBoundary && cycleNumber > lastCycleDisplayed) {
+          lastCycleDisplayed = cycleNumber; // Update the last cycle displayed
+          return `C${cycleNumber}`;
+        } else {
+          // Otherwise, display the date in dd/mm format
+          const tickDate = new Date(startDate);
+          tickDate.setDate(startDate.getDate() + cumulativeDays);
+
+          // Format the date as "dd/mm"
+          const day = String(tickDate.getDate()).padStart(2, "0");
+          const month = String(tickDate.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
+          return `${day}/${month}`;
+        }
       });
 
     svg
@@ -245,7 +277,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     generateDrugGroups(data_global, svg, newXScale, dates);
 
     // Ensure the font size and line thickness stay consistent after updating the axis
-    svg.selectAll(".tick text").style("font-size", "20px"); // Keep font large
+    svg.selectAll(".tick text").style("font-size", "8px"); // Keep font large
     svg.selectAll(".tick text").style("opacity", zoom < 1.5 ? 0 : 1);
     svg.selectAll(".domain").style("stroke-width", "2px"); // Keep line bold
   }, [zoom, translate]); // Re-run effect whenever zoom or translate changes
