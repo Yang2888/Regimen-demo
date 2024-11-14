@@ -208,6 +208,31 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
             addBlockInteractivity(drugBlock, drugColor, drug);
           }
 
+          //sketching fuzzy drug implementation
+
+          // if (drug.fuzzy && isScheduledForDate) {
+          //   const shadowOffsets = [-10, 10]; // Small offsets for shadow positions
+          //   shadowOffsets.forEach((offsetX) => {
+          //     if (offsetX !== 0) {
+          //       svg
+          //         .select(".axis-group")
+          //         .append("polygon")
+          //         .attr("class", "drug-block shadow")
+          //         .attr(
+          //           "points",
+          //           getPolygonPoints(
+          //             tickPosition + offsetX,
+          //             yOffset + 10,
+          //             10,
+          //             shapeSides
+          //           )
+          //         )
+          //         .attr("fill", drugColor)
+          //         .attr("opacity", 0.3); // Lower opacity for shadow effect
+          //     }
+          //   });
+          // }
+
           // Increment yOffset to avoid overlapping blocks on the same date
           yOffset -= 25;
         });
