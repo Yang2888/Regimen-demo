@@ -58,7 +58,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     dates = regimen_depth;
 
     const margin = { top: 10, right: 20, bottom: 30, left: 20 };
-    const width = 270 * (dates + 1)
+    const width = 270 * (dates + 1);
     const height = 300;
 
     // console.log(regimen_depth)
@@ -96,28 +96,32 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       svg.selectAll(".domain").style("stroke-width", "2px"); // Bolder axis line
     }
 
-    //arbirary start date that will later be inputted from data
+    //TODO: start date specified by data
     const startDate = new Date(2024, 0, 1);
     let lastCycleDisplayed = 0;
 
+    //TODO: Birthday input
     // Dictionary of closure days
     const officeClosures = {
       "01/01": "New Year's Day",
       "01/15": "MLK Day",
+      "2/14": "Valentine's Day",
       "02/19": "Presidents' Day",
       "05/28": "Memorial Day",
       "07/04": "Independence Day",
       "09/03": "Labor Day",
       "10/08": "Columbus Day",
+      "11/05": "Election Day",
       "11/11": "Veterans Day",
       "11/22": "Thanksgiving Day",
       "12/25": "Christmas Day",
-      "11/05": "Election Day",
     };
 
     let rightMove = 111 * zoom;
     // Update scale and transformation based on zoom and translate props
-    const newXScale = xScale.copy().range([0 - rightMove, width * zoom - rightMove]);
+    const newXScale = xScale
+      .copy()
+      .range([0 - rightMove, width * zoom - rightMove]);
 
     // Create a custom array of tick values, ensuring all days are covered with fractional steps
     const tickValues = [];
@@ -244,6 +248,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       const maxSides = Math.min(10, minSides + data.drugs.length - 1); // Limit max sides to avoid overly complex shapes
 
       // Dynamically calculate the number of sides for each drug
+      //TODO: informed method of assigning drug colors/shapes (shape doesn't have to equal #sides)
       data.drugs.forEach((drug, index) => {
         colorMap[index] = colorScale(index % colorScheme.length);
         // Calculate number of sides by evenly distributing within [minSides, maxSides]
@@ -284,6 +289,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           const shapeSides = shapeMap[index];
 
           // Append a colored block to the .axis-group for each scheduled date
+
+          //TODO: replace randomly generated polygons with dictionary of drug
+          // categories corresponding to shapes
           const drugBlock = svg
             .select(".axis-group")
             .append("polygon")
