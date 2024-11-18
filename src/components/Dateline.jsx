@@ -115,8 +115,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       "11/05": "Election Day",
     };
 
+    let rightMove = 111 * zoom;
     // Update scale and transformation based on zoom and translate props
-    const newXScale = xScale.copy().range([0, width * zoom]);
+    const newXScale = xScale.copy().range([0 - rightMove, width * zoom - rightMove]);
 
     // Create a custom array of tick values, ensuring all days are covered with fractional steps
     const tickValues = [];
@@ -345,9 +346,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     <div onPointerDown={handleChildPointerDown}>
       <svg
         ref={calendarRef}
-        width="800"
+        width="900"
         height="300"
-        style={{ marginTop: "20px", userSelect: "none" }}
+        style={{ marginTop: "20px", userSelect: "none", display: "flex" }}
       />
     </div>
   );

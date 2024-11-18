@@ -206,6 +206,11 @@ export default function OrgChartTree({
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
     >
+      <DateLine 
+        zoom={zoomLevel}
+        // translate={{ x: (translate.x) - 100 , y: 0 }}
+        translate={{ x: translate.x, y: 0 }}
+      ></DateLine>
       <div
         id="treeWrapper"
         ref={treeWrapperRef}
@@ -241,11 +246,7 @@ export default function OrgChartTree({
           scaleExtent={{ min: 0.00001, max: 100 }} // Lock zoom level to 100%
         />
       </div>
-      <DateLine 
-        zoom={zoomLevel}
-        // translate={{ x: (translate.x) - 100 , y: 0 }}
-        translate={{ x: translate.x, y: 0 }}
-      ></DateLine>
+      
       {/* <DateLine zoom={1} translate={{x:translate.x -200, y: 0}}></DateLine> */}
       {/* <DateLine zoom={2} translate={{x:translate.x -200, y: 0}}></DateLine> */}
     </div>
