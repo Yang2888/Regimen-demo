@@ -129,7 +129,7 @@ export default function OrgChartTree({
       const dimensions = treeWrapperRef.current.getBoundingClientRect();
       const centerX = dimensions.width / 2;
       const centerY = dimensions.height / 2;
-      setZoomLevel(1.8);
+      setZoomLevel(2);
 
       setTranslate({ x: centerX / 2, y: centerY / 2 });
       // console.log("moved...")
@@ -206,6 +206,11 @@ export default function OrgChartTree({
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
     >
+      <DateLine 
+        zoom={zoomLevel}
+        // translate={{ x: (translate.x) - 100 , y: 0 }}
+        translate={{ x: translate.x, y: 0 }}
+      ></DateLine>
       <div
         id="treeWrapper"
         ref={treeWrapperRef}
@@ -234,17 +239,14 @@ export default function OrgChartTree({
           } // Custom node rendering
           orientation="horizontal" // Set orientation to horizontal
           pathFunc="step" // Use diagonal path for smoother lines
-          translate={translate} // Automatically center the tree
+          translate={{x: translate.x, y: translate.y}} // Automatically center the tree
           zoom={zoomLevel}
           zoomable={false} // Disable zooming
           draggable={false}
           scaleExtent={{ min: 0.00001, max: 100 }} // Lock zoom level to 100%
         />
       </div>
-      <DateLine 
-        zoom={zoomLevel}
-        translate={{ x: translate.x, y: 0 }}
-      ></DateLine>
+      
       {/* <DateLine zoom={1} translate={{x:translate.x -200, y: 0}}></DateLine> */}
       {/* <DateLine zoom={2} translate={{x:translate.x -200, y: 0}}></DateLine> */}
     </div>

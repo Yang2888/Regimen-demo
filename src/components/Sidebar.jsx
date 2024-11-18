@@ -3,12 +3,12 @@ import { Layout, Button, Card, Modal } from 'antd'; // Ant Design components
 import { DataContext } from './dataProcess/dataContext'; // Access data context
 import { saveAs } from 'file-saver'; // Import FileSaver for saving files
 
-import InitialData from './dataProcess/initData';
+import {InitialData, example1, example2} from './dataProcess/initData';
 
 const { Sider } = Layout;
 
 const Sidebar = () => {
-  const { data_global, updateDataGlobal, set_node_displayed, node_displayed, set_refresh_key, refresh_key } = useContext(DataContext); // Access data from context
+  const { data_global, set_data_global, updateDataGlobal, set_node_displayed, node_displayed, set_refresh_key, refresh_key } = useContext(DataContext); // Access data from context
 
   // Function to handle file upload and read the JSON file
   const handleFileUpload = (event) => {
@@ -56,6 +56,18 @@ const Sidebar = () => {
   const handleResetPos = () => {
     set_refresh_key(!refresh_key)
     // console.log(refresh_key)
+  }
+
+  const handleExample1 = () => {
+    set_data_global(example1)
+    set_node_displayed(example1)
+    // set_data_global(example1)
+  }
+
+  const handleExample2 = () => {
+    set_data_global(example2)
+    set_node_displayed(example2)
+    // set_data_global(example1)
   }
 
   const handleDebug = () => {
@@ -124,12 +136,19 @@ const Sidebar = () => {
           Reset Position
         </Button>
 
-        {/* <Button 
-          onClick={handleDebug} // Trigger file save on button click
+        <Button 
+          onClick={handleExample1} // Trigger file save on button click
         
         type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
-          Debug
-        </Button> */}
+          Example 1
+        </Button>
+
+        <Button 
+          onClick={handleExample2} // Trigger file save on button click
+        
+        type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
+          Example 2
+        </Button>
 
         <Button 
         onClick={showModal} // Trigger modal on button click
@@ -143,6 +162,8 @@ const Sidebar = () => {
         }}>
         Readme
       </Button>
+
+      
 
       {/* Modal component with content */}
       <Modal 

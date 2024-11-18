@@ -1,0 +1,1111 @@
+{
+    "number": 1,
+    "type": "normal",
+    "drugs": [
+        {
+            "component": "Rituximab",
+            "days": [
+                {
+                    "number": 1,
+                    "type": "normal"
+                }
+            ]
+        },
+        {
+            "component": "Cyclophosphamide",
+            "days": [
+                {
+                    "number": 1,
+                    "type": "normal"
+                }
+            ]
+        },
+        {
+            "component": "Doxorubicin",
+            "days": [
+                {
+                    "number": 1,
+                    "type": "normal"
+                }
+            ]
+        },
+        {
+            "component": "Vincristine",
+            "days": [
+                {
+                    "number": 1,
+                    "type": "normal"
+                }
+            ]
+        },
+        {
+            "component": "Prednisone",
+            "days": [
+                {
+                    "number": 1,
+                    "type": "normal"
+                },
+                {
+                    "number": 2,
+                    "type": "normal"
+                },
+                {
+                    "number": 3,
+                    "type": "normal"
+                },
+                {
+                    "number": 4,
+                    "type": "normal"
+                },
+                {
+                    "number": 5,
+                    "type": "normal"
+                }
+            ]
+        }
+    ],
+    "children": [
+        {
+            "number": 2,
+            "type": "normal",
+            "drugs": [
+                {
+                    "component": "Rituximab",
+                    "days": [
+                        {
+                            "number": 1,
+                            "type": "normal"
+                        }
+                    ]
+                },
+                {
+                    "component": "Cyclophosphamide",
+                    "days": [
+                        {
+                            "number": 1,
+                            "type": "normal"
+                        }
+                    ]
+                },
+                {
+                    "component": "Doxorubicin",
+                    "days": [
+                        {
+                            "number": 1,
+                            "type": "normal"
+                        }
+                    ]
+                },
+                {
+                    "component": "Vincristine",
+                    "days": [
+                        {
+                            "number": 1,
+                            "type": "normal"
+                        }
+                    ]
+                },
+                {
+                    "component": "Prednisone",
+                    "days": [
+                        {
+                            "number": 1,
+                            "type": "normal"
+                        },
+                        {
+                            "number": 2,
+                            "type": "normal"
+                        },
+                        {
+                            "number": 3,
+                            "type": "normal"
+                        },
+                        {
+                            "number": 4,
+                            "type": "normal"
+                        },
+                        {
+                            "number": 5,
+                            "type": "normal"
+                        }
+                    ]
+                }
+            ],
+            "children": [
+                {
+                    "number": 3,
+                    "type": "normal",
+                    "drugs": [
+                        {
+                            "component": "Rituximab",
+                            "days": [
+                                {
+                                    "number": 1,
+                                    "type": "normal"
+                                }
+                            ]
+                        },
+                        {
+                            "component": "Cyclophosphamide",
+                            "days": [
+                                {
+                                    "number": 1,
+                                    "type": "normal"
+                                }
+                            ]
+                        },
+                        {
+                            "component": "Doxorubicin",
+                            "days": [
+                                {
+                                    "number": 1,
+                                    "type": "normal"
+                                }
+                            ]
+                        },
+                        {
+                            "component": "Vincristine",
+                            "days": [
+                                {
+                                    "number": 1,
+                                    "type": "normal"
+                                }
+                            ]
+                        },
+                        {
+                            "component": "Prednisone",
+                            "days": [
+                                {
+                                    "number": 1,
+                                    "type": "normal"
+                                },
+                                {
+                                    "number": 2,
+                                    "type": "normal"
+                                },
+                                {
+                                    "number": 3,
+                                    "type": "normal"
+                                },
+                                {
+                                    "number": 4,
+                                    "type": "normal"
+                                },
+                                {
+                                    "number": 5,
+                                    "type": "normal"
+                                }
+                            ]
+                        }
+                    ],
+                    "children": [
+                        {
+                            "number": 4,
+                            "type": "normal",
+                            "drugs": [
+                                {
+                                    "component": "Rituximab",
+                                    "days": [
+                                        {
+                                            "number": 1,
+                                            "type": "normal"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "component": "Cyclophosphamide",
+                                    "days": [
+                                        {
+                                            "number": 1,
+                                            "type": "normal"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "component": "Doxorubicin",
+                                    "days": [
+                                        {
+                                            "number": 1,
+                                            "type": "normal"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "component": "Vincristine",
+                                    "days": [
+                                        {
+                                            "number": 1,
+                                            "type": "normal"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "component": "Prednisone",
+                                    "days": [
+                                        {
+                                            "number": 1,
+                                            "type": "normal"
+                                        },
+                                        {
+                                            "number": 2,
+                                            "type": "normal"
+                                        },
+                                        {
+                                            "number": 3,
+                                            "type": "normal"
+                                        },
+                                        {
+                                            "number": 4,
+                                            "type": "normal"
+                                        },
+                                        {
+                                            "number": 5,
+                                            "type": "normal"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "children": [
+                                {
+                                    "number": 5,
+                                    "type": "normal",
+                                    "drugs": [
+                                        {
+                                            "component": "Rituximab",
+                                            "days": [
+                                                {
+                                                    "number": 1,
+                                                    "type": "normal"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "component": "Cyclophosphamide",
+                                            "days": [
+                                                {
+                                                    "number": 1,
+                                                    "type": "normal"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "component": "Doxorubicin",
+                                            "days": [
+                                                {
+                                                    "number": 1,
+                                                    "type": "normal"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "component": "Vincristine",
+                                            "days": [
+                                                {
+                                                    "number": 1,
+                                                    "type": "normal"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "component": "Prednisone",
+                                            "days": [
+                                                {
+                                                    "number": 1,
+                                                    "type": "normal"
+                                                },
+                                                {
+                                                    "number": 2,
+                                                    "type": "normal"
+                                                },
+                                                {
+                                                    "number": 3,
+                                                    "type": "normal"
+                                                },
+                                                {
+                                                    "number": 4,
+                                                    "type": "normal"
+                                                },
+                                                {
+                                                    "number": 5,
+                                                    "type": "normal"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "children": [
+                                        {
+                                            "number": 6,
+                                            "type": "normal",
+                                            "drugs": [
+                                                {
+                                                    "component": "Rituximab",
+                                                    "days": [
+                                                        {
+                                                            "number": 1,
+                                                            "type": "normal"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "component": "Cyclophosphamide",
+                                                    "days": [
+                                                        {
+                                                            "number": 1,
+                                                            "type": "normal"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "component": "Doxorubicin",
+                                                    "days": [
+                                                        {
+                                                            "number": 1,
+                                                            "type": "normal"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "component": "Vincristine",
+                                                    "days": [
+                                                        {
+                                                            "number": 1,
+                                                            "type": "normal"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "component": "Prednisone",
+                                                    "days": [
+                                                        {
+                                                            "number": 1,
+                                                            "type": "normal"
+                                                        },
+                                                        {
+                                                            "number": 2,
+                                                            "type": "normal"
+                                                        },
+                                                        {
+                                                            "number": 3,
+                                                            "type": "normal"
+                                                        },
+                                                        {
+                                                            "number": 4,
+                                                            "type": "normal"
+                                                        },
+                                                        {
+                                                            "number": 5,
+                                                            "type": "normal"
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "children": [
+                                                {
+                                                    "number": 7,
+                                                    "type": "normal",
+                                                    "drugs": [
+                                                        {
+                                                            "component": "Rituximab",
+                                                            "days": [
+                                                                {
+                                                                    "number": 1,
+                                                                    "type": "normal"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "component": "Cyclophosphamide",
+                                                            "days": [
+                                                                {
+                                                                    "number": 1,
+                                                                    "type": "normal"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "component": "Doxorubicin",
+                                                            "days": [
+                                                                {
+                                                                    "number": 1,
+                                                                    "type": "normal"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "component": "Vincristine",
+                                                            "days": [
+                                                                {
+                                                                    "number": 1,
+                                                                    "type": "normal"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "component": "Prednisone",
+                                                            "days": [
+                                                                {
+                                                                    "number": 1,
+                                                                    "type": "normal"
+                                                                },
+                                                                {
+                                                                    "number": 2,
+                                                                    "type": "normal"
+                                                                },
+                                                                {
+                                                                    "number": 3,
+                                                                    "type": "normal"
+                                                                },
+                                                                {
+                                                                    "number": 4,
+                                                                    "type": "normal"
+                                                                },
+                                                                {
+                                                                    "number": 5,
+                                                                    "type": "normal"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "children": [
+                                                        {
+                                                            "number": 8,
+                                                            "type": "normal",
+                                                            "drugs": [
+                                                                {
+                                                                    "component": "Rituximab",
+                                                                    "days": [
+                                                                        {
+                                                                            "number": 1,
+                                                                            "type": "normal"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "component": "Cyclophosphamide",
+                                                                    "days": [
+                                                                        {
+                                                                            "number": 1,
+                                                                            "type": "normal"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "component": "Doxorubicin",
+                                                                    "days": [
+                                                                        {
+                                                                            "number": 1,
+                                                                            "type": "normal"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "component": "Vincristine",
+                                                                    "days": [
+                                                                        {
+                                                                            "number": 1,
+                                                                            "type": "normal"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "component": "Prednisone",
+                                                                    "days": [
+                                                                        {
+                                                                            "number": 1,
+                                                                            "type": "normal"
+                                                                        },
+                                                                        {
+                                                                            "number": 2,
+                                                                            "type": "normal"
+                                                                        },
+                                                                        {
+                                                                            "number": 3,
+                                                                            "type": "normal"
+                                                                        },
+                                                                        {
+                                                                            "number": 4,
+                                                                            "type": "normal"
+                                                                        },
+                                                                        {
+                                                                            "number": 5,
+                                                                            "type": "normal"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "Title": "Cycle8",
+                                                            "Summary": "This is cycle8 for phase Targeted therapy"
+                                                        }
+                                                    ],
+                                                    "Title": "Cycle7",
+                                                    "Summary": "This is cycle7 for phase Targeted therapy"
+                                                }
+                                            ],
+                                            "Title": "Cycle6",
+                                            "Summary": "This is cycle6 for phase Targeted therapy"
+                                        }
+                                    ],
+                                    "Title": "Cycle5",
+                                    "Summary": "This is cycle5 for phase Targeted therapy"
+                                }
+                            ],
+                            "Title": "Cycle4",
+                            "Summary": "This is cycle4 for phase Targeted therapy"
+                        }
+                    ],
+                    "Title": "Cycle3",
+                    "Summary": "This is cycle3 for phase Targeted therapy"
+                }
+            ],
+            "Title": "Cycle2",
+            "Summary": "This is cycle2 for phase Targeted therapy"
+        }
+    ],
+    "Title": "Cycle1",
+    "Summary": "This is cycle1 for phase Targeted therapy",
+    "metadata": {
+        "cycle_length_ub": "21",
+        "cycle_length_unit": "day",
+        "drug_len": 5,
+        "phase": "Targeted therapy",
+        "blocks": [
+            {
+                "number": 1,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Rituximab",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Cyclophosphamide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Doxorubicin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Vincristine",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Prednisone",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 4,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 5,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 2,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Rituximab",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Cyclophosphamide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Doxorubicin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Vincristine",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Prednisone",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 4,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 5,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 3,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Rituximab",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Cyclophosphamide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Doxorubicin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Vincristine",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Prednisone",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 4,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 5,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 4,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Rituximab",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Cyclophosphamide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Doxorubicin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Vincristine",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Prednisone",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 4,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 5,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 5,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Rituximab",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Cyclophosphamide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Doxorubicin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Vincristine",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Prednisone",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 4,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 5,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 6,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Rituximab",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Cyclophosphamide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Doxorubicin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Vincristine",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Prednisone",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 4,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 5,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 7,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Rituximab",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Cyclophosphamide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Doxorubicin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Vincristine",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Prednisone",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 4,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 5,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "number": 8,
+                "type": "normal",
+                "drugs": [
+                    {
+                        "component": "Rituximab",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Cyclophosphamide",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Doxorubicin",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Vincristine",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Prednisone",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 2,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 3,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 4,
+                                "type": "normal"
+                            },
+                            {
+                                "number": 5,
+                                "type": "normal"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "Content": "Targeted therapy\nRituximab (Rituxan) 375 mg/m2 IV once on day 1\nChemotherapy\nCyclophosphamide (Cytoxan) 750 mg/m2 IV once on day 1\nDoxorubicin (Adriamycin) 50 mg/m2 IV once on day 1\nVincristine (Oncovin) 1.4 mg/m2 (maximum dose of 2 mg) IV once on day 1\nGlucocorticoid therapy\nPrednisone (Sterapred) 60 mg/m2 PO once per day on days 1 to 5\n21-day cycle for 8 cycles"
+}

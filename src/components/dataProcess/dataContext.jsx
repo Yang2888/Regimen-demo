@@ -1,17 +1,17 @@
 import React, { useState, createContext } from 'react';
-import InitialData from './initData';
+import {InitialData} from './initData';
 
 // Create a Context for the data
 export const DataContext = createContext();
 
 // Create a provider component
 export const DataProvider = ({ children }) => {
-  const [data_global, setdata_global] = useState(InitialData);
+  const [data_global, set_data_global] = useState(InitialData);
   const [node_displayed, set_node_displayed] = useState(InitialData)
   const [refresh_key, set_refresh_key] = useState(true)
 
   const updateDataGlobal = (inputDict) => {
-    setdata_global((prevData) => {
+    set_data_global((prevData) => {
       // Merge inputDict into the existing data_global
       return { ...inputDict };
       // return { ...prevData, ...inputDict };
@@ -32,12 +32,12 @@ export const DataProvider = ({ children }) => {
     // If the node to delete is the root itself
     if (data_global.uid === nodeToDelete.uid) {
       // Handle deleting the root node (data_global) itself
-      setdata_global(InitialData); // Update the state to null (or handle this as needed)
+      set_data_global(InitialData); // Update the state to null (or handle this as needed)
     } else {
       // Otherwise, update the tree recursively
       const updatedTree = { ...data_global }; // Create a copy of the current tree state
       deleteNodeRecursively(updatedTree, nodeToDelete.uid);
-      setdata_global(updatedTree); // Update the state with the modified tree
+      set_data_global(updatedTree); // Update the state with the modified tree
     }
   };
 
@@ -65,14 +65,14 @@ export const DataProvider = ({ children }) => {
     };
 
     // Update the global data with the modified node
-    setdata_global((prevData) => updateNode(prevData));
+    set_data_global((prevData) => updateNode(prevData));
     set_node_displayed(data_global);
     // console.log(data_global)
   };
 
 
   return (
-    <DataContext.Provider value={{ data_global, updateDataGlobal, node_displayed, set_node_displayed, edit_certain_node, set_refresh_key, refresh_key, delete_certain_node }}>
+    <DataContext.Provider value={{ data_global, set_data_global, updateDataGlobal, node_displayed, set_node_displayed, edit_certain_node, set_refresh_key, refresh_key, delete_certain_node }}>
       {children}
     </DataContext.Provider>
   );
