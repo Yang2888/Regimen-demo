@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { List, Card, Layout, Button, Divider } from 'antd';
 import { DataContext } from './dataProcess/dataContext'; // Import DataContext
 import DisplayContent from './DisplayModeCard';
-import EditContent from './EditModeCard';
 import GenerateContent from './GenerateModeCard';
+import EditContent from './EditModeCard';
 
 const { Sider } = Layout;
 
@@ -33,7 +33,7 @@ const RightPanel = () => {
           Display
         </Button>
         <Button type="primary" onClick={() => setActiveContent('Edit')} style={{ marginRight: '10px' }}>
-          Question-Answer
+          Edit
         </Button>
         <Button type="primary" onClick={() => setActiveContent('Generate')}>
           Generate

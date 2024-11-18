@@ -71,7 +71,7 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
   };
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>Generate Goal</h2>
+      <h2 style={styles.title}>Generate Regimen With Input</h2>
 
       {/* <div style={styles.buttonGroup}>
         <Button type="primary" onClick={() => editAllOpen()} style={styles.selectButton}>

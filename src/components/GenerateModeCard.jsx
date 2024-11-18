@@ -1,7 +1,7 @@
 import React, { useState, useContext, createContext } from 'react';
 import { Button, Card, Spin, Modal } from 'antd';
 import GenerateContentSelect from './GenerateModeCardSelect';
-import InitialData from './dataProcess/initData';
+import {InitialData} from './dataProcess/initData';
 import { DataContext } from './dataProcess/dataContext';
 
 import DisplayCardsRow from './MergeDiffs';
