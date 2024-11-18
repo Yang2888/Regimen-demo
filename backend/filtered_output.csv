@@ -1,0 +1,4 @@
+component,component_cui,cycle_length_ub,cycle_length_unit,timing_sequence,component,route,allDays,variant_cui,phase
+Carboplatin,88,21,day,"1,2,3,4,5,6",Carboplatin,IV,1,130283,Induction
+Etoposide,201,21,day,"1,2,3,4,5,6",Etoposide,IV,"1,2",130283,Induction
+Etoposide,201,21,day,"1,2,3,4,5,6",Etoposide,PO,3,130283,Induction

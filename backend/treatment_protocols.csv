@@ -1,0 +1,8 @@
+component,component_cui,cycle_length_ub,cycle_length_unit,timing_sequence,route,allDays,variant_cui,phase
+Rituximab,,21,day,1,IV,1,,Targeted
+Cyclophosphamide,,21,day,1,IV,1,,Chemotherapy
+Doxorubicin,,21,day,1,IV,1,,Chemotherapy
+Vincristine,,21,day,1,IV,1,,Chemotherapy
+Prednisone,,21,day,"1,2,3,4,5",PO,"1,2,3,4,5",,Glucocorticoid
+Filgrastim,,21,day,As needed for later cycles,,,,Supportive
+Methotrexate,,21,day,1,IT,1,,CNS Therapy
