@@ -99,47 +99,59 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     //arbirary start date that will later be inputted from data
     const startDate = new Date(2024, 0, 1);
     let lastCycleDisplayed = 0;
-    let rightMove = 111 * zoom;
+
+    // Dictionary of closure days
+    const officeClosures = {
+      "01/01": "New Year's Day",
+      "01/15": "Martin Luther King Jr. Day",
+      "02/19": "Washington's Birthday (Presidents' Day)",
+      "05/28": "Memorial Day",
+      "07/04": "Independence Day",
+      "09/03": "Labor Day",
+      "10/08": "Columbus Day",
+      "11/11": "Veterans Day",
+      "11/22": "Thanksgiving Day",
+      "12/25": "Christmas Day",
+      "11/05": "Election Day",
+    };
+
     // Update scale and transformation based on zoom and translate props
-    const newXScale = xScale.copy().range([0 - rightMove, width * zoom - rightMove]);
+    const newXScale = xScale.copy().range([0, width * zoom]);
+
+    // Create a custom array of tick values, ensuring all days are covered with fractional steps
+    const tickValues = [];
+    for (let i = 0; i <= dates * cycle_length_ub; i++) {
+      tickValues.push(i / cycle_length_ub); // This will generate fractional steps
+    }
+
     const xAxis = d3
       .axisBottom(newXScale)
-      .tickValues(d3.range(0, dates + 1, 1 / cycle_length_ub))
+      .tickValues(tickValues) // Use the custom tickValues
       .tickFormat((d) => {
-        //   const wholePart = Math.floor(d); // Integer part of the tick
-        //   const fractionPart = Math.round(
-        //     (d - wholePart) * (cycle_length_ub + 2)
-        //   ); // Fraction part, scaled to 0-7
-        //   return fractionPart === 0
-        //     ? `C${wholePart}`
-        //     : `${(Math.round(d * cycle_length_ub) % cycle_length_ub) + 1}`;
-        // Calculate the number of days from the start date
-        // Calculate the cumulative day count from the start date
-
-        // sketch of date implementation
-
         // Calculate the cumulative day count from the start date
         const cumulativeDays = Math.floor(d * cycle_length_ub);
 
-        // Determine if the current tick is at the boundary of a new cycle
+        // Determine the cycle number
         const cycleNumber = Math.floor(cumulativeDays / cycle_length_ub) + 1;
 
-        // Check if the tick is at a cycle boundary (every cycle_length_ub days)
+        // Check if the tick is at a cycle boundary
         const isCycleBoundary = cumulativeDays % cycle_length_ub === 0;
 
-        // Only show the cycle label if it hasn't been displayed already
-        if (isCycleBoundary && cycleNumber > lastCycleDisplayed) {
-          lastCycleDisplayed = cycleNumber; // Update the last cycle displayed
-          return `C${cycleNumber}`;
-        } else {
-          // Otherwise, display the date in mm/dd format
-          const tickDate = new Date(startDate);
-          tickDate.setDate(startDate.getDate() + cumulativeDays);
+        // Compute the date for the current tick
+        const tickDate = new Date(startDate);
+        tickDate.setDate(startDate.getDate() + cumulativeDays);
 
-          // Format the date as "mm/dd"
-          const day = String(tickDate.getDate()).padStart(2, "0");
-          const month = String(tickDate.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
-          return `${month}/${day}`;
+        // Format the date as "mm/dd"
+        const day = String(tickDate.getDate()).padStart(2, "0");
+        const month = String(tickDate.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
+        const formattedDate = `${month}/${day}`;
+
+        // At cycle boundaries, display both the cycle label and the date
+        if (isCycleBoundary && cycleNumber > lastCycleDisplayed) {
+          lastCycleDisplayed = cycleNumber;
+          return `C${cycleNumber}\n${formattedDate}`; // Separate cycle label and date with newline
+        } else {
+          return formattedDate;
         }
       });
 
@@ -149,7 +161,52 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       .attr(
         "transform",
         `translate(${translate.x + margin.left}, ${height / 2 + translate.y})`
-      );
+      )
+      .selectAll(".tick text") // Select all tick labels
+      .each(function (d) {
+        const textElement = d3.select(this);
+
+        // Split the text content into cycle label and date label
+        const [cycleLabel, dateLabel] = textElement.text().split("\n");
+
+        // Clear existing text and append tspans for better separation
+        textElement.text(null);
+
+        // Add cycle label, if exists
+        if (cycleLabel) {
+          textElement
+            .append("tspan")
+            .attr("x", 0) // Align horizontally at the tick
+            .attr("dy", "1.2em") // Move the cycle label upward
+            .text(cycleLabel);
+        }
+
+        // Add date label, if exists
+        if (dateLabel) {
+          textElement
+            .append("tspan")
+            .attr("x", 0) // Align horizontally at the tick
+            .attr("dy", "1.5em") // Move the date label downward (adjusted)
+            .text(dateLabel);
+        }
+
+        // Check if the date matches a closure date and add the closure reason
+        if (dateLabel && officeClosures[dateLabel]) {
+          textElement
+            .append("tspan")
+            .attr("x", 0) // Align horizontally at the tick
+            .attr("dy", "2.5em") // Move the closure reason further down
+            .style("font-style", "italic") // Style the reason (optional)
+            .text(officeClosures[dateLabel]); // Add the closure reason from the dictionary
+        } else if (officeClosures[cycleLabel]) {
+          textElement
+            .append("tspan")
+            .attr("x", 0) // Align horizontally at the tick
+            .attr("dy", "2.5em") // Move the closure reason further down
+            .style("font-style", "italic") // Style the reason (optional)
+            .text(officeClosures[cycleLabel]); // Add the closure reason from the dictionary
+        }
+      });
 
     // Helper function to add hover and click effects to blocks
     const addBlockInteractivity = (selection, color, drug) => {
