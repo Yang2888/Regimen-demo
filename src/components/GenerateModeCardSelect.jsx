@@ -42,17 +42,11 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
       setFieldEditable(initialEditableState);
   }
 
-  // Load the JSON data into the form on component mount
-  useEffect(() => {
-    if (node_displayed) {
-      setFormData(node_displayed); // Store original data in formData
-      setFormDraft(node_displayed); // Sync formDraft with node_displayed
-      editAllLock()
-    }
-  }, [node_displayed]);
+
 
   // Handle input change for two-way binding
   const handleInputChange = (field, value) => {
+    // console.log(formDraft)
     setFormDraft((prevState) => ({
       ...prevState,
       [field]: value,
@@ -79,7 +73,7 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
     <div style={styles.container}>
       <h2 style={styles.title}>Generate Goal</h2>
 
-      <div style={styles.buttonGroup}>
+      {/* <div style={styles.buttonGroup}>
         <Button type="primary" onClick={() => editAllOpen()} style={styles.selectButton}>
           Edit All
         </Button>
@@ -92,10 +86,10 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
         <Button type="primary" onClick={() => editMilestones() } style={styles.selectButton}>
           Edit Milestones
         </Button>
-      </div>
+      </div> */}
 
       <Form layout="vertical">
-      <Form.Item label={
+      {/* <Form.Item label={
     <>
       Title
       <Button
@@ -134,29 +128,29 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
       placeholder="Enter a brief summary"
       disabled={!fieldEditable.Summary}
     />
-  </Form.Item>
+  </Form.Item> */}
 
   <Form.Item label={
     <>
-      Note
-      <Button
+      Content
+      {/* <Button
         type="link"
         onClick={() => toggleEditable('Note')}
         style={{ marginLeft: 10 }}
       >
         {fieldEditable.Note ? 'Lock' : 'Edit'}
-      </Button>
+      </Button> */}
     </>
   } style={styles.formItem}>
     <Input.TextArea
       rows={7}
-      value={formDraft.Note || ''}
-      onChange={(e) => handleInputChange('Note', e.target.value)}
+      value={formDraft.Content || ''}
+      onChange={(e) => handleInputChange('Content', e.target.value)}
       placeholder="Enter additional notes"
-      disabled={!fieldEditable.Note}
+      disabled={false}
     />
   </Form.Item>
-
+{/* 
   <Form.Item label={
     <>
       Content
@@ -258,59 +252,15 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
       placeholder="Enter the deadline"
       disabled={!fieldEditable.Deadline}
     />
-  </Form.Item>
+  </Form.Item> */}
 
-        {/* Render milestones with "Keep" and "Delete" buttons */}
-        {(
-          <div>
-            <div>
-            <h3 style={styles.milestonesHeading}>Milestones</h3>
-
-
-            <Button
-              type="link"
-              onClick={() => toggleEditable('children')}
-              style={{ marginLeft: 10 }}
-            >
-              {fieldEditable.children ? 'Lock' : 'Edit'}
-            </Button>
-            </div>
-
-            {formDraft.children && formDraft.children.length > 0 && formDraft.children.map((milestone, index) => (
-              <Card  bodyStyle={{ padding: '0' }} key={index} style={!fieldEditable.children ? styles.milestoneCardDisabled : styles.milestoneCard}>
-                <Row>
-                  <Col span={16}>
-                    <h3>{index + 1}. {milestone.Title}</h3>
-                    <p>{milestone.Summary || 'No summary available'}</p>
-                  </Col>
-                  <Col span={8} style={styles.milestoneButtonGroup}>
-                    {/* {milestoneStatus[index] ? (
-                      <Button disabled={!fieldEditable.children}
-                        type="primary"
-                        onClick={() => handleMilestoneAction(index, 'delete')}
-                      >
-                        Delete
-                      </Button>
-                    ) : (
-                      <Button
-                        type="default"
-                        onClick={() => handleMilestoneAction(index, 'keep')}
-                      >
-                        Keep
-                      </Button>
-                    )} */}
-                  </Col>
-                </Row>
-              </Card>
-            ))}
-          </div>
-        )}
+       
 
         <div style={styles.buttonGroup}>
           <Button onClick={onCancel} style={styles.cancelButton}>
             Cancel
           </Button>
-          <Button type="primary" disabled={Object.values(fieldEditable).every(value => value === false)} onClick={handleConfirm} style={styles.confirmButton}>
+          <Button type="primary" disabled={false} onClick={handleConfirm} style={styles.confirmButton}>
             Confirm
           </Button>
         </div>

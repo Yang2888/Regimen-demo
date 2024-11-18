@@ -125,6 +125,13 @@ const Sidebar = () => {
         </Button>
 
         {/* <Button 
+          onClick={handleResetPos} // Trigger file save on button click
+        
+        type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
+          Generate Regimen
+        </Button> */}
+
+        {/* <Button 
           onClick={handleDebug} // Trigger file save on button click
         
         type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
@@ -143,6 +150,8 @@ const Sidebar = () => {
         }}>
         Readme
       </Button>
+
+      
 
       {/* Modal component with content */}
       <Modal 
