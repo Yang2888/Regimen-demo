@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+/backend/dataverse_files
+
 # testing
 /coverage
 
