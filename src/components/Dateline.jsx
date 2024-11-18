@@ -103,16 +103,30 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     // Dictionary of closure days
     const officeClosures = {
       "01/01": "New Year's Day",
+      "01/15": "Martin Luther King Jr. Day",
+      "02/19": "Washington's Birthday (Presidents' Day)",
+      "05/28": "Memorial Day",
       "07/04": "Independence Day",
-      "11/05": "Election Day",
+      "09/03": "Labor Day",
+      "10/08": "Columbus Day",
+      "11/11": "Veterans Day",
+      "11/22": "Thanksgiving Day",
       "12/25": "Christmas Day",
+      "11/05": "Election Day",
     };
 
     // Update scale and transformation based on zoom and translate props
     const newXScale = xScale.copy().range([0, width * zoom]);
+
+    // Create a custom array of tick values, ensuring all days are covered with fractional steps
+    const tickValues = [];
+    for (let i = 0; i <= dates * cycle_length_ub; i++) {
+      tickValues.push(i / cycle_length_ub); // This will generate fractional steps
+    }
+
     const xAxis = d3
       .axisBottom(newXScale)
-      .tickValues(d3.range(0, dates + 1, 1 / cycle_length_ub))
+      .tickValues(tickValues) // Use the custom tickValues
       .tickFormat((d) => {
         // Calculate the cumulative day count from the start date
         const cumulativeDays = Math.floor(d * cycle_length_ub);
@@ -177,13 +191,20 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         }
 
         // Check if the date matches a closure date and add the closure reason
-        if (officeClosures[dateLabel]) {
+        if (dateLabel && officeClosures[dateLabel]) {
           textElement
             .append("tspan")
             .attr("x", 0) // Align horizontally at the tick
             .attr("dy", "2.5em") // Move the closure reason further down
             .style("font-style", "italic") // Style the reason (optional)
             .text(officeClosures[dateLabel]); // Add the closure reason from the dictionary
+        } else if (officeClosures[cycleLabel]) {
+          textElement
+            .append("tspan")
+            .attr("x", 0) // Align horizontally at the tick
+            .attr("dy", "2.5em") // Move the closure reason further down
+            .style("font-style", "italic") // Style the reason (optional)
+            .text(officeClosures[cycleLabel]); // Add the closure reason from the dictionary
         }
       });
 
