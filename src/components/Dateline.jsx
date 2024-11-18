@@ -103,8 +103,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     // Dictionary of closure days
     const officeClosures = {
       "01/01": "New Year's Day",
-      "01/15": "Martin Luther King Jr. Day",
-      "02/19": "Washington's Birthday (Presidents' Day)",
+      "01/15": "MLK Day",
+      "02/19": "Presidents' Day",
       "05/28": "Memorial Day",
       "07/04": "Independence Day",
       "09/03": "Labor Day",
