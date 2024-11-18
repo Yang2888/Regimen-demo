@@ -58,7 +58,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     dates = regimen_depth;
 
     const margin = { top: 10, right: 20, bottom: 30, left: 20 };
-    const width = 270 * (dates + 1) - margin.left - margin.right;
+    const width = 270 * (dates + 1)
     const height = 300;
 
     // console.log(regimen_depth)
@@ -99,9 +99,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     //arbirary start date that will later be inputted from data
     const startDate = new Date(2024, 0, 1);
     let lastCycleDisplayed = 0;
-
+    let rightMove = 111 * zoom;
     // Update scale and transformation based on zoom and translate props
-    const newXScale = xScale.copy().range([0, width * zoom]);
+    const newXScale = xScale.copy().range([0 - rightMove, width * zoom - rightMove]);
     const xAxis = d3
       .axisBottom(newXScale)
       .tickValues(d3.range(0, dates + 1, 1 / cycle_length_ub))
