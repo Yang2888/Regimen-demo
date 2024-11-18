@@ -129,7 +129,7 @@ const EditContent = () => {
         <FormItem label="Summary" value={formDraft.Summary} onChange={handleInputChange} field="Summary" type="textarea" rows={3} />
         <FormItem label="Content" value={formDraft.Content} onChange={handleInputChange} field="Content" type="textarea" rows={7} />
         <FormItem label="Note By Doc" value={formDraft.Note} onChange={handleInputChange} field="Note" type="textarea" rows={7} />
-        <FormItem label="Content By Patient" value={formDraft.Current_status} onChange={handleInputChange} field="Content" type="textarea" rows={7} />
+        <FormItem label="Note By Patient" value={formDraft.Current_status} onChange={handleInputChange} field="Current_status" type="textarea" rows={7} />
         {/* <FormItem label="Definition" value={formDraft.Definition} onChange={handleInputChange} field="Definition" type="textarea" rows={3} />
         <FormItem label="Priority" value={formDraft.Priority} onChange={handleInputChange} field="Priority" />
         <FormItem label="Current Status" value={formDraft.Current_status} onChange={handleInputChange} field="Current_status" type="textarea" rows={3} />
