@@ -78,7 +78,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
       const xAxis = d3
         .axisBottom(xScale)
-        .tickValues(d3.range(0, dates + 1, 1 / cycle_length_ub))
+        .tickValues(
+          d3.range(0, (dates + 1) * cycle_length_ub, 1 / cycle_length_ub)
+        )
         .tickFormat((d) => {
           const wholePart = Math.floor(d); // Integer part of the tick
           const fractionPart = Math.round(
@@ -130,7 +132,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
     // Create a custom array of tick values, ensuring all days are covered with fractional steps
     const tickValues = [];
-    for (let i = 0; i <= dates * cycle_length_ub; i++) {
+    for (let i = 0; i <= (dates + 1) * cycle_length_ub; i++) {
       tickValues.push(i / cycle_length_ub); // This will generate fractional steps
     }
 
@@ -143,6 +145,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
         // Determine the cycle number
         const cycleNumber = Math.floor(cumulativeDays / cycle_length_ub) + 1;
+        const maxCycleNumber = Math.floor(dates + 1) + 1;
 
         // Check if the tick is at a cycle boundary
         const isCycleBoundary = cumulativeDays % cycle_length_ub === 0;
@@ -160,7 +163,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         const cycleDay = (cumulativeDays % cycle_length_ub) + 1;
 
         // At cycle boundaries, display both the cycle label and the date
-        if (isCycleBoundary && cycleNumber > lastCycleDisplayed) {
+        if (cycleNumber === maxCycleNumber) {
+          return `${"Fin"}\n${formattedDate}`;
+        } else if (isCycleBoundary && cycleNumber > lastCycleDisplayed) {
           lastCycleDisplayed = cycleNumber;
           return `C${cycleNumber}\n${formattedDate}`; // Separate cycle label and date with newline
         } else {
