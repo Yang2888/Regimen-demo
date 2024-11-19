@@ -117,6 +117,11 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       "12/25": "Christmas Day",
     };
 
+    function isWeekend(date) {
+      const day = date.getDay();
+      return day === 0 || day === 6; // Returns true if it's Sunday (0) or Saturday (6)
+    }
+
     let rightMove = 111 * zoom;
     // Update scale and transformation based on zoom and translate props
     const newXScale = xScale
@@ -195,6 +200,12 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
             .append("tspan")
             .attr("x", 0) // Align horizontally at the tick
             .attr("dy", "1.5em") // Move the date label downward (adjusted)
+            .style(
+              "fill",
+              isWeekend(new Date(dateLabel)) || officeClosures[dateLabel]
+                ? "violet"
+                : "black"
+            ) // Highlight weekends
             .text(dateLabel);
         }
 
