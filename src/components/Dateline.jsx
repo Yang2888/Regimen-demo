@@ -151,12 +151,15 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         const month = String(tickDate.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed
         const formattedDate = `${month}/${day}`;
 
+        // calculate date within current cycle
+        const cycleDay = (cumulativeDays % cycle_length_ub) + 1;
+
         // At cycle boundaries, display both the cycle label and the date
         if (isCycleBoundary && cycleNumber > lastCycleDisplayed) {
           lastCycleDisplayed = cycleNumber;
           return `C${cycleNumber}\n${formattedDate}`; // Separate cycle label and date with newline
         } else {
-          return formattedDate;
+          return `${cycleDay}\n${formattedDate}`;
         }
       });
 
@@ -203,13 +206,6 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
             .attr("dy", "2.5em") // Move the closure reason further down
             .style("font-style", "italic") // Style the reason (optional)
             .text(officeClosures[dateLabel]); // Add the closure reason from the dictionary
-        } else if (officeClosures[cycleLabel]) {
-          textElement
-            .append("tspan")
-            .attr("x", 0) // Align horizontally at the tick
-            .attr("dy", "2.5em") // Move the closure reason further down
-            .style("font-style", "italic") // Style the reason (optional)
-            .text(officeClosures[cycleLabel]); // Add the closure reason from the dictionary
         }
       });
 
