@@ -11,7 +11,7 @@ app = Flask(__name__)
 # Enable CORS for all routes
 CORS(app)
 
-def get_res_from_input_regimen(regimen_desc):
+def get_res_from_input_regimen(regimen_desc, regimen_name):
 
     prompt = f"""
     You are an expert in extracting structured data from natural language. I will provide you with a cancer regimen description, and you will output a CSV with the following columns:
@@ -45,6 +45,7 @@ def get_res_from_input_regimen(regimen_desc):
     Etoposide,201,21,day,"1,2,3,4,5,6",Etoposide,IV,"1,2",130283,Induction
     Etoposide,201,21,day,"1,2,3,4,5,6",Etoposide,PO,3,130283,Induction
 
+
     ### Now Your Input:
     Regimen: 
     {regimen_desc}
@@ -67,7 +68,7 @@ def get_res_from_input_regimen(regimen_desc):
 
     # print(csv_output)
 
-    return csv_output
+    return csv_output, regimen_name
 
 
 def save_csv(csv_text, file_name):
@@ -85,23 +86,29 @@ def save_csv(csv_text, file_name):
         writer = csv.writer(file)
         writer.writerows(rows)
 
-def regimen_to_csv(regimen_desc):
-    llm_reg = get_res_from_input_regimen(regimen_desc)
+def regimen_to_csv(regimen_desc, regimen_name):
+    llm_reg, name = get_res_from_input_regimen(regimen_desc, regimen_name)
     save_csv(llm_reg, "generated_regimen.csv")
+
+    with open("regimen_name.txt", "w") as file:
+        file.write(name)
+    
 
 @app.route('/process-inputs', methods=['POST'])
 def process_inputs():
     try:
         data = request.get_json()
         input1 = data.get('input1')
+        input2 = data.get('input2')
 
         if not input1:
             return jsonify({"error": "Missing required input: input1"}), 400
 
         # Call function to process input and generate CSV
-        regimen_to_csv(input1)
+        regimen_to_csv(input1, input2)
 
         ans =  getJsonFromCsv()
+        
         print(ans)
 
         return ans

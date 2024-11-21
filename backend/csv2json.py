@@ -38,13 +38,18 @@ import copy
 def transform_blocks(blocks, metadata):
     # Create a deep copy of the blocks to avoid modifying the original structure
     blocks = copy.deepcopy(blocks)
+
+    regimen_name = metadata.get("name", "Regimen ")
+
     
     # Link each block to the next block as a child
     for i in range(len(blocks) ):
         if i < len(blocks)-1:
             blocks[i]["children"] = [blocks[i + 1]]
-        blocks[i]["Title"] = f"Cycle{i + 1}"
-        blocks[i]["Summary"] = f"This is cycle{i + 1} for phase {metadata['phase']}"
+        blocks[i]["Title"] = f"{regimen_name} Cycle{i + 1}"
+        blocks[i]["Summary"] = f"This is cycle{i + 1} of {regimen_name}"
+        # blocks[i]["Summary"] = f"This is cycle{i + 1} of {regimen_name} for phase {metadata['phase']}"
+        # blocks[i][]
 
     # Return only the first block with nested children
     return blocks[0]
@@ -63,11 +68,33 @@ def getjson(csv_file_path = 'filtered_output.csv', json_file_path = 'output.json
     metadata["drug_len"] = len(data)
     metadata["phase"] = data0["phase"]
 
+    regimen_name = "regimen"
+    try:
+        with open("regimen_name.txt", "r") as file:
+            regimen_name = file.read()
+    except Exception as e:
+        print(f"error reading regimen name: {e}")
+
+    metadata["name"] = regimen_name
+
     # print(f"metadat st1 : {metadata}")
 
     
 
-    blocks = parse_formula(data[0]["timing_sequence"])
+    all_blocks = set()
+    for entry in data:
+        parsed = parse_formula(entry["timing_sequence"])
+        all_blocks.update((int(item["number"]), item["type"]) for item in parsed)
+
+    formatted_blocks = [{"number": block[0], "type": block[1]} for block in all_blocks]
+    sorted_blocks = sorted(formatted_blocks, key=lambda x: x["number"])
+    blocks = sorted_blocks
+    # blocks = parse_formula(data[0]["timing_sequence"])
+    orig_blocks = parse_formula(data[0]["timing_sequence"])
+
+    print(orig_blocks)
+    print(blocks)
+    
 
     for block in blocks:
         block["drugs"] = []
@@ -81,7 +108,7 @@ def getjson(csv_file_path = 'filtered_output.csv', json_file_path = 'output.json
         # print(f"row_info: {row_info}")
         for time in times:
             # print(time['number'] - 1)
-            blocks[time['number'] - 1]["drugs"].append({"component": row_info["component"], "days": parse_formula(row_info["allDays"])})
+            blocks[time['number'] - 1]["drugs"].append({"component": row_info["component"], "route": row_info["route"], "days": parse_formula(row_info["allDays"])})
 
     # print(f"metadat st2 : {metadata}")
 

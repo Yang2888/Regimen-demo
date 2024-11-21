@@ -238,7 +238,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           // console.log("asdfasf")
           // alert(`Clicked on a ${color} block!`);
           // console.log(drug)
-          set_node_displayed({ Title: drug.component });
+          set_node_displayed({ Title: drug.component, Content: `Route: ${ drug.route}` });
         });
     };
 

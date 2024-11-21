@@ -1,6 +1,8 @@
 component,component_cui,cycle_length_ub,cycle_length_unit,timing_sequence,component,route,allDays,variant_cui,phase
-Prednisone,123,21,day,"1,2,3,4,5",Prednisone,PO,"1,2,3,4,5",,,Glucocorticoid Therapy
-Rituximab,456,21,day,1,Rituximab,IV,1,,,Targeted Therapy
-Cyclophosphamide,789,21,day,"1,2,3,4",Cyclophosphamide,IV,1,,,Chemotherapy
-Doxorubicin,101,21,day,"1,2,3,4",Doxorubicin,IV,1,,,Chemotherapy
-Vincristine,112,21,day,"1,2,3,4",Vincristine,IV,1,,,Chemotherapy
+Prednisone,37,21,day,"1,2,3,4,5",Prednisone,PO,"1,2,3,4,5",,Glucocorticoid therapy
+Rituximab,46,21,day,1,Rituximab,IV,1,,Targeted therapy
+Cyclophosphamide,50,21,day,1,Cyclophosphamide,IV,1,,Chemotherapy
+Doxorubicin,51,21,day,1,Doxorubicin,IV,1,,Chemotherapy
+Vincristine,52,21,day,1,Vincristine,IV,1,,Chemotherapy
+Filgrastim,1390,,cycle,,,Filgrastim,SC,,,,Supportive therapy
+Methotrexate,62,21,day,1,Methotrexate,IT,1,,CNS therapy, prophylaxis

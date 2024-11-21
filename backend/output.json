@@ -4,6 +4,7 @@
     "drugs": [
         {
             "component": "Prednisone",
+            "route": "PO",
             "days": [
                 {
                     "number": 1,
@@ -29,6 +30,7 @@
         },
         {
             "component": "Rituximab",
+            "route": "IV",
             "days": [
                 {
                     "number": 1,
@@ -38,6 +40,7 @@
         },
         {
             "component": "Cyclophosphamide",
+            "route": "IV",
             "days": [
                 {
                     "number": 1,
@@ -47,6 +50,7 @@
         },
         {
             "component": "Doxorubicin",
+            "route": "IV",
             "days": [
                 {
                     "number": 1,
@@ -56,6 +60,17 @@
         },
         {
             "component": "Vincristine",
+            "route": "IV",
+            "days": [
+                {
+                    "number": 1,
+                    "type": "normal"
+                }
+            ]
+        },
+        {
+            "component": "Methotrexate",
+            "route": "IT",
             "days": [
                 {
                     "number": 1,
@@ -71,6 +86,7 @@
             "drugs": [
                 {
                     "component": "Prednisone",
+                    "route": "PO",
                     "days": [
                         {
                             "number": 1,
@@ -93,33 +109,6 @@
                             "type": "normal"
                         }
                     ]
-                },
-                {
-                    "component": "Cyclophosphamide",
-                    "days": [
-                        {
-                            "number": 1,
-                            "type": "normal"
-                        }
-                    ]
-                },
-                {
-                    "component": "Doxorubicin",
-                    "days": [
-                        {
-                            "number": 1,
-                            "type": "normal"
-                        }
-                    ]
-                },
-                {
-                    "component": "Vincristine",
-                    "days": [
-                        {
-                            "number": 1,
-                            "type": "normal"
-                        }
-                    ]
                 }
             ],
             "children": [
@@ -129,6 +118,7 @@
                     "drugs": [
                         {
                             "component": "Prednisone",
+                            "route": "PO",
                             "days": [
                                 {
                                     "number": 1,
@@ -151,33 +141,6 @@
                                     "type": "normal"
                                 }
                             ]
-                        },
-                        {
-                            "component": "Cyclophosphamide",
-                            "days": [
-                                {
-                                    "number": 1,
-                                    "type": "normal"
-                                }
-                            ]
-                        },
-                        {
-                            "component": "Doxorubicin",
-                            "days": [
-                                {
-                                    "number": 1,
-                                    "type": "normal"
-                                }
-                            ]
-                        },
-                        {
-                            "component": "Vincristine",
-                            "days": [
-                                {
-                                    "number": 1,
-                                    "type": "normal"
-                                }
-                            ]
                         }
                     ],
                     "children": [
@@ -187,6 +150,7 @@
                             "drugs": [
                                 {
                                     "component": "Prednisone",
+                                    "route": "PO",
                                     "days": [
                                         {
                                             "number": 1,
@@ -209,33 +173,6 @@
                                             "type": "normal"
                                         }
                                     ]
-                                },
-                                {
-                                    "component": "Cyclophosphamide",
-                                    "days": [
-                                        {
-                                            "number": 1,
-                                            "type": "normal"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "component": "Doxorubicin",
-                                    "days": [
-                                        {
-                                            "number": 1,
-                                            "type": "normal"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "component": "Vincristine",
-                                    "days": [
-                                        {
-                                            "number": 1,
-                                            "type": "normal"
-                                        }
-                                    ]
                                 }
                             ],
                             "children": [
@@ -245,6 +182,7 @@
                                     "drugs": [
                                         {
                                             "component": "Prednisone",
+                                            "route": "PO",
                                             "days": [
                                                 {
                                                     "number": 1,
@@ -269,29 +207,30 @@
                                             ]
                                         }
                                     ],
-                                    "Title": "Cycle5",
-                                    "Summary": "This is cycle5 for phase "
+                                    "Title": "rchop Cycle5",
+                                    "Summary": "This is cycle5 of rchop"
                                 }
                             ],
-                            "Title": "Cycle4",
-                            "Summary": "This is cycle4 for phase "
+                            "Title": "rchop Cycle4",
+                            "Summary": "This is cycle4 of rchop"
                         }
                     ],
-                    "Title": "Cycle3",
-                    "Summary": "This is cycle3 for phase "
+                    "Title": "rchop Cycle3",
+                    "Summary": "This is cycle3 of rchop"
                 }
             ],
-            "Title": "Cycle2",
-            "Summary": "This is cycle2 for phase "
+            "Title": "rchop Cycle2",
+            "Summary": "This is cycle2 of rchop"
         }
     ],
-    "Title": "Cycle1",
-    "Summary": "This is cycle1 for phase ",
+    "Title": "rchop Cycle1",
+    "Summary": "This is cycle1 of rchop",
     "metadata": {
         "cycle_length_ub": "21",
         "cycle_length_unit": "day",
-        "drug_len": 5,
-        "phase": "",
+        "drug_len": 7,
+        "phase": "Glucocorticoid therapy",
+        "name": "rchop",
         "blocks": [
             {
                 "number": 1,
@@ -299,6 +238,7 @@
                 "drugs": [
                     {
                         "component": "Prednisone",
+                        "route": "PO",
                         "days": [
                             {
                                 "number": 1,
@@ -324,6 +264,7 @@
                     },
                     {
                         "component": "Rituximab",
+                        "route": "IV",
                         "days": [
                             {
                                 "number": 1,
@@ -333,6 +274,7 @@
                     },
                     {
                         "component": "Cyclophosphamide",
+                        "route": "IV",
                         "days": [
                             {
                                 "number": 1,
@@ -342,6 +284,7 @@
                     },
                     {
                         "component": "Doxorubicin",
+                        "route": "IV",
                         "days": [
                             {
                                 "number": 1,
@@ -351,6 +294,17 @@
                     },
                     {
                         "component": "Vincristine",
+                        "route": "IV",
+                        "days": [
+                            {
+                                "number": 1,
+                                "type": "normal"
+                            }
+                        ]
+                    },
+                    {
+                        "component": "Methotrexate",
+                        "route": "IT",
                         "days": [
                             {
                                 "number": 1,
@@ -366,6 +320,7 @@
                 "drugs": [
                     {
                         "component": "Prednisone",
+                        "route": "PO",
                         "days": [
                             {
                                 "number": 1,
@@ -385,33 +340,6 @@
                             },
                             {
                                 "number": 5,
-                                "type": "normal"
-                            }
-                        ]
-                    },
-                    {
-                        "component": "Cyclophosphamide",
-                        "days": [
-                            {
-                                "number": 1,
-                                "type": "normal"
-                            }
-                        ]
-                    },
-                    {
-                        "component": "Doxorubicin",
-                        "days": [
-                            {
-                                "number": 1,
-                                "type": "normal"
-                            }
-                        ]
-                    },
-                    {
-                        "component": "Vincristine",
-                        "days": [
-                            {
-                                "number": 1,
                                 "type": "normal"
                             }
                         ]
@@ -424,6 +352,7 @@
                 "drugs": [
                     {
                         "component": "Prednisone",
+                        "route": "PO",
                         "days": [
                             {
                                 "number": 1,
@@ -443,33 +372,6 @@
                             },
                             {
                                 "number": 5,
-                                "type": "normal"
-                            }
-                        ]
-                    },
-                    {
-                        "component": "Cyclophosphamide",
-                        "days": [
-                            {
-                                "number": 1,
-                                "type": "normal"
-                            }
-                        ]
-                    },
-                    {
-                        "component": "Doxorubicin",
-                        "days": [
-                            {
-                                "number": 1,
-                                "type": "normal"
-                            }
-                        ]
-                    },
-                    {
-                        "component": "Vincristine",
-                        "days": [
-                            {
-                                "number": 1,
                                 "type": "normal"
                             }
                         ]
@@ -482,6 +384,7 @@
                 "drugs": [
                     {
                         "component": "Prednisone",
+                        "route": "PO",
                         "days": [
                             {
                                 "number": 1,
@@ -504,33 +407,6 @@
                                 "type": "normal"
                             }
                         ]
-                    },
-                    {
-                        "component": "Cyclophosphamide",
-                        "days": [
-                            {
-                                "number": 1,
-                                "type": "normal"
-                            }
-                        ]
-                    },
-                    {
-                        "component": "Doxorubicin",
-                        "days": [
-                            {
-                                "number": 1,
-                                "type": "normal"
-                            }
-                        ]
-                    },
-                    {
-                        "component": "Vincristine",
-                        "days": [
-                            {
-                                "number": 1,
-                                "type": "normal"
-                            }
-                        ]
                     }
                 ]
             },
@@ -540,6 +416,7 @@
                 "drugs": [
                     {
                         "component": "Prednisone",
+                        "route": "PO",
                         "days": [
                             {
                                 "number": 1,

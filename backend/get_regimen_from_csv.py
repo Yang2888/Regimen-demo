@@ -8,7 +8,7 @@ def get_filtered_rows_by_variant_cui(variant_cui):
     # Define the columns to keep for the filtered file
     columns_to_keep = [
         'component', 'component_cui', 'cycle_length_ub', 'cycle_length_unit',
-        'timing_sequence', 'component', 'route', 'allDays', 'variant_cui', 'phase'
+        'timing_sequence', 'component', 'route', 'allDays', 'variant_cui', 'phase', 'route'
     ]
     
     filtered_rows = []

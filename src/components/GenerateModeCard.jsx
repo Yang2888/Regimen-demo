@@ -25,11 +25,12 @@ const ModePanel = () => {
     setIsVisible2(false); // Hide the modal when the "Close" button is clicked or Esc is pressed
   };
 
-  const generateMilestone = async (draft, flag) => {
+  const generateRegimenStructed = async (draft, flag) => {
     setLoading(true); // Start loading
     setCancelled(false); // Reset the cancel state
 
     console.log(draft);
+    // return;
 
     try {
         const response = await fetch('http://127.0.0.1:3113/process-inputs', {
@@ -39,6 +40,7 @@ const ModePanel = () => {
             },
             body: JSON.stringify({
                 input1: draft.Content,  
+                input2: draft.Title,
             }),
         });
 
@@ -51,6 +53,7 @@ const ModePanel = () => {
         // console.log('CSV File Content:', csvText);
 
         const result = await response.json();
+        console.log(result)
 
         updateDataGlobal(result)
 
@@ -78,7 +81,7 @@ const ModePanel = () => {
   }
 
   const renderContent = () => {
-    return <GenerateContentSelect confirmGenerate={generateMilestone}></GenerateContentSelect>;
+    return <GenerateContentSelect confirmGenerate={generateRegimenStructed}></GenerateContentSelect>;
   };
 
   return (

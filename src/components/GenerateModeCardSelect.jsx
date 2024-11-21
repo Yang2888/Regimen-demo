@@ -130,9 +130,30 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
     />
   </Form.Item> */}
 
+<Form.Item label={
+    <>
+      Regimen Name
+      {/* <Button
+        type="link"
+        onClick={() => toggleEditable('Note')}
+        style={{ marginLeft: 10 }}
+      >
+        {fieldEditable.Note ? 'Lock' : 'Edit'}
+      </Button> */}
+    </>
+  } style={styles.formItem}>
+    <Input.TextArea
+      rows={1}
+      value={formDraft.Title || ''}
+      onChange={(e) => handleInputChange('Title', e.target.value)}
+      placeholder="Enter name of regimen"
+      disabled={false}
+    />
+  </Form.Item>
+
   <Form.Item label={
     <>
-      Content
+      Regimen Content
       {/* <Button
         type="link"
         onClick={() => toggleEditable('Note')}
@@ -146,7 +167,7 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
       rows={7}
       value={formDraft.Content || ''}
       onChange={(e) => handleInputChange('Content', e.target.value)}
-      placeholder="Enter additional notes"
+      placeholder="Enter regimen content. Can be any form of text."
       disabled={false}
     />
   </Form.Item>
