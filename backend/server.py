@@ -92,7 +92,10 @@ def regimen_to_csv(regimen_desc, regimen_name):
 
     with open("regimen_name.txt", "w") as file:
         file.write(name)
-    
+
+@app.route("/trial", methods=["GET"])   
+def exmaple_get():
+    return {"111": 222} 
 
 @app.route('/process-inputs', methods=['POST'])
 def process_inputs():

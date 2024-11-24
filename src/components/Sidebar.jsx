@@ -70,10 +70,16 @@ const Sidebar = () => {
     // set_data_global(example1)
   }
 
-  const handleDebug = () => {
+  const handleDebug = async () => {
+    const response = await fetch('https://10.223.160.162:3113/trail', {
+      method: 'GET',
+  });
+  
+  const result = await response.json(); // Parse the JSON response from the server
+  console.log(result);
     console.clear();
 
-    console.log(node_displayed)
+    // console.log(node_displayed)
     
   }
 
