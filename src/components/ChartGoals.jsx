@@ -104,7 +104,7 @@ const renderRectSvgNode = ({
 // Main component wrapping the tree
 export default function OrgChartTree({
   width = "800px",
-  height = "400px",
+  height = "500px",
   treeData = orgChart,
 }) {
   const foreignObjectProps = { width: 270, height: 270, x: -110, y: -50 };
@@ -160,6 +160,7 @@ export default function OrgChartTree({
           const newZoom = prevZoom + event.deltaY * -0.001;
           return Math.max(0.1, Math.min(newZoom, 10)); 
         });
+        event.preventDefault()
       }
     };
 

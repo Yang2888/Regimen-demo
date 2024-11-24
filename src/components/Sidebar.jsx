@@ -71,8 +71,11 @@ const Sidebar = () => {
   }
 
   const handleDebug = async () => {
+    console.log("starting debugging...")
     const response = await fetch('https://10.223.160.162:3113/trail', {
       method: 'GET',
+  }).catch(e=>{
+    console.log(e)
   });
   
   const result = await response.json(); // Parse the JSON response from the server
@@ -154,6 +157,13 @@ const Sidebar = () => {
         
         type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
           Example 2
+        </Button>
+
+        <Button 
+          onClick={handleDebug} // Trigger file save on button click
+        
+        type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
+          Debug
         </Button>
 
         <Button 

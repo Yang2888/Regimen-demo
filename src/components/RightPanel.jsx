@@ -26,7 +26,7 @@ const RightPanel = () => {
   };
 
   return (
-    <Card style={{ width: 900, marginLeft: '20px', marginBottom: '20px' }}>
+    <Card style={{ width: 820, marginLeft: '20px', marginBottom: '20px' }}>
       {/* Buttons for Display, Edit, Generate */}
       <div style={{ marginBottom: '20px' }}>
         <Button type="primary" onClick={() => setActiveContent('Display')} style={{ marginRight: '10px' }}>

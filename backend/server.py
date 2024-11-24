@@ -26,6 +26,8 @@ def get_res_from_input_regimen(regimen_desc, regimen_name):
     - allDays
     - variant_cui
     - phase
+    - doseMaxNum
+    - doseUnit
 
     ### Rules:
     1. Parse the regimen data and extract the required fields.
@@ -40,10 +42,12 @@ def get_res_from_input_regimen(regimen_desc, regimen_name):
     - Etoposide (CUI: 201) administered intravenously (IV) on days 1 and 2, and orally (PO) on day 3 in the same cycle. This is part of the induction phase with variant CUI 130283. As it is also used in all 6 cycles, so the timing_sequence is "1,2,3,4,5,6".
 
     ### Example Output:
-    component,component_cui,cycle_length_ub,cycle_length_unit,timing_sequence,component,route,allDays,variant_cui,phase
-    Carboplatin,88,21,day,"1,2,3,4,5,6",Carboplatin,IV,1,130283,Induction
-    Etoposide,201,21,day,"1,2,3,4,5,6",Etoposide,IV,"1,2",130283,Induction
-    Etoposide,201,21,day,"1,2,3,4,5,6",Etoposide,PO,3,130283,Induction
+    component,component_cui,cycle_length_ub,cycle_length_unit,timing_sequence,component,route,allDays,variant_cui,phase,doseMaxNum,doseUnit
+    Carboplatin,88,21,day,"1,2,3,4,5,6",Carboplatin,IV,1,130283,Induction,5,AUC
+    Etoposide,201,21,day,"1,2,3,4,5,6",Etoposide,IV,"1,2",130283,Induction,120,mg/m^2
+    Etoposide,201,21,day,"1,2,3,4,5,6",Etoposide,PO,3,130283,Induction,100,mg
+
+
 
 
     ### Now Your Input:
@@ -121,6 +125,9 @@ def process_inputs():
         print(f"error: {e}")
         return jsonify({"error": str(e)}), 500
     
+@app.route('/')
+def home():
+    return "Hello, World!"
 
 def start_backend(host='0.0.0.0', port=3113, debug=True):
     """

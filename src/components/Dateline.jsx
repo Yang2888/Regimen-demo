@@ -238,7 +238,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           // console.log("asdfasf")
           // alert(`Clicked on a ${color} block!`);
           // console.log(drug)
-          set_node_displayed({ Title: drug.component, Content: `Route: ${ drug.route}` });
+          set_node_displayed({ Title: drug.component, Content: `Route: ${ drug.route} \n Dose: ${drug.doseMaxNum} ${drug.doseUnit} `   });
         });
     };
 
@@ -355,8 +355,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     generateDrugGroups(data_global, svg, newXScale, dates);
 
     // Ensure the font size and line thickness stay consistent after updating the axis
-    svg.selectAll(".tick text").style("font-size", "8px"); // Keep font large
-    svg.selectAll(".tick text").style("opacity", zoom < 1.5 ? 0 : 1);
+    svg.selectAll(".tick text").style("font-size", "14px"); // Keep font large
+    svg.selectAll(".tick text").style("opacity", zoom < 2.5 ? 0 : 1);
     svg.selectAll(".domain").style("stroke-width", "2px"); // Keep line bold
   }, [zoom, translate]); // Re-run effect whenever zoom or translate changes
   const handleChildPointerDown = (event) => {
@@ -367,7 +367,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       <svg
         ref={calendarRef}
         width="900"
-        height="300"
+        height="220"
         style={{ marginTop: "20px", userSelect: "none", display: "flex" }}
       />
     </div>
