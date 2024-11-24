@@ -119,7 +119,7 @@ def process_inputs():
         return jsonify({"error": str(e)}), 500
     
 
-def start_backend(host='127.0.0.1', port=3113, debug=True):
+def start_backend(host='0.0.0.0', port=3113, debug=True):
     """
     Function to start the backend server.
     :param host: The host on which the server should run (default is localhost).
