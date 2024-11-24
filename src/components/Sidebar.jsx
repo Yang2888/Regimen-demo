@@ -72,7 +72,7 @@ const Sidebar = () => {
 
   const handleDebug = async () => {
     console.log("starting debugging...")
-    const response = await fetch('https://10.223.160.162:3113/trail', {
+    const response = await fetch('https://regimen-demo.onrender.com/trail', {
       method: 'GET',
   }).catch(e=>{
     console.log(e)

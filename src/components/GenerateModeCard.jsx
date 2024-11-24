@@ -33,7 +33,7 @@ const ModePanel = () => {
     // return;
 
     try {
-        const response = await fetch('http://10.223.55.66:3113/process-inputs', {
+        const response = await fetch('https://regimen-demo.onrender.com/process-inputs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
