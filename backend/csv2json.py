@@ -110,7 +110,7 @@ def getjson(csv_file_path = 'filtered_output.csv', json_file_path = 'output.json
         # print(f"row_info: {row_info}")
         for time in times:
             # print(time['number'] - 1)
-            blocks[time['number'] - 1]["drugs"].append({"component": row_info["component"], "route": row_info["route"], "days": parse_formula(row_info["allDays"])})
+            blocks[time['number'] - 1]["drugs"].append({"component": row_info["component"], "route": row_info["route"], "days": parse_formula(row_info["allDays"]), "doseMaxNum": row_info["doseMaxNum"], "doseUnit": row_info["doseUnit"]})
 
     # print(f"metadat st2 : {metadata}")
 
