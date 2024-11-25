@@ -99,7 +99,7 @@ def regimen_to_csv(regimen_desc, regimen_name):
 
 @app.route('/trail', methods=['OPTIONS', 'GET'])
 def trail():
-    if request.method == 'OPTIONS':
+    if True:
         # Handle the preflight request
         response = app.make_response()
         response.headers.add('Access-Control-Allow-Origin', '*')
