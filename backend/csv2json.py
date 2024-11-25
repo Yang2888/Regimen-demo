@@ -58,7 +58,9 @@ def getjson(csv_file_path = 'filtered_output.csv', json_file_path = 'output.json
 # Example usage
   # Replace with your CSV file path
  # Replace with your JSON output path
+    print("starting getjson", flush=True)
     data = csv_to_json(csv_file_path, json_file_path)
+    print(f"data first read: {data}", flush=True)
     # print(data)
     data0 = data[0]
     metadata = {}

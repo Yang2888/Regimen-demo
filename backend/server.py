@@ -130,9 +130,11 @@ def process_inputs():
         # Call function to process input and generate CSV
         regimen_to_csv(input1, input2)
         print("regimen_to_csv generated")
+
+        
         ans =  getJsonFromCsv()
         
-        print(ans)
+        print(ans,flush=True)
 
         return jsonify(ans) 
 
