@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, send_file
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from utils_general import LLMApi
 import csv
 import io
@@ -111,6 +111,7 @@ def trail():
     return jsonify({"111": 222})
 
 @app.route('/process-inputs', methods=['POST'])
+@cross_origin() 
 def process_inputs():
     try:
         data = request.get_json()
@@ -127,7 +128,7 @@ def process_inputs():
         
         print(ans)
 
-        return ans
+        return jsonify(ans) 
 
     except Exception as e:
         # Log the error (for production, log this properly)

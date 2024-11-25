@@ -85,10 +85,8 @@ const Sidebar = () => {
             console.log(response)
             return;
         }
-
         const result = await response.json();
         console.log(result);
-        console.clear();
     } catch (error) {
         console.error("Error:", error);
     }
