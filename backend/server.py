@@ -97,9 +97,18 @@ def regimen_to_csv(regimen_desc, regimen_name):
     with open("regimen_name.txt", "w") as file:
         file.write(name)
 
-@app.route("/trial", methods=["GET"])   
-def exmaple_get():
-    return {"111": 222} 
+@app.route('/trail', methods=['OPTIONS', 'GET'])
+def trail():
+    if request.method == 'OPTIONS':
+        # Handle the preflight request
+        response = app.make_response()
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        return response, 200
+
+    # Handle the actual GET request
+    return jsonify({"111": 222})
 
 @app.route('/process-inputs', methods=['POST'])
 def process_inputs():

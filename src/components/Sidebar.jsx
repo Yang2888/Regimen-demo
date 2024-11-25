@@ -71,20 +71,29 @@ const Sidebar = () => {
   }
 
   const handleDebug = async () => {
-    console.log("starting debugging...")
-    const response = await fetch('https://regimen-demo.onrender.com/trail', {
-      method: 'GET',
-  }).catch(e=>{
-    console.log(e)
-  });
-  
-  const result = await response.json(); // Parse the JSON response from the server
-  console.log(result);
-    console.clear();
+    try {
+        console.log("starting debugging...");
+        const response = await fetch('https://regimen-demo.onrender.com/trail', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json', // Include headers if needed
+          },
+        });
 
-    // console.log(node_displayed)
-    
-  }
+        if (!response.ok) {
+            console.error(`HTTP error! Status: ${response.status}`);
+            console.log(response)
+            return;
+        }
+
+        const result = await response.json();
+        console.log(result);
+        console.clear();
+    } catch (error) {
+        console.error("Error:", error);
+    }
+};
+
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
