@@ -101,7 +101,7 @@ def regimen_to_csv(regimen_desc, regimen_name):
 def trail():
     if True:
         # Handle the preflight request
-        response = app.make_response()
+        response = app.make_response("")
         response.headers.add('Access-Control-Allow-Origin', '*')
         response.headers.add('Access-Control-Allow-Methods', 'GET, OPTIONS')
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
