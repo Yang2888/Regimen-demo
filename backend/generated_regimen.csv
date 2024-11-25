@@ -1,4 +1,2 @@
-component,component_cui,cycle_length_ub,cycle_length_unit,timing_sequence,component,route,allDays,variant_cui,phase
-Fluorouracil,5-FU,Chemotherapy,14,day,"1,2,3,4,5,6,7,8,9,10,11,12",Fluorouracil,IV,1,,
-Oxaliplatin,Eloxatin,Chemotherapy,14,day,"1,2,3,4,5,6,7,8,9,10,11,12",Oxaliplatin,IV,1,,
-Leucovorin,Folinic acid,Chemotherapy,14,day,"1,2,3,4,5,6,7,8,9,10,11,12",Leucovorin,IV,1,,
+component,component_cui,cycle_length_ub,cycle_length_unit,timing_sequence,component,route,allDays,variant_cui,phase,doseMaxNum,doseUnit  
+testValue,,,day,1,testValue,,1,,,0,mg

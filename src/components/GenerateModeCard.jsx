@@ -45,7 +45,7 @@ const ModePanel = () => {
         });
 
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            console.log(response)
         }
 
         // Get the CSV file as text

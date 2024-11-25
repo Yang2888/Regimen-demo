@@ -132,7 +132,7 @@ def process_inputs():
 
     except Exception as e:
         # Log the error (for production, log this properly)
-        print(f"error: {e}")
+        print(f"error: {e}", flush=True)
         return jsonify({"error": str(e)}), 500
     
 @app.route('/')
