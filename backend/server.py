@@ -92,10 +92,13 @@ def save_csv(csv_text, file_name):
 
 def regimen_to_csv(regimen_desc, regimen_name):
     llm_reg, name = get_res_from_input_regimen(regimen_desc, regimen_name)
+    print("res got!", flush=True)
     save_csv(llm_reg, "generated_regimen.csv")
+    print("csv saved", flush=True)
 
     with open("regimen_name.txt", "w") as file:
         file.write(name)
+
 
 @app.route('/trail', methods=['OPTIONS', 'GET'])
 def trail():
@@ -118,12 +121,15 @@ def process_inputs():
         input1 = data.get('input1')
         input2 = data.get('input2')
 
+        print(input1, flush=True)
+        print(input2, flush=True)
+
         if not input1:
             return jsonify({"error": "Missing required input: input1"}), 400
 
         # Call function to process input and generate CSV
         regimen_to_csv(input1, input2)
-
+        print("regimen_to_csv generated")
         ans =  getJsonFromCsv()
         
         print(ans)
