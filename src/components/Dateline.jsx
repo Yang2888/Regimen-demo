@@ -91,6 +91,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
             : `${Math.round(d * cycle_length_ub)}`;
         });
 
+      console.log(xAxis);
+
       g.call(xAxis);
 
       // Apply larger font size for tick labels and bolder axis line
@@ -100,6 +102,29 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
     //TODO: start date specified by data
     const startDate = new Date(2024, 0, 1);
+    const today = new Date(); // Current date
+
+    const daysSinceStart = Math.floor(
+      (today - startDate) / (1000 * 60 * 60 * 24)
+    );
+    const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
+
+    // Remove any existing circle before adding a new one
+    svg.select(".current-date-circle").remove();
+
+    //TODO: make it so 2.5here is mapped to by a constant corresponding to date height
+    svg
+      .append("circle")
+      .attr("class", "current-date-circle")
+      .attr("cx", currentDatePosition + margin.left)
+      .attr("cy", height / 2 + parseFloat(2.5) * 16) // corresponds to 2.5em
+      .attr("r", 20) // Circle radius
+      .attr("stroke", "red")
+      .attr("fill", "none")
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", "5, 3") // Dashed line to mimic hand-drawn style
+      .attr("transform", `translate(${translate.x}, ${translate.y})`);
+
     let lastCycleDisplayed = 0;
 
     //TODO: Birthday input
@@ -167,9 +192,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           return `${"Fin"}\n${formattedDate}`;
         } else if (isCycleBoundary && cycleNumber > lastCycleDisplayed) {
           lastCycleDisplayed = cycleNumber;
-          return `C${cycleNumber}\n${formattedDate}`; // Separate cycle label and date with newline
+          return `C${cycleNumber}D${cycleDay}\n${formattedDate}`; // Separate cycle label and date with newline
         } else {
-          return `${cycleDay}\n${formattedDate}`;
+          return `D${cycleDay}\n${formattedDate}`;
         }
       });
 
@@ -238,7 +263,10 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           // console.log("asdfasf")
           // alert(`Clicked on a ${color} block!`);
           // console.log(drug)
-          set_node_displayed({ Title: drug.component, Content: `Route: ${ drug.route} \n Dose: ${drug.doseMaxNum} ${drug.doseUnit} `   });
+          set_node_displayed({
+            Title: drug.component,
+            Content: `Route: ${drug.route} \n Dose: ${drug.doseMaxNum} ${drug.doseUnit} `,
+          });
         });
     };
 
