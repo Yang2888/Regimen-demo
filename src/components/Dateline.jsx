@@ -1,10 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import * as d3 from "d3";
-import { useContext } from "react";
 import { DataContext } from "./dataProcess/dataContext";
 
 export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
   const calendarRef = useRef(null);
+  const [startDate, setStartDate] = useState("2024-01-00");
+  const [parsedStartDate, setParsedStartDate] = useState(
+    new Date(startDate + 1)
+  );
 
   const {
     data_global,
@@ -50,6 +53,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     const svg = d3.select(calendarRef.current);
     let dates = 3; // Number of dates to display
     // const regimen_depth = getJsonDepth(data_global) - 1
+    console.log(data_global);
     const regimen_depth = data_global["metadata"]["blocks"].length - 1;
 
     const cycle_length_unit = data_global["metadata"]["cycle_length_unit"];
@@ -101,8 +105,12 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     }
 
     //TODO: start date specified by data
-    const startDate = new Date(2024, 0, 1);
     const today = new Date(); // Current date
+
+    const handleStartDateChange = (newDate) => {
+      setStartDate(newDate); // Update React state
+      setParsedStartDate(new Date(newDate + 1)); // Update parsed date
+    };
 
     const daysSinceStart = Math.floor(
       (today - startDate) / (1000 * 60 * 60 * 24)
@@ -172,12 +180,14 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         const cycleNumber = Math.floor(cumulativeDays / cycle_length_ub) + 1;
         const maxCycleNumber = Math.floor(dates + 1) + 1;
 
+        //make date an input element if it is the start date
+
         // Check if the tick is at a cycle boundary
         const isCycleBoundary = cumulativeDays % cycle_length_ub === 0;
 
         // Compute the date for the current tick
-        const tickDate = new Date(startDate);
-        tickDate.setDate(startDate.getDate() + cumulativeDays);
+        const tickDate = new Date(parsedStartDate);
+        tickDate.setDate(parsedStartDate.getDate() + cumulativeDays);
 
         // Format the date as "mm/dd"
         const day = String(tickDate.getDate()).padStart(2, "0");
@@ -247,6 +257,11 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
             .attr("dy", "2.5em") // Move the closure reason further down
             .style("font-style", "italic") // Style the reason (optional)
             .text(officeClosures[dateLabel]); // Add the closure reason from the dictionary
+        }
+
+        // Handle editable start date input
+        if (d === 0 && dateLabel) {
+          // could edit start date in place here
         }
       });
 
