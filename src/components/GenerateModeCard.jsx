@@ -25,34 +25,50 @@ const ModePanel = () => {
     setIsVisible2(false); // Hide the modal when the "Close" button is clicked or Esc is pressed
   };
 
+  const getResult = async (draft, test_mode=false) => {
+
+    if(test_mode) {
+      return InitialData
+    }
+
+    const response = await fetch('https://regimen-demo.onrender.com/process-inputs', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          input1: draft.Content,  
+          input2: draft.Title,
+      }),
+  });
+
+  if (!response.ok) {
+      console.log(response)
+  }
+
+  // Get the CSV file as text
+  // const csvText = await response.text();
+  // console.log('CSV File Content:', csvText);
+  
+  let result = await response.json();
+  }
+
   const generateRegimenStructed = async (draft, flag) => {
     setLoading(true); // Start loading
     setCancelled(false); // Reset the cancel state
 
     console.log(draft);
+
+    const Regimen_Start_Date = draft.Regimen_Start_Date
+
     // return;
 
     try {
-        const response = await fetch('https://regimen-demo.onrender.com/process-inputs', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                input1: draft.Content,  
-                input2: draft.Title,
-            }),
-        });
+        
 
-        if (!response.ok) {
-            console.log(response)
-        }
+        let result = await getResult(draft, true)
 
-        // Get the CSV file as text
-        // const csvText = await response.text();
-        // console.log('CSV File Content:', csvText);
-
-        const result = await response.json();
+        result.Regimen_Start_Date = Regimen_Start_Date;
         console.log(result)
 
         updateDataGlobal(result)
