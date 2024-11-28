@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Input, Button, Form, Row, Col, Card } from 'antd';
+import { Input, Button, Form, Row, Col, Card, DatePicker  } from 'antd';
 import { DataContext } from './dataProcess/dataContext';
 
 const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
@@ -47,6 +47,7 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
   // Handle input change for two-way binding
   const handleInputChange = (field, value) => {
     // console.log(formDraft)
+    // console.log("changed filed" + field + "with value" + value)
     setFormDraft((prevState) => ({
       ...prevState,
       [field]: value,
@@ -171,109 +172,17 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
       disabled={false}
     />
   </Form.Item>
-{/* 
-  <Form.Item label={
-    <>
-      Content
-      <Button
-        type="link"
-        onClick={() => toggleEditable('Content')}
-        style={{ marginLeft: 10 }}
-      >
-        {fieldEditable.Content ? 'Lock' : 'Edit'}
-      </Button>
-    </>
-  } style={styles.formItem}>
-    <Input.TextArea
-      rows={7}
-      value={formDraft.Content || ''}
-      onChange={(e) => handleInputChange('Content', e.target.value)}
-      placeholder="Enter the content"
-      disabled={!fieldEditable.Content}
-    />
-  </Form.Item>
 
-  <Form.Item label={
-    <>
-      Definition
-      <Button
-        type="link"
-        onClick={() => toggleEditable('Definition')}
-        style={{ marginLeft: 10 }}
-      >
-        {fieldEditable.Definition ? 'Lock' : 'Edit'}
-      </Button>
-    </>
-  } style={styles.formItem}>
-    <Input.TextArea
-      rows={3}
-      value={formDraft.Definition || ''}
-      onChange={(e) => handleInputChange('Definition', e.target.value)}
-      placeholder="Enter the definition"
-      disabled={!fieldEditable.Definition}
-    />
-  </Form.Item>
-
-  <Form.Item label={
-    <>
-      Priority
-      <Button
-        type="link"
-        onClick={() => toggleEditable('Priority')}
-        style={{ marginLeft: 10 }}
-      >
-        {fieldEditable.Priority ? 'Lock' : 'Edit'}
-      </Button>
-    </>
-  } style={styles.formItem}>
-    <Input
-      value={formDraft.Priority || ''}
-      onChange={(e) => handleInputChange('Priority', e.target.value)}
-      placeholder="Enter the priority level"
-      disabled={!fieldEditable.Priority}
-    />
-  </Form.Item>
-
-  <Form.Item label={
-    <>
-      Current Status
-      <Button
-        type="link"
-        onClick={() => toggleEditable('Current_status')}
-        style={{ marginLeft: 10 }}
-      >
-        {fieldEditable.Current_status ? 'Lock' : 'Edit'}
-      </Button>
-    </>
-  } style={styles.formItem}>
-    <Input.TextArea
-      rows={3}
-      value={formDraft.Current_status || ''}
-      onChange={(e) => handleInputChange('Current_status', e.target.value)}
-      placeholder="Enter the current status"
-      disabled={!fieldEditable.Current_status}
-    />
-  </Form.Item>
-
-  <Form.Item label={
-    <>
-      Deadline
-      <Button
-        type="link"
-        onClick={() => toggleEditable('Deadline')}
-        style={{ marginLeft: 10 }}
-      >
-        {fieldEditable.Deadline ? 'Lock' : 'Edit'}
-      </Button>
-    </>
-  } style={styles.formItem}>
-    <Input
-      value={formDraft.Deadline || ''}
-      onChange={(e) => handleInputChange('Deadline', e.target.value)}
-      placeholder="Enter the deadline"
-      disabled={!fieldEditable.Deadline}
-    />
-  </Form.Item> */}
+  <Form.Item
+  label="Regimen Start Date"
+  style={styles.formItem}
+>
+  <DatePicker
+    onChange={(date, dateString) =>  handleInputChange('Regimen_Start_Date', dateString)}
+    placeholder="Select regimen date"
+    style={{ width: '100%' }}
+  />
+</Form.Item>
 
        
 

@@ -4,9 +4,9 @@ import { DataContext } from "./dataProcess/dataContext";
 
 export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
   const calendarRef = useRef(null);
-  const [startDate, setStartDate] = useState("2024-01-00");
+  const [startDate, setStartDate] = useState(getToday());
   const [parsedStartDate, setParsedStartDate] = useState(
-    new Date(startDate + 1)
+    new Date(startDate)
   );
 
   const {
@@ -17,43 +17,36 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     refresh_key,
   } = useContext(DataContext);
 
-  function getJsonDepth(obj) {
-    if (typeof obj !== "object" || obj === null) {
-      return 0;
-    }
+  function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
-    let maxDepth = 0;
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        if (
-          key === "children" &&
-          Array.isArray(obj[key]) &&
-          obj[key].length > 0
-        ) {
-          // If "children" is a non-empty array, calculate depth for each child
-          obj[key].forEach((child) => {
-            const childDepth = getJsonDepth(child);
-            if (childDepth > maxDepth) {
-              maxDepth = childDepth;
-            }
-          });
-        } else if (key !== "children") {
-          // If the key is not "children", calculate depth as usual
-          const depth = getJsonDepth(obj[key]);
-          if (depth > maxDepth) {
-            maxDepth = depth;
-          }
-        }
-      }
-    }
+function getToday() {
+  const today = new Date();
+  today.setDate(today.getDate() -0);
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
-    return maxDepth + 1;
-  }
   useEffect(() => {
+
+    let rightMove = 111 * zoom;
+
+    if (data_global["Regimen_Start_Date"]) {
+      setParsedStartDate(new Date(data_global["Regimen_Start_Date"]));}
+      else {
+      }
+    // setParsedStartDate(Date(data_global["Regimen_Start_Date"]))
+    // console.log(data_global)
+    // setStartDate(data_global["Regimen_Start_Date"])
     const svg = d3.select(calendarRef.current);
     let dates = 3; // Number of dates to display
     // const regimen_depth = getJsonDepth(data_global) - 1
-    console.log(data_global);
     const regimen_depth = data_global["metadata"]["blocks"].length - 1;
 
     const cycle_length_unit = data_global["metadata"]["cycle_length_unit"];
@@ -64,8 +57,6 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     const margin = { top: 10, right: 20, bottom: 30, left: 20 };
     const width = 270 * (dates + 1);
     const height = 300;
-
-    // console.log(regimen_depth)
 
     // Initial x-axis scale
     const xScale = d3
@@ -95,7 +86,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
             : `${Math.round(d * cycle_length_ub)}`;
         });
 
-      console.log(xAxis);
+      // console.log(xAxis);
 
       g.call(xAxis);
 
@@ -105,8 +96,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     }
 
     //TODO: start date specified by data
-    const today = new Date(); // Current date
+    const today = formatDate(new Date()) // Current date
 
+<<<<<<< HEAD
     const daysSinceStart = Math.floor(
       (today - parsedStartDate) / (1000 * 60 * 60 * 24)
     );
@@ -114,6 +106,22 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
 
     //TODO: make circle disappear when zoomed out
+=======
+    const handleStartDateChange = (newDate) => {
+      setStartDate(newDate); // Update React state
+      setParsedStartDate(new Date(newDate + 1)); // Update parsed date
+    };
+    const daysSinceStart = Math.floor(
+      (new Date(today) -  new Date(parsedStartDate)) / (1000 * 60 * 60 * 24)
+    );
+
+    // console.log(daysSinceStart)
+    // console.log(cycle_length_ub)
+    const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
+
+    console.log(currentDatePosition)
+
+>>>>>>> 23866d43404c4ca6c52e0910ef6d8bcbf5dffa31
     // Remove any existing circle before adding a new one
     svg.select(".current-date-circle").remove();
 
@@ -121,14 +129,14 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     svg
       .append("circle")
       .attr("class", "current-date-circle")
-      .attr("cx", currentDatePosition + margin.left)
+      .attr("cx", (currentDatePosition ) * zoom)
       .attr("cy", height / 2 + parseFloat(2.5) * 16) // corresponds to 2.5em
-      .attr("r", 20) // Circle radius
+      .attr("r", 40) // Circle radius
       .attr("stroke", "red")
       .attr("fill", "none")
       .attr("stroke-width", 2)
       .attr("stroke-dasharray", "5, 3") // Dashed line to mimic hand-drawn style
-      .attr("transform", `translate(${translate.x}, ${translate.y})`);
+      .attr("transform", `translate(${translate.x }, ${translate.y})`);
 
     let lastCycleDisplayed = 0;
 
@@ -154,7 +162,6 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       return day === 0 || day === 6; // Returns true if it's Sunday (0) or Saturday (6)
     }
 
-    let rightMove = 111 * zoom;
     // Update scale and transformation based on zoom and translate props
     const newXScale = xScale
       .copy()
@@ -171,7 +178,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       .tickValues(tickValues) // Use the custom tickValues
       .tickFormat((d) => {
         // Calculate the cumulative day count from the start date
-        const cumulativeDays = Math.floor(d * cycle_length_ub);
+        const cumulativeDays = Math.floor(d * cycle_length_ub) + 1;
 
         // Determine the cycle number
         const cycleNumber = Math.floor(cumulativeDays / cycle_length_ub) + 1;
@@ -218,6 +225,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
         // Split the text content into cycle label and date label
         const [cycleLabel, dateLabel] = textElement.text().split("\n");
+
+        // console.log(dateLabel)
 
         // Clear existing text and append tspans for better separation
         textElement.text(null);
@@ -267,9 +276,6 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           d3.select(this).attr("fill", color); // Reset color on mouse out
         })
         .on("click", function () {
-          // console.log("asdfasf")
-          // alert(`Clicked on a ${color} block!`);
-          // console.log(drug)
           set_node_displayed({
             Title: drug.component,
             Content: `Route: ${drug.route} \n Dose: ${drug.doseMaxNum} ${drug.doseUnit} `,
@@ -393,7 +399,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     svg.selectAll(".tick text").style("font-size", "14px"); // Keep font large
     svg.selectAll(".tick text").style("opacity", zoom < 2.5 ? 0 : 1);
     svg.selectAll(".domain").style("stroke-width", "2px"); // Keep line bold
-  }, [zoom, translate]); // Re-run effect whenever zoom or translate changes
+  }, [zoom, translate, data_global]); // Re-run effect whenever zoom or translate changes
   const handleChildPointerDown = (event) => {
     event.stopPropagation(); // Prevents it from affecting the parent's pointerdown
   };
