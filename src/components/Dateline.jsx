@@ -222,6 +222,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         // Split the text content into cycle label and date label
         const [cycleLabel, dateLabel] = textElement.text().split("\n");
 
+        console.log(dateLabel)
+
         // Clear existing text and append tspans for better separation
         textElement.text(null);
 
