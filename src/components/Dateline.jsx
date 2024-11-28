@@ -107,16 +107,13 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     //TODO: start date specified by data
     const today = new Date(); // Current date
 
-    const handleStartDateChange = (newDate) => {
-      setStartDate(newDate); // Update React state
-      setParsedStartDate(new Date(newDate + 1)); // Update parsed date
-    };
-
     const daysSinceStart = Math.floor(
-      (today - startDate) / (1000 * 60 * 60 * 24)
+      (today - parsedStartDate) / (1000 * 60 * 60 * 24)
     );
+    //TODO: fix current date position to update with zooming; make it so it disappears when it zooms out
     const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
 
+    //TODO: make circle disappear when zoomed out
     // Remove any existing circle before adding a new one
     svg.select(".current-date-circle").remove();
 
@@ -257,11 +254,6 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
             .attr("dy", "2.5em") // Move the closure reason further down
             .style("font-style", "italic") // Style the reason (optional)
             .text(officeClosures[dateLabel]); // Add the closure reason from the dictionary
-        }
-
-        // Handle editable start date input
-        if (d === 0 && dateLabel) {
-          // could edit start date in place here
         }
       });
 

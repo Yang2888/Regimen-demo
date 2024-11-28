@@ -157,10 +157,10 @@ export default function OrgChartTree({
         // event.preventDefault();
         // event.stopPropagation();
         setZoomLevel((prevZoom) => {
-          const newZoom = prevZoom + event.deltaY * -0.001;
-          return Math.max(0.1, Math.min(newZoom, 10)); 
+          const newZoom = prevZoom + event.deltaY * -0.01;
+          return Math.max(0.1, Math.min(newZoom, 10));
         });
-        event.preventDefault()
+        event.preventDefault();
       }
     };
 
@@ -207,7 +207,7 @@ export default function OrgChartTree({
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
     >
-      <DateLine 
+      <DateLine
         zoom={zoomLevel}
         // translate={{ x: (translate.x) - 100 , y: 0 }}
         translate={{ x: translate.x, y: 0 }}
@@ -240,14 +240,14 @@ export default function OrgChartTree({
           } // Custom node rendering
           orientation="horizontal" // Set orientation to horizontal
           pathFunc="step" // Use diagonal path for smoother lines
-          translate={{x: translate.x, y: translate.y}} // Automatically center the tree
+          translate={{ x: translate.x, y: translate.y }} // Automatically center the tree
           zoom={zoomLevel}
           zoomable={false} // Disable zooming
           draggable={false}
           scaleExtent={{ min: 0.00001, max: 100 }} // Lock zoom level to 100%
         />
       </div>
-      
+
       {/* <DateLine zoom={1} translate={{x:translate.x -200, y: 0}}></DateLine> */}
       {/* <DateLine zoom={2} translate={{x:translate.x -200, y: 0}}></DateLine> */}
     </div>
