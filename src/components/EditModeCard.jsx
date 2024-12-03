@@ -171,44 +171,6 @@ const FormItem = ({ label, value, onChange, field, type = 'input', rows }) => (
   </Form.Item>
 );
 
-// MilestoneList Component
-const MilestoneList = ({ milestones, milestoneStatus, handleMilestoneAction, addMilestoneAction }) => (
-  // milestones.length > 0 && (
-    (
-    <div>
-      <h3>Milestones</h3>
-      {milestones.map((milestone, index) => (
-        <Card key={index} bodyStyle={{ padding: '0' }} style={styles.milestoneCard}>
-          <Row>
-            <Col span={16}>
-              <h3>{index + 1}. {milestone.Title}</h3>
-              <p>{milestone.Summary || 'No summary available'}</p>
-            </Col>
-            <Col span={8} style={styles.milestoneButtonGroup}>
-              {milestoneStatus[index] ? (
-                <Button type="primary" onClick={() => handleMilestoneAction(index, 'delete')}>Delete</Button>
-              ) : (
-                <Button type="default" onClick={() => handleMilestoneAction(index, 'keep')}>Keep</Button>
-              )}
-            </Col>
-          </Row>
-        </Card>
-      ))}
-      <Card key={114514} bodyStyle={{ padding: '0' }} style={styles.milestoneCard}>
-          <Row>
-            {/* <Col span={16}>
-              <h3>{index + 1}. {milestone.Title}</h3>
-              <p>{milestone.Summary || 'No summary available'}</p>
-            </Col> */}
-            <Col span={24} style={styles.milestoneButtonGroup}>
-              <Button style={{width:"60%"}} type="primary" onClick={() => addMilestoneAction()}>Add</Button>
-            </Col>
-          </Row>
-        </Card>
-    </div>
-  )
-);
-
 const styles = {
   container: {
     maxWidth: '1200px',

@@ -275,7 +275,8 @@ function getToday() {
             Title: drug.component,
             Content: `Route: ${drug.route} \n Dose: ${drug.doseMaxNum} ${drug.doseUnit} `,
           });
-        });
+        })
+        ;
     };
 
     const drug_types = data_global["metadata"]["drug_len"];

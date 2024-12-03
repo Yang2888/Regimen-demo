@@ -1,0 +1,6 @@
+[
+    {"instruction": "What is the capital of France?", "response": "The capital of France is Paris."},
+    {"instruction": "Who wrote 'Pride and Prejudice'?", "response": "Jane Austen wrote 'Pride and Prejudice'."},
+    {"instruction": "What is the boiling point of water?", "response": "The boiling point of water is 100°C at sea level."}
+  ]
+  

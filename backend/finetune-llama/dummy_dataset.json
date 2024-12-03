@@ -1,0 +1,52 @@
+[
+    {
+        "instruction": "Summarize the following paragraph.",
+        "input": "Machine learning is a field of artificial intelligence that uses statistical techniques to give computer systems the ability to learn from data without being explicitly programmed.",
+        "output": "Machine learning allows computers to learn from data and make decisions without explicit programming."
+    },
+    {
+        "instruction": "Translate the following sentence to Spanish.",
+        "input": "The quick brown fox jumps over the lazy dog.",
+        "output": "El rápido zorro marrón salta sobre el perro perezoso."
+    },
+    {
+        "instruction": "Provide a brief biography of Albert Einstein.",
+        "input": "",
+        "output": "Albert Einstein was a theoretical physicist who developed the theory of relativity. He was awarded the Nobel Prize in Physics in 1921."
+    },
+    {
+        "instruction": "Convert the following temperature from Celsius to Fahrenheit.",
+        "input": "25",
+        "output": "77"
+    },
+    {
+        "instruction": "Write a short story about a hero saving a village.",
+        "input": "",
+        "output": "Once upon a time, a brave hero named Leo saved a small village from a terrifying dragon. The villagers were grateful and celebrated Leo's bravery."
+    },
+    {
+        "instruction": "Explain the concept of gravity.",
+        "input": "",
+        "output": "Gravity is a force that attracts two bodies towards each other. It is what keeps us on the ground and what causes objects to fall."
+    },
+    {
+        "instruction": "Find the sum of these numbers.",
+        "input": "23, 45, 67",
+        "output": "135"
+    },
+    {
+        "instruction": "List three benefits of regular exercise.",
+        "input": "",
+        "output": "1. Improves cardiovascular health.\n2. Enhances mood and reduces stress.\n3. Helps in weight management."
+    },
+    {
+        "instruction": "Create a JSON object with the name and age of two famous scientists.",
+        "input": "",
+        "output": "{ \"scientists\": [{ \"name\": \"Isaac Newton\", \"age\": 84 }, { \"name\": \"Marie Curie\", \"age\": 66 }] }"
+    },
+    {
+        "instruction": "Calculate the area of a circle with radius 5.",
+        "input": "",
+        "output": "The area is 78.54 square units."
+    }
+]

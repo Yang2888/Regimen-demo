@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON Generator</title>
+</head>
+<body>
+  <h1>Generate JSON from Input</h1>
+  <form id="jsonForm">
+    <label for="textarea1">Prompt:</label><br>
+    <textarea id="textarea1" rows="6" cols="40" placeholder="Enter prompt here..."></textarea><br><br>
+
+    <label for="textarea2">Completion:</label><br>
+    <textarea id="textarea2" rows="6" cols="40" placeholder="Enter completion here..."></textarea><br><br>
+
+    <button type="button" id="saveButton">Save as JSON</button>
+  </form>
+
+  <script>
+    document.getElementById('saveButton').addEventListener('click', () => {
+      const textarea1 = document.getElementById('textarea1').value;
+      const textarea2 = document.getElementById('textarea2').value;
+
+      const jsonData = {
+        prompt: textarea1,
+        completion: textarea2
+      };
+
+      const jsonBlob = new Blob([JSON.stringify(jsonData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(jsonBlob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'regiemn_finetune_data.json';
+      link.click();
+
+      URL.revokeObjectURL(url); // Clean up URL object
+    });
+  </script>
+</body>
+</html>

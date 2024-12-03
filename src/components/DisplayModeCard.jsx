@@ -8,7 +8,9 @@ const { Text, Title } = Typography;
 const DisplayContent = () => {
   const { node_displayed, delete_certain_node } = useContext(DataContext); // Access data from context
   const [formData, setFormData] = useState({}); // Initialize state to hold form data
+  const toggleDrugStatus = (e) => {
 
+  }
   // Load the JSON data on component mount
   useEffect(() => {
     if (node_displayed && node_displayed) {
@@ -85,7 +87,8 @@ const DisplayContent = () => {
 
       {/* Button for cancel */}
       <div style={styles.buttonGroup}>
-      <Button onClick={showModal} style={styles.cancelButton}>
+        {/* <Button onClick={toggleDrugStatus} type="primary">Toggle Drug Status</Button> */}
+      {/* <Button onClick={showModal} style={styles.cancelButton}>
         Delete
       </Button>
       <Modal
@@ -103,7 +106,7 @@ const DisplayContent = () => {
     {node_displayed.Title}
   </span>
 </p>
-      </Modal>
+      </Modal> */}
     </div>
     </div>
   );
