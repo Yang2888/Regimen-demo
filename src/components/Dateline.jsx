@@ -98,6 +98,15 @@ function getToday() {
     //TODO: start date specified by data
     const today = formatDate(new Date()) // Current date
 
+<<<<<<< HEAD
+    const daysSinceStart = Math.floor(
+      (today - parsedStartDate) / (1000 * 60 * 60 * 24)
+    );
+    //TODO: fix current date position to update with zooming; make it so it disappears when it zooms out
+    const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
+
+    //TODO: make circle disappear when zoomed out
+=======
     const handleStartDateChange = (newDate) => {
       setStartDate(newDate); // Update React state
       setParsedStartDate(new Date(newDate + 1)); // Update parsed date
@@ -112,6 +121,7 @@ function getToday() {
 
     console.log(currentDatePosition)
 
+>>>>>>> 23866d43404c4ca6c52e0910ef6d8bcbf5dffa31
     // Remove any existing circle before adding a new one
     svg.select(".current-date-circle").remove();
 
@@ -253,11 +263,6 @@ function getToday() {
             .attr("dy", "2.5em") // Move the closure reason further down
             .style("font-style", "italic") // Style the reason (optional)
             .text(officeClosures[dateLabel]); // Add the closure reason from the dictionary
-        }
-
-        // Handle editable start date input
-        if (d === 0 && dateLabel) {
-          // could edit start date in place here
         }
       });
 
