@@ -7,40 +7,92 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
   const [startDate, setStartDate] = useState(getToday());
   const [parsedStartDate, setParsedStartDate] = useState(new Date(startDate));
 
-  const drugChemo = {
-    vincristine: "generic",
-    cyclophosphamide: "generic",
-    procytox: "brand",
-    dactinomycin: "generic",
-    calendarRefosmegen: "brand",
-    daunorubicin: "generic",
-    colorMaperubidine: "brand",
-    docetaxel: "generic",
-    caxotere: "brand",
-    doxorubicin: "generic",
-    eribulin: "generic",
-    halaven: "brand",
-    etoposide: "generic",
-    vepesid: "brand",
-    idarubicin: "generic",
-    ifosfamide: "generic",
-    ifex: "brand",
-    irinotecan: "generic",
-    onivyde: "brand",
-    paclitaxel: "generic",
-    abraxane: "brand",
-    topotecan: "generic",
-    hycamtin: "brand",
+  const drugGroups = {
+    vincristine: ["vincristine"],
+    cyclophosphamide: ["cyclophosphamide", "procytox"],
+    dactinomycin: ["dactinomycin"],
+    daunorubicin: ["daunorubicin"],
+    docetaxel: ["docetaxel", "caxotere"],
+    doxorubicin: ["doxorubicin"],
+    eribulin: ["eribulin", "halaven"],
+    etoposide: ["etoposide", "vepesid"],
+    idarubicin: ["idarubicin"],
+    ifosfamide: ["ifosfamide", "ifex"],
+    irinotecan: ["irinotecan", "onivyde"],
+    paclitaxel: ["paclitaxel", "abraxane"],
+    topotecan: ["topotecan", "hycamtin"],
   };
+
   const colorMap = {
-    true: "#C30913",
-    false: "#45b3e0",
+    vincristine: "#FF5733", // Warm red-orange
+    cyclophosphamide: "#FF8C00", // Bright orange
+    dactinomycin: "#FFC300", // Yellow
+    daunorubicin: "#FF6347", // Tomato red
+    docetaxel: "#FFA07A", // Light salmon
+    doxorubicin: "#FF4500", // Orange-red
+    eribulin: "#FFD700", // Gold
+    etoposide: "#FFB347", // Peach
+    idarubicin: "#FF7F50", // Coral
+    ifosfamide: "#FF6F61", // Bright salmon
+    irinotecan: "#FFA500", // Orange
+    paclitaxel: "#FF8C69", // Light coral
+    topotecan: "#FF6347", // Another tomato red
   };
+
+  // Assign colors dynamically to each drug in the groups
+  const drugColorMap = {};
+  for (const [group, drugs] of Object.entries(drugGroups)) {
+    const color = colorMap[group];
+    drugs.forEach((drug) => {
+      drugColorMap[drug] = color;
+    });
+  }
+
   const shapeMap = {
     IV: "droplet",
     SC: "arrow",
     PO: "ellipse",
     IT: "cross-circle",
+  };
+
+  const generateCoolColorPalette = (size) => {
+    const startColor = [0, 191, 255]; // Deep sky blue (RGB)
+    const endColor = [0, 206, 209]; // Dark turquoise (RGB)
+    const palette = [];
+
+    for (let i = 0; i < size; i++) {
+      const ratio = i / (size - 1);
+      const r = Math.round(
+        startColor[0] + ratio * (endColor[0] - startColor[0])
+      );
+      const g = Math.round(
+        startColor[1] + ratio * (endColor[1] - startColor[1])
+      );
+      const b = Math.round(
+        startColor[2] + ratio * (endColor[2] - startColor[2])
+      );
+      palette.push(`rgb(${r}, ${g}, ${b})`);
+    }
+
+    return palette;
+  };
+
+  const coolColorPalette = generateCoolColorPalette(
+    Object.keys(drugColorMap).length || 10
+  );
+
+  const getDrugColor = (drug) => {
+    if (drugColorMap[drug]) {
+      return drugColorMap[drug];
+    } else {
+      // Choose from the dynamically generated cool color palette
+      const nextColor =
+        coolColorPalette[
+          Object.keys(drugColorMap).length % coolColorPalette.length
+        ];
+      drugColorMap[drug] = nextColor;
+      return nextColor;
+    }
   };
 
   const {
@@ -200,11 +252,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
     drugsReversed.forEach((drug, index) => {
       // calculate color from drug
-      const color =
-        colorMap[
-          drugChemo[drug.component.toLowerCase()] === "generic" ||
-            drugChemo[drug.component.toLowerCase()] === "brand"
-        ];
+      const color = getDrugColor(drug.component.toLowerCase());
 
       // Update yOffset for each drug item
       const yOffsetForDrug =
@@ -586,15 +634,13 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           // If scheduled, create a block for this drug on this date
           const tickPosition = xScale(date);
           let drugBlock;
-          console.log(drugChemo[drug.component.toLowerCase()]);
+          // console.log(getDrugColor(drug.component.toLowerCase());
 
           // Get the unique color and shape for each drug
           const drugColor = isScheduledForDate
-            ? colorMap[
-                drugChemo[drug.component.toLowerCase()] === "generic" ||
-                  drugChemo[drug.component.toLowerCase()] === "brand"
-              ]
+            ? getDrugColor(drug.component.toLowerCase())
             : "transparent";
+
           if (drug.shape === "droplet") {
             // Create a teardrop shape
             drugBlock = svg
@@ -647,6 +693,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
               .attr("fill", drugColor);
 
             // Add the cross inside the circle
+            const crossColor = isScheduledForDate ? "black" : "transparent";
             svg
               .select(".axis-group")
               .append("path")
@@ -658,9 +705,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
                    M${tickPosition},${yOffset + 5} 
                    V${yOffset + 15}`
               )
-              .attr("stroke", "black")
-              .attr("stroke-width", 2)
-              .attr("fill", "none");
+              .attr("stroke", crossColor)
+              .attr("stroke-width", 2);
           }
 
           // Append a colored block to the .axis-group for each scheduled date
