@@ -35,7 +35,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
   useEffect(() => {
     const svg = d3.select(calendarRef.current);
 
-    let full_name = {
+    const fullName = {
       IV: "Intravenous",
       SC: "Subcutaneous",
       PO: "Oral",
@@ -133,7 +133,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         .attr("x", legendTextOffset)
         .attr("y", yOffset + legendItemSize / 2 + 5) // Vertically center text
         .style("font-size", "14px")
-        .text(full_name[entry.route]);
+        .text(fullName[entry.route]);
     });
   }, []);
 
@@ -392,6 +392,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       const colorScheme = d3.schemeTableau10;
       const colorScale = d3.scaleOrdinal(colorScheme);
 
+      //TODO: get a map of chemo/non-chemo drugs and add corresponding colors
+      const drugChemo = {};
       const colorMap = {};
       const shapeMap = {
         IV: "droplet",
