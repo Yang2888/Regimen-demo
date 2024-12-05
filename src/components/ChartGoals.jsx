@@ -7,24 +7,6 @@ import DateLine from "./Dateline";
 import { zoom } from "d3";
 import { css } from "@emotion/react";
 
-const hoverableStyle = css`
-  width: 30px;
-  height: 30px;
-  margin-left: 10px;
-  margin-right: 15px;
-  background-color: lightgreen;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: darkgreen;
-  }
-`;
-
 // Custom node rendering function with adjusted toggle button size and margin
 const renderRectSvgNode = ({
   nodeDatum,
@@ -50,7 +32,7 @@ const renderRectSvgNode = ({
           style={{
             display: "flex",
             alignItems: "center",
-            width: "220px",
+            width: "50",
             height: "auto",
             padding: "5px",
             backgroundColor: "#f0f2f5",
@@ -59,13 +41,20 @@ const renderRectSvgNode = ({
           }}
         >
           <div style={{ flex: 1, textAlign: "center" }}>
-            <h3 style={{ fontSize: "15px", margin: 0 }}>
+            <h3 style={{ fontSize: "9px", margin: 0 }}>
               {nodeDatum?.Title && nodeDatum.Title}
             </h3>
             <hr style={{ margin: "4px 0", borderColor: "#d9d9d9" }} />
             {nodeDatum?.Summary && (
-              <div style={{ fontSize: "8px", marginTop: "8px" }}>
-                {nodeDatum.Summary}
+              <div style={{ fontSize: "6px", marginTop: "8px" }}>
+                Summary: {nodeDatum.Summary}
+                <br />
+                Notes by doctor: {nodeDatum.Note}
+                <br />
+
+                Notes by Patient: {nodeDatum.Current_status}
+
+  
               </div>
             )}
           </div>
@@ -73,10 +62,10 @@ const renderRectSvgNode = ({
           <div
             onClick={showDetails}
             style={{
-              width: "30px",
-              height: "30px",
-              marginLeft: "10px",
-              marginRight: "15px",
+              width: "15px",
+              height: "15px",
+              marginLeft: "5px",
+              marginRight: "7.5px",
               backgroundColor: "lightgreen",
               borderRadius: "50%",
               display: "flex",
@@ -91,7 +80,7 @@ const renderRectSvgNode = ({
             // css={hoverableStyle}
           >
             <span
-              style={{ fontSize: "16px", position: "relative", top: "-2.5px" }}
+              style={{ fontSize: "8px", position: "relative", top: "-1.25px" }}
             >
               i
             </span>
@@ -113,15 +102,6 @@ const renderRectSvgNode = ({
                 cursor: "pointer",
               }}
             >
-              {/* <span
-                style={{
-                  fontSize: "16px",
-                  position: "relative",
-                  top: "-2.5px",
-                }}
-              >
-                {nodeDatum.__rd3t.collapsed ? "+" : "-"}
-              </span> */}
             </div>
           )}
         </div>
