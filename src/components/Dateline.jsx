@@ -7,6 +7,42 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
   const [startDate, setStartDate] = useState(getToday());
   const [parsedStartDate, setParsedStartDate] = useState(new Date(startDate));
 
+  const drugChemo = {
+    vincristine: "generic",
+    cyclophosphamide: "generic",
+    procytox: "brand",
+    dactinomycin: "generic",
+    calendarRefosmegen: "brand",
+    daunorubicin: "generic",
+    colorMaperubidine: "brand",
+    docetaxel: "generic",
+    caxotere: "brand",
+    doxorubicin: "generic",
+    eribulin: "generic",
+    halaven: "brand",
+    etoposide: "generic",
+    vepesid: "brand",
+    idarubicin: "generic",
+    ifosfamide: "generic",
+    ifex: "brand",
+    irinotecan: "generic",
+    onivyde: "brand",
+    paclitaxel: "generic",
+    abraxane: "brand",
+    topotecan: "generic",
+    hycamtin: "brand",
+  };
+  const colorMap = {
+    true: "#C30913",
+    false: "#45b3e0",
+  };
+  const shapeMap = {
+    IV: "droplet",
+    SC: "arrow",
+    PO: "ellipse",
+    IT: "cross-circle",
+  };
+
   const {
     data_global,
     updateDataGlobal,
@@ -71,9 +107,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
     // Iterate through the shapeMap to create route legend items
     shapeMap.forEach((entry, index) => {
-      const colorScheme = d3.schemeTableau10;
-      const colorScale = d3.scaleOrdinal(colorScheme);
-      const color = colorScale(index % colorScheme.length);
+      let color = "#A9A9A9";
 
       if (entry.shape === "droplet") {
         // Add teardrop shape
@@ -162,19 +196,21 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
     // Update yOffset for the drug section (after the route section)
     drugYOffset = shapeMap.length * (legendItemSize + legendSpacing) + 20; // Adjusted to start after route section
-    drugYOffset =  20; // Adjusted to start after route section
+    drugYOffset = 20; // Adjusted to start after route section
 
     drugsReversed.forEach((drug, index) => {
-      const colorScheme = d3.schemeTableau10;
-      const colorScale = d3.scaleOrdinal(colorScheme);
-      const color = colorScale(index % colorScheme.length);
+      // calculate color from drug
+      const color =
+        colorMap[
+          drugChemo[drug.component.toLowerCase()] === "generic" ||
+            drugChemo[drug.component.toLowerCase()] === "brand"
+        ];
 
       // Update yOffset for each drug item
       const yOffsetForDrug =
         drugYOffset + index * (legendItemSize + legendSpacing);
 
-
-      let xOffsetForDrug = drugXOffset
+      let xOffsetForDrug = drugXOffset;
 
       if (drug.shape === "droplet") {
         // Add teardrop shape
@@ -182,11 +218,15 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           .append("path")
           .attr(
             "d",
-            `M${10 + xOffsetForDrug},${yOffsetForDrug + legendItemSize / 2 - 10} 
+            `M${10 + xOffsetForDrug},${
+              yOffsetForDrug + legendItemSize / 2 - 10
+            } 
              Q${0 + xOffsetForDrug},${yOffsetForDrug + legendItemSize / 2} 
              ${10 + xOffsetForDrug},${yOffsetForDrug + legendItemSize / 2 + 10} 
              Q${20 + xOffsetForDrug},${yOffsetForDrug + legendItemSize / 2} 
-             ${10 + xOffsetForDrug},${yOffsetForDrug + legendItemSize / 2 - 10} Z`
+             ${10 + xOffsetForDrug},${
+              yOffsetForDrug + legendItemSize / 2 - 10
+            } Z`
           )
           .attr("fill", color);
       } else if (drug.shape === "arrow") {
@@ -205,7 +245,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         // Add ellipse shape
         legendGroup
           .append("ellipse")
-          .attr("cx", drugXOffset+ 10)
+          .attr("cx", drugXOffset + 10)
           .attr("cy", yOffsetForDrug + legendItemSize / 2)
           .attr("rx", 10)
           .attr("ry", 5)
@@ -418,7 +458,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       .call(xAxis)
       .attr(
         "transform",
-        `translate(${translate.x + margin.left}, ${height / 2 + translate.y + 100})`
+        `translate(${translate.x + margin.left}, ${
+          height / 2 + translate.y + 100
+        })`
       )
       .selectAll(".tick text") // Select all tick labels
       .each(function (d) {
@@ -506,41 +548,6 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       const colorScale = d3.scaleOrdinal(colorScheme);
 
       //TODO: get a map of chemo/non-chemo drugs and add corresponding colors
-      const drugChemo = {
-        vincristine: "generic",
-        cyclophosphamide: "generic",
-        procytox: "brand",
-        dactinomycin: "generic",
-        calendarRefosmegen: "brand",
-        daunorubicin: "generic",
-        colorMaperubidine: "brand",
-        docetaxel: "generic",
-        caxotere: "brand",
-        doxorubicin: "generic",
-        eribulin: "generic",
-        halaven: "brand",
-        etoposide: "generic",
-        vepesid: "brand",
-        idarubicin: "generic",
-        ifosfamide: "generic",
-        ifex: "brand",
-        irinotecan: "generic",
-        onivyde: "brand",
-        paclitaxel: "generic",
-        abraxane: "brand",
-        topotecan: "generic",
-        hycamtin: "brand",
-      };
-      const colorMap = {
-        true: "#C30913",
-        false: "#45b3e0",
-      };
-      const shapeMap = {
-        IV: "droplet",
-        SC: "arrow",
-        PO: "ellipse",
-        IT: "cross-circle",
-      };
 
       // Define the minimum and maximum number of sides for the polygons
       // const minSides = 3;
@@ -713,7 +720,6 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         width="900"
         height="420"
         style={{ marginTop: "20px", userSelect: "none", display: "flex" }}
-        
       />
     </div>
   );
