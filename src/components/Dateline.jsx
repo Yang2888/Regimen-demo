@@ -166,9 +166,6 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       const colorScale = d3.scaleOrdinal(colorScheme);
       const color = colorScale(index % colorScheme.length);
 
-      console.log(drug.component);
-      console.log(drug.shape);
-
       // Update yOffset for each drug item
       const yOffsetForDrug =
         drugYOffset + index * (legendItemSize + legendSpacing);
@@ -440,21 +437,31 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
         // Add date label, if exists
         if (dateLabel) {
+          // Get the current date
+          const currentDate = new Date(today);
+          const day = String(currentDate.getDate() + 1).padStart(2, "0");
+          const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+          console.log(day, month, dateLabel);
           textElement
             .append("tspan")
             .attr("x", 0) // Align horizontally at the tick
             .attr("dy", "1.5em") // Move the date label downward (adjusted)
             .style(
               "fill",
-              isWeekend(new Date(dateLabel)) || officeClosures[dateLabel]
-                ? "violet"
-                : "black"
-            ) // Highlight weekends
+              // Check if the date is the current date
+              dateLabel === `${month}/${day}`
+                ? "red" // Set to red if it is the current date
+                : isWeekend(new Date(dateLabel)) || officeClosures[dateLabel]
+                ? "violet" // Set to violet for weekends or closures
+                : "black" // Default to black
+            )
             .text(dateLabel);
         }
 
         // Check if the date matches a closure date and add the closure reason
+        //TODO: make sure this is being displayed
         if (dateLabel && officeClosures[dateLabel]) {
+          // console.log(officeClosures[dateLabel]);
           textElement
             .append("tspan")
             .attr("x", 0) // Align horizontally at the tick
