@@ -15,7 +15,6 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     node_displayed,
     set_node_displayed,
     refresh_key,
-    set_rightPanelShowing
   } = useContext(DataContext);
 
   function formatDate(date) {
@@ -262,9 +261,6 @@ function getToday() {
 
     // Helper function to add hover and click effects to blocks
     const addBlockInteractivity = (selection, color, drug) => {
-
-      
-
       selection
         .on("mouseover", function () {
           d3.select(this).attr("fill", d3.color(color).darker(2)); // Darken color on hover
@@ -277,7 +273,6 @@ function getToday() {
             Title: drug.component,
             Content: `Route: ${drug.route} \n Dose: ${drug.doseMaxNum} ${drug.doseUnit} `,
           });
-          set_rightPanelShowing("Display")
         })
         ;
     };

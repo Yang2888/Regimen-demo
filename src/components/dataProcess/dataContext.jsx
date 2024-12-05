@@ -10,8 +10,6 @@ export const DataProvider = ({ children }) => {
   const [node_displayed, set_node_displayed] = useState(InitialData)
   const [refresh_key, set_refresh_key] = useState(true)
 
-  const [rightPanelShowing, set_rightPanelShowing] = useState('Display')
-
   const updateDataGlobal = (inputDict) => {
     set_data_global((prevData) => {
       // Merge inputDict into the existing data_global
@@ -74,7 +72,7 @@ export const DataProvider = ({ children }) => {
 
 
   return (
-    <DataContext.Provider value={{ data_global, set_data_global, updateDataGlobal, node_displayed, set_node_displayed, edit_certain_node, set_refresh_key, refresh_key, delete_certain_node, rightPanelShowing, set_rightPanelShowing }}>
+    <DataContext.Provider value={{ data_global, set_data_global, updateDataGlobal, node_displayed, set_node_displayed, edit_certain_node, set_refresh_key, refresh_key, delete_certain_node }}>
       {children}
     </DataContext.Provider>
   );

@@ -55,13 +55,13 @@ const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps }) => {
                 cursor: 'pointer'
               }}
             >
-              {/* <span style={{
+              <span style={{
                 fontSize: '16px',
                 position: 'relative',
                 top: '-2.5px',
               }}>
                 {nodeDatum.__rd3t.collapsed ? '+' : '-'}
-              </span> */}
+              </span>
             </div>
           )}
         </div>
