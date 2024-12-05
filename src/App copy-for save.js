@@ -59,13 +59,13 @@ const renderRectSvgNode = ({ nodeDatum, toggleNode, foreignObjectProps }) => {
               }}
             >
               {/* Move + or - up a bit */}
-              <span style={{
+              {/* <span style={{
                 fontSize: '16px',
                 position: 'relative',
                 top: '-2.5px',  // Adjust the value to move it up or down
               }}>
                 {nodeDatum.__rd3t.collapsed ? '+' : '-'}
-              </span>
+              </span> */}
             </div>
           )}
         </div>

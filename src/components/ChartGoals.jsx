@@ -7,24 +7,6 @@ import DateLine from "./Dateline";
 import { zoom } from "d3";
 import { css } from "@emotion/react";
 
-const hoverableStyle = css`
-  width: 30px;
-  height: 30px;
-  margin-left: 10px;
-  margin-right: 15px;
-  background-color: lightgreen;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: darkgreen;
-  }
-`;
-
 // Custom node rendering function with adjusted toggle button size and margin
 const renderRectSvgNode = ({
   nodeDatum,
@@ -33,8 +15,13 @@ const renderRectSvgNode = ({
   set_node_fun = (data) => {
     console.log("111");
   },
+  set_rightPanelShowing,
+  rightPanelShowing,
 }) => {
   const showDetails = (e) => {
+    set_rightPanelShowing("Display");
+    // console.log("adsfaf")
+    // console.log(rightPanelShowing)
     set_node_fun(nodeDatum);
   };
 
@@ -78,7 +65,12 @@ const renderRectSvgNode = ({
               justifyContent: "center",
               alignItems: "center",
               cursor: "pointer",
+              transition: "background-color 0.3s",
+              ":hover": {
+                backgroundColor: "darkgreen",
+              },
             }}
+            // css={hoverableStyle}
           >
             <span
               style={{ fontSize: "16px", position: "relative", top: "-2.5px" }}
@@ -87,7 +79,7 @@ const renderRectSvgNode = ({
             </span>
           </div>
 
-          {nodeDatum.children && nodeDatum.children.length > 0 && (
+          {false && nodeDatum.children && nodeDatum.children.length > 0 && (
             <div
               onClick={toggleNode}
               style={{
@@ -103,15 +95,6 @@ const renderRectSvgNode = ({
                 cursor: "pointer",
               }}
             >
-              {/* <span
-                style={{
-                  fontSize: "16px",
-                  position: "relative",
-                  top: "-2.5px",
-                }}
-              >
-                {nodeDatum.__rd3t.collapsed ? "+" : "-"}
-              </span> */}
             </div>
           )}
         </div>
@@ -141,6 +124,8 @@ export default function OrgChartTree({
     node_displayed,
     set_node_displayed,
     refresh_key,
+    set_rightPanelShowing, 
+    rightPanelShowing,
   } = useContext(DataContext);
 
   const moveInitChart = () => {
@@ -255,6 +240,8 @@ export default function OrgChartTree({
               ...rd3tProps,
               foreignObjectProps,
               set_node_fun: set_node_displayed,
+              set_rightPanelShowing,
+              rightPanelShowing,
             })
           } // Custom node rendering
           orientation="horizontal" // Set orientation to horizontal
