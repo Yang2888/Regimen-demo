@@ -111,7 +111,25 @@ const Sidebar = () => {
   };
 
   // Content for the modal
-  const modalContent = "This website is a demo website for regimen visualization. The left panel are buttons like getting user input/saving regimen; the middle panel is the regimen visualization; the right panel is the details of the regimen, and user can ask questitons about the regimen.\n For the visualization, click i to show the detail of this certain node, click + and - to see/hide subnodes.";
+  const modalContent = (
+    <div>
+      In this website, you can generate visualization for cancer regimen. 
+      <br/> 
+      <br/> 
+      Just click the generate button, input the regimen info in text, then click confirm, and you will get its visualization! 
+      <br/> 
+      <br/> 
+      For more details you can check this link:  
+      <br/> 
+      <a 
+        href="https://app.tango.us/app/workflow/Cancer-Regimen-Browser-Walkthrough-791c5c13e2b8432e916033bfcf28b7fa" 
+        target="_blank" 
+        rel="noopener noreferrer"
+      >
+        Cancer Regimen Browser Walkthrough
+      </a>.
+    </div>
+  );
 
 
   return (
@@ -183,14 +201,14 @@ const Sidebar = () => {
           padding: '25px', 
           width: '100%' 
         }}>
-        Readme
+        Help
       </Button>
 
       
 
       {/* Modal component with content */}
       <Modal 
-        title="About This Website" 
+        title="Welcome to RegiVis!" 
         visible={isModalVisible} 
         onOk={handleOk} 
         onCancel={handleCancel}

@@ -120,17 +120,17 @@ function getToday() {
     svg.select(".current-date-circle").remove();
 
     //TODO: make it so 2.5here is mapped to by a constant corresponding to date height
-    svg
-      .append("circle")
-      .attr("class", "current-date-circle")
-      .attr("cx", (currentDatePosition ) * zoom)
-      .attr("cy", height / 2 + parseFloat(2.5) * 16) // corresponds to 2.5em
-      .attr("r", 40) // Circle radius
-      .attr("stroke", "red")
-      .attr("fill", "none")
-      .attr("stroke-width", 2)
-      .attr("stroke-dasharray", "5, 3") // Dashed line to mimic hand-drawn style
-      .attr("transform", `translate(${translate.x }, ${translate.y})`);
+    // svg
+    //   .append("circle")
+    //   .attr("class", "current-date-circle")
+    //   .attr("cx", (currentDatePosition ) * zoom)
+    //   .attr("cy", height / 2 + parseFloat(2.5) * 16) // corresponds to 2.5em
+    //   .attr("r", 40) // Circle radius
+    //   .attr("stroke", "red")
+    //   .attr("fill", "none")
+    //   .attr("stroke-width", 2)
+    //   .attr("stroke-dasharray", "5, 3") // Dashed line to mimic hand-drawn style
+    //   .attr("transform", `translate(${translate.x }, ${translate.y})`);
 
     let lastCycleDisplayed = 0;
 

@@ -60,7 +60,12 @@
                                   }
                                 ],
                                 "number": 8,
-                                "type": "normal"
+                                "type": "normal",
+                                "__rd3t": {
+                                  "id": "ac6502d3-15dd-4c8a-a5cc-4464548a3414",
+                                  "depth": 7,
+                                  "collapsed": false
+                                }
                               }
                             ],
                             "drugs": [
@@ -94,7 +99,12 @@
                               }
                             ],
                             "number": 7,
-                            "type": "normal"
+                            "type": "normal",
+                            "__rd3t": {
+                              "id": "c717fb5b-7258-44ec-ac10-07e336b0b455",
+                              "depth": 6,
+                              "collapsed": false
+                            }
                           }
                         ],
                         "drugs": [
@@ -128,7 +138,12 @@
                           }
                         ],
                         "number": 6,
-                        "type": "normal"
+                        "type": "normal",
+                        "__rd3t": {
+                          "id": "6bcb0def-8fb2-4770-91d3-365ed044b6ef",
+                          "depth": 5,
+                          "collapsed": false
+                        }
                       }
                     ],
                     "drugs": [
@@ -162,7 +177,12 @@
                       }
                     ],
                     "number": 5,
-                    "type": "normal"
+                    "type": "normal",
+                    "__rd3t": {
+                      "id": "e29be741-f801-4971-95f9-17e1996f0c2b",
+                      "depth": 4,
+                      "collapsed": false
+                    }
                   }
                 ],
                 "drugs": [
@@ -196,7 +216,12 @@
                   }
                 ],
                 "number": 4,
-                "type": "normal"
+                "type": "normal",
+                "__rd3t": {
+                  "id": "27deb31c-4ad4-4656-83a9-6e984b65a3ec",
+                  "depth": 3,
+                  "collapsed": false
+                }
               }
             ],
             "drugs": [
@@ -230,7 +255,12 @@
               }
             ],
             "number": 3,
-            "type": "normal"
+            "type": "normal",
+            "__rd3t": {
+              "id": "e6dbe981-ee9b-41c0-8100-b5580b37e797",
+              "depth": 2,
+              "collapsed": false
+            }
           }
         ],
         "drugs": [
@@ -264,7 +294,12 @@
           }
         ],
         "number": 2,
-        "type": "normal"
+        "type": "normal",
+        "__rd3t": {
+          "id": "938f7e01-1c54-4a8b-b176-b6d7ca4146e1",
+          "depth": 1,
+          "collapsed": false
+        }
       }
     ],
     "drugs": [
@@ -677,7 +712,12 @@
     "number": 1,
     "type": "normal",
     "Regimen_Start_Date": "2024-12-04",
-    "Content": "",
+    "Content": "Targeted therapy\nRituximab (Rituxan) 375 mg/m2 IV once on day 1\nChemotherapy\nCyclophosphamide (Cytoxan) 750 mg/m2 IV once on day 1\nDoxorubicin (Adriamycin) 50 mg/m2 IV once on day 1\nVincristine (Oncovin) 1.4 mg/m2 (maximum dose of 2 mg) IV once on day 1\nGlucocorticoid therapy\nPrednisone (Sterapred) 60 mg/m2 PO once per day on days 1 to 5\n21-day cycle for 8 cycles",
     "Note": "Follow the regimen and my advice!",
-    "Current_status": "On day 1, I took all the drugs;\n\nOn day2, I forgot to take the drug... \n\nOn other days, I ... "
+    "Current_status": "On day 1, I took all the drugs;\n\nOn day2, I forgot to take the drug... \n\nOn other days, I ... ",
+    "__rd3t": {
+      "id": "b0ba10e6-18dc-4226-9fee-cd1116542fcd",
+      "depth": 0,
+      "collapsed": false
+    }
   }
