@@ -45,18 +45,20 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     // Remove any existing legend to avoid duplication
     svg.select(".legend-group").remove();
 
+    //TODO: calculate scale based on number of routes and drugs
+
     // Create the legend group
     const legendGroup = svg
       .append("g")
       .attr("class", "legend-group")
-      .attr("transform", `translate(20, 20)`); // Position legend at the top-left
+      .attr("transform", `translate(20, 20) scale(0.6)`); // Position legend at the top-left
 
     // Define the size and spacing of legend items
     const legendItemSize = 20;
     const legendSpacing = 10;
     const legendTextOffset = 30;
 
-    // Define the shape and route mapping
+    // Define the shape and route mapping for routes
     const shapeMap = [
       { route: "IV", shape: "droplet" },
       { route: "SC", shape: "arrow" },
@@ -64,12 +66,14 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       { route: "IT", shape: "cross-circle" },
     ];
 
-    // Iterate through the shapeMap to create legend items
+    // Define yOffset for route legend items
+    let yOffset = 0;
+
+    // Iterate through the shapeMap to create route legend items
     shapeMap.forEach((entry, index) => {
       const colorScheme = d3.schemeTableau10;
       const colorScale = d3.scaleOrdinal(colorScheme);
       const color = colorScale(index % colorScheme.length);
-      const yOffset = index * (legendItemSize + legendSpacing);
 
       if (entry.shape === "droplet") {
         // Add teardrop shape
@@ -127,13 +131,111 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           .attr("stroke-width", 2);
       }
 
-      // Add text label next to each shape
+      // Add text label for route next to each shape
       legendGroup
         .append("text")
         .attr("x", legendTextOffset)
         .attr("y", yOffset + legendItemSize / 2 + 5) // Vertically center text
         .style("font-size", "14px")
         .text(fullName[entry.route]);
+
+      // Update yOffset for next route item
+      yOffset += legendItemSize + legendSpacing;
+    });
+
+    // Define yOffset for drug legend items (offset to be placed below route legend)
+    let drugYOffset = yOffset + 20;
+
+    // Add legend title for drugs
+    legendGroup
+      .append("text")
+      .attr("x", 0)
+      .attr("y", drugYOffset - 10)
+      .style("font-size", "14px")
+      .style("font-weight", "bold")
+      .text("Drugs: top to bottom");
+
+    // Iterate through the reversed drugs array to create drug legend items
+    const drugsReversed = [...data_global.drugs].reverse();
+
+    // Update yOffset for the drug section (after the route section)
+    drugYOffset = shapeMap.length * (legendItemSize + legendSpacing) + 20; // Adjusted to start after route section
+
+    drugsReversed.forEach((drug, index) => {
+      const colorScheme = d3.schemeTableau10;
+      const colorScale = d3.scaleOrdinal(colorScheme);
+      const color = colorScale(index % colorScheme.length);
+
+      console.log(drug.component);
+      console.log(drug.shape);
+
+      // Update yOffset for each drug item
+      const yOffsetForDrug =
+        drugYOffset + index * (legendItemSize + legendSpacing);
+
+      if (drug.shape === "droplet") {
+        // Add teardrop shape
+        legendGroup
+          .append("path")
+          .attr(
+            "d",
+            `M10,${yOffsetForDrug + legendItemSize / 2 - 10} 
+            Q0,${yOffsetForDrug + legendItemSize / 2} 
+            10,${yOffsetForDrug + legendItemSize / 2 + 10} 
+            Q20,${yOffsetForDrug + legendItemSize / 2} 
+            10,${yOffsetForDrug + legendItemSize / 2 - 10} Z`
+          )
+          .attr("fill", color);
+      } else if (drug.shape === "arrow") {
+        // Add arrow shape
+        legendGroup
+          .append("polygon")
+          .attr(
+            "points",
+            `5,${yOffsetForDrug + legendItemSize / 2} 
+         10,${yOffsetForDrug + legendItemSize / 2 - 10} 
+         15,${yOffsetForDrug + legendItemSize / 2} 
+         10,${yOffsetForDrug + legendItemSize / 2 + 10}`
+          )
+          .attr("fill", color);
+      } else if (drug.shape === "ellipse") {
+        // Add ellipse shape
+        legendGroup
+          .append("ellipse")
+          .attr("cx", 10)
+          .attr("cy", yOffsetForDrug + legendItemSize / 2)
+          .attr("rx", 10)
+          .attr("ry", 5)
+          .attr("fill", color);
+      } else if (drug.shape === "cross-circle") {
+        // Add circle with a cross
+        legendGroup
+          .append("circle")
+          .attr("cx", 10)
+          .attr("cy", yOffsetForDrug + legendItemSize / 2)
+          .attr("r", 10)
+          .attr("fill", color);
+
+        legendGroup
+          .append("path")
+          .attr(
+            "d",
+            `M5,${yOffsetForDrug + legendItemSize / 2} 
+         H15 
+         M10,${yOffsetForDrug + legendItemSize / 2 - 5} 
+         V${yOffsetForDrug + legendItemSize / 2 + 5}`
+          )
+          .attr("stroke", "black")
+          .attr("stroke-width", 2);
+      }
+
+      // Add text label for the drug name and route
+      legendGroup
+        .append("text")
+        .attr("x", legendTextOffset)
+        .attr("y", yOffsetForDrug + legendItemSize / 2 + 5) // Vertically center text
+        .style("font-size", "14px")
+        .text(`${drug.component} (${drug.route})`);
     });
   }, []);
 
@@ -213,9 +315,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
     // console.log(daysSinceStart)
     // console.log(cycle_length_ub)
-    const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
-
-    console.log(currentDatePosition);
+    // const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
 
     // Remove any existing circle before adding a new one
     svg.select(".current-date-circle").remove();
@@ -403,8 +503,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       };
 
       // Define the minimum and maximum number of sides for the polygons
-      const minSides = 3;
-      const maxSides = Math.min(10, minSides + data.drugs.length - 1); // Limit max sides to avoid overly complex shapes
+      // const minSides = 3;
+      // const maxSides = Math.min(10, minSides + data.drugs.length - 1); // Limit max sides to avoid overly complex shapes
 
       // Dynamically calculate the number of sides for each drug
       //TODO: informed method of assigning drug colors/shapes (shape doesn't have to equal #sides)
