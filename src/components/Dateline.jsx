@@ -158,7 +158,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     let yOffset = 0;
 
     // Iterate through the shapeMap to create route legend items
-    shapeMap.forEach((entry, index) => {
+    shapeMap.forEach((entry) => {
       let color = "#A9A9A9";
 
       if (entry.shape === "droplet") {
@@ -276,7 +276,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
               yOffsetForDrug + legendItemSize / 2 - 10
             } Z`
           )
-          .attr("fill", color);
+          .attr("fill", color)
+          .attr("class", "legend-drug");
       } else if (drug.shape === "arrow") {
         // Add arrow shape
         legendGroup
@@ -288,7 +289,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
          15,${yOffsetForDrug + legendItemSize / 2} 
          10,${yOffsetForDrug + legendItemSize / 2 + 10}`
           )
-          .attr("fill", color);
+          .attr("fill", color)
+          .attr("class", "legend-drug");
       } else if (drug.shape === "ellipse") {
         // Add ellipse shape
         legendGroup
@@ -297,7 +299,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           .attr("cy", yOffsetForDrug + legendItemSize / 2)
           .attr("rx", 10)
           .attr("ry", 5)
-          .attr("fill", color);
+          .attr("fill", color)
+          .attr("class", "legend-drug");
       } else if (drug.shape === "cross-circle") {
         // Add circle with a cross
         legendGroup
@@ -305,7 +308,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           .attr("cx", drugXOffset + 10)
           .attr("cy", yOffsetForDrug + legendItemSize / 2)
           .attr("r", 10)
-          .attr("fill", color);
+          .attr("fill", color)
+          .attr("class", "legend-drug");
 
         legendGroup
           .append("path")
@@ -317,7 +321,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
          V${yOffsetForDrug + legendItemSize / 2 + 5}`
           )
           .attr("stroke", "black")
-          .attr("stroke-width", 2);
+          .attr("stroke-width", 2)
+          .attr("class", "legend-drug");
       }
 
       // Add text label for the drug name and route
@@ -326,9 +331,10 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         .attr("x", legendTextOffset + drugXOffset)
         .attr("y", yOffsetForDrug + legendItemSize / 2 + 5) // Vertically center text
         .style("font-size", "14px")
-        .text(`${drug.component} (${drug.route})`);
+        .text(`${drug.component} (${drug.route})`)
+        .attr("class", "legend-drug");
     });
-  }, []);
+  }, [data_global]); // Re-run effect whenever data_global changes
 
   useEffect(() => {
     let rightMove = 111 * zoom;
