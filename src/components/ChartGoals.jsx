@@ -26,7 +26,7 @@ const renderRectSvgNode = ({
           style={{
             display: "flex",
             alignItems: "center",
-            width: "50",
+            width: "220px",
             height: "auto",
             padding: "5px",
             backgroundColor: "#f0f2f5",
@@ -35,20 +35,13 @@ const renderRectSvgNode = ({
           }}
         >
           <div style={{ flex: 1, textAlign: "center" }}>
-            <h3 style={{ fontSize: "9px", margin: 0 }}>
+            <h3 style={{ fontSize: "15px", margin: 0 }}>
               {nodeDatum?.Title && nodeDatum.Title}
             </h3>
             <hr style={{ margin: "4px 0", borderColor: "#d9d9d9" }} />
             {nodeDatum?.Summary && (
-              <div style={{ fontSize: "6px", marginTop: "8px" }}>
-                Summary: {nodeDatum.Summary}
-                <br />
-                Notes by doctor: {nodeDatum.Note}
-                <br />
-
-                Notes by Patient: {nodeDatum.Current_status}
-
-  
+              <div style={{ fontSize: "8px", marginTop: "8px" }}>
+                {nodeDatum.Summary}
               </div>
             )}
           </div>
@@ -56,10 +49,10 @@ const renderRectSvgNode = ({
           <div
             onClick={showDetails}
             style={{
-              width: "15px",
-              height: "15px",
-              marginLeft: "5px",
-              marginRight: "7.5px",
+              width: "30px",
+              height: "30px",
+              marginLeft: "10px",
+              marginRight: "15px",
               backgroundColor: "lightgreen",
               borderRadius: "50%",
               display: "flex",
@@ -69,7 +62,7 @@ const renderRectSvgNode = ({
             }}
           >
             <span
-              style={{ fontSize: "8px", position: "relative", top: "-1.25px" }}
+              style={{ fontSize: "16px", position: "relative", top: "-2.5px" }}
             >
               i
             </span>
