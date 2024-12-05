@@ -287,7 +287,12 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       const colorScale = d3.scaleOrdinal(colorScheme);
 
       const colorMap = {};
-      const shapeMap = {};
+      const shapeMap = {
+        IV: "droplet",
+        SC: "arrow",
+        PO: "ellipse",
+        IT: "cross-circle",
+      };
 
       // Define the minimum and maximum number of sides for the polygons
       const minSides = 3;
@@ -297,19 +302,18 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       //TODO: informed method of assigning drug colors/shapes (shape doesn't have to equal #sides)
       data.drugs.forEach((drug, index) => {
         colorMap[index] = colorScale(index % colorScheme.length);
-        // Calculate number of sides by evenly distributing within [minSides, maxSides]
-        shapeMap[index] = minSides + (index % (maxSides - minSides + 1));
+        drug.shape = shapeMap[drug.route]; // Map the shape based on the drug route
       });
 
-      const getPolygonPoints = (cx, cy, radius, sides) => {
-        const angleStep = (2 * Math.PI) / sides;
-        return Array.from({ length: sides }, (_, i) => {
-          const angle = i * angleStep - Math.PI / 2; // Start pointing upwards
-          const x = cx + radius * Math.cos(angle);
-          const y = cy + radius * Math.sin(angle);
-          return `${x},${y}`;
-        }).join(" ");
-      };
+      // const getPolygonPoints = (cx, cy, radius, sides) => {
+      //   const angleStep = (2 * Math.PI) / sides;
+      //   return Array.from({ length: sides }, (_, i) => {
+      //     const angle = i * angleStep - Math.PI / 2; // Start pointing upwards
+      //     const x = cx + radius * Math.cos(angle);
+      //     const y = cy + radius * Math.sin(angle);
+      //     return `${x},${y}`;
+      //   }).join(" ");
+      // };
 
       // Iterate over each day within the specified date range
       d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
@@ -327,26 +331,81 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
           // If scheduled, create a block for this drug on this date
           const tickPosition = xScale(date);
+          let drugBlock;
 
           // Get the unique color and shape for each drug
           const drugColor = isScheduledForDate
             ? colorMap[index]
             : "transparent";
-          const shapeSides = shapeMap[index];
+          if (drug.shape === "droplet") {
+            // Create a teardrop shape
+            drugBlock = svg
+              .select(".axis-group")
+              .append("path")
+              .attr("class", "drug-block")
+              .attr(
+                "d",
+                `M${tickPosition},${yOffset + 10 - 10} 
+                   Q${tickPosition - 10},${yOffset + 10} 
+                   ${tickPosition},${yOffset + 10 + 10} 
+                   Q${tickPosition + 10},${yOffset + 10} 
+                   ${tickPosition},${yOffset + 10 - 10} Z`
+              )
+              .attr("fill", drugColor);
+          } else if (drug.shape === "arrow") {
+            // Create an arrow shape
+            drugBlock = svg
+              .select(".axis-group")
+              .append("polygon")
+              .attr("class", "drug-block")
+              .attr(
+                "points",
+                `${tickPosition - 10},${yOffset + 10} 
+                   ${tickPosition},${yOffset} 
+                   ${tickPosition + 10},${yOffset + 10} 
+                   ${tickPosition},${yOffset + 20}`
+              )
+              .attr("fill", drugColor);
+          } else if (drug.shape === "ellipse") {
+            // Create an ellipse
+            drugBlock = svg
+              .select(".axis-group")
+              .append("ellipse")
+              .attr("class", "drug-block")
+              .attr("cx", tickPosition)
+              .attr("cy", yOffset + 10)
+              .attr("rx", 10)
+              .attr("ry", 5)
+              .attr("fill", drugColor);
+          } else if (drug.shape === "cross-circle") {
+            // Create a circle with a cross inside
+            drugBlock = svg
+              .select(".axis-group")
+              .append("circle")
+              .attr("class", "drug-block")
+              .attr("cx", tickPosition)
+              .attr("cy", yOffset + 10)
+              .attr("r", 10)
+              .attr("fill", drugColor);
+
+            // Add the cross inside the circle
+            svg
+              .select(".axis-group")
+              .append("path")
+              .attr("class", "drug-block")
+              .attr(
+                "d",
+                `M${tickPosition - 5},${yOffset + 10} 
+                   H${tickPosition + 5} 
+                   M${tickPosition},${yOffset + 5} 
+                   V${yOffset + 15}`
+              )
+              .attr("stroke", "black")
+              .attr("stroke-width", 2)
+              .attr("fill", "none");
+          }
 
           // Append a colored block to the .axis-group for each scheduled date
-
-          //TODO: replace randomly generated polygons with dictionary of drug
-          // categories corresponding to shapes
-          const drugBlock = svg
-            .select(".axis-group")
-            .append("polygon")
-            .attr("class", "drug-block")
-            .attr(
-              "points",
-              getPolygonPoints(tickPosition, yOffset + 10, 10, shapeSides)
-            )
-            .attr("fill", drugColor);
 
           if (isScheduledForDate) {
             addBlockInteractivity(drugBlock, drugColor, drug);
