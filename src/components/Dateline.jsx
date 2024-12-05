@@ -5,9 +5,7 @@ import { DataContext } from "./dataProcess/dataContext";
 export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
   const calendarRef = useRef(null);
   const [startDate, setStartDate] = useState(getToday());
-  const [parsedStartDate, setParsedStartDate] = useState(
-    new Date(startDate)
-  );
+  const [parsedStartDate, setParsedStartDate] = useState(new Date(startDate));
 
   const {
     data_global,
@@ -15,33 +13,32 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     node_displayed,
     set_node_displayed,
     refresh_key,
-    set_rightPanelShowing
+    set_rightPanelShowing,
   } = useContext(DataContext);
 
   function formatDate(date) {
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
-}
+  }
 
-function getToday() {
-  const today = new Date();
-  today.setDate(today.getDate() -0);
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
+  function getToday() {
+    const today = new Date();
+    today.setDate(today.getDate() - 0);
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
 
   useEffect(() => {
-
     let rightMove = 111 * zoom;
 
     if (data_global["Regimen_Start_Date"]) {
-      setParsedStartDate(new Date(data_global["Regimen_Start_Date"]));}
-      else {
-      }
+      setParsedStartDate(new Date(data_global["Regimen_Start_Date"]));
+    } else {
+    }
     // setParsedStartDate(Date(data_global["Regimen_Start_Date"]))
     // console.log(data_global)
     // setStartDate(data_global["Regimen_Start_Date"])
@@ -97,9 +94,7 @@ function getToday() {
     }
 
     //TODO: start date specified by data
-    const today = formatDate(new Date()) // Current date
-
-
+    const today = formatDate(new Date()); // Current date
 
     //TODO: make circle disappear when zoomed out
     const handleStartDateChange = (newDate) => {
@@ -107,14 +102,14 @@ function getToday() {
       setParsedStartDate(new Date(newDate + 1)); // Update parsed date
     };
     const daysSinceStart = Math.floor(
-      (new Date(today) -  new Date(parsedStartDate)) / (1000 * 60 * 60 * 24)
+      (new Date(today) - new Date(parsedStartDate)) / (1000 * 60 * 60 * 24)
     );
 
     // console.log(daysSinceStart)
     // console.log(cycle_length_ub)
     const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
 
-    console.log(currentDatePosition)
+    console.log(currentDatePosition);
 
     // Remove any existing circle before adding a new one
     svg.select(".current-date-circle").remove();
@@ -172,7 +167,7 @@ function getToday() {
       .tickValues(tickValues) // Use the custom tickValues
       .tickFormat((d) => {
         // Calculate the cumulative day count from the start date
-        const cumulativeDays = Math.floor(d * cycle_length_ub) + 1;
+        const cumulativeDays = Math.floor(d * cycle_length_ub);
 
         // Determine the cycle number
         const cycleNumber = Math.floor(cumulativeDays / cycle_length_ub) + 1;
@@ -198,7 +193,10 @@ function getToday() {
         // At cycle boundaries, display both the cycle label and the date
         if (cycleNumber === maxCycleNumber) {
           return `${"Fin"}\n${formattedDate}`;
-        } else if (isCycleBoundary && cycleNumber > lastCycleDisplayed) {
+        } else if (
+          (isCycleBoundary && cycleNumber > lastCycleDisplayed) ||
+          lastCycleDisplayed === 0
+        ) {
           lastCycleDisplayed = cycleNumber;
           return `C${cycleNumber}D${cycleDay}\n${formattedDate}`; // Separate cycle label and date with newline
         } else {
@@ -262,9 +260,6 @@ function getToday() {
 
     // Helper function to add hover and click effects to blocks
     const addBlockInteractivity = (selection, color, drug) => {
-
-      
-
       selection
         .on("mouseover", function () {
           d3.select(this).attr("fill", d3.color(color).darker(2)); // Darken color on hover
@@ -277,9 +272,8 @@ function getToday() {
             Title: drug.component,
             Content: `Route: ${drug.route} \n Dose: ${drug.doseMaxNum} ${drug.doseUnit} `,
           });
-          set_rightPanelShowing("Display")
-        })
-        ;
+          set_rightPanelShowing("Display");
+        });
     };
 
     const drug_types = data_global["metadata"]["drug_len"];
