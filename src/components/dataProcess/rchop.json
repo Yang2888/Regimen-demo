@@ -1,5 +1,5 @@
 {
-    "Summary": "This is cycle1 of R-CHOP",
+    "Summary": "This is cycle1 of R-CHOP. The text in this cycle is an example of doctors/patients using this tool to take notes during the treatment process.",
     "Title": "R-CHOP Cycle1",
     "children": [
       {
@@ -676,5 +676,8 @@
     },
     "number": 1,
     "type": "normal",
-    "Regimen_Start_Date": "2024-12-04"
+    "Regimen_Start_Date": "2024-12-04",
+    "Content": "",
+    "Note": "Follow the regimen and my advice!",
+    "Current_status": "On day 1, I took all the drugs;\n\nOn day2, I forgot to take the drug... \n\nOn other days, I ... "
   }

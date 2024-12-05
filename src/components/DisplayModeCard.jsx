@@ -71,7 +71,7 @@ const DisplayContent = () => {
       {renderField('Summary', formData.Summary)}
       {/* {renderField('Note', formData.Note)} */}
       {renderField('Content', formData.Content)}
-      {renderField('Note By Doc', formData.Note)}
+      {renderField('Note By Doctor', formData.Note)}
       {renderField('Note By Patient', formData.Current_status)}
       {/* {renderField('Definition', formData.Definition)} */}
       {/* {renderField('Priority', formData.Priority)} */}

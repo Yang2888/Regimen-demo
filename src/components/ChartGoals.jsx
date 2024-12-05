@@ -41,15 +41,46 @@ const renderRectSvgNode = ({
           }}
         >
           <div style={{ flex: 1, textAlign: "center" }}>
-            <h3 style={{ fontSize: "15px", margin: 0 }}>
+            <h3 style={{ fontSize: "8px", margin: 0 }}>
               {nodeDatum?.Title && nodeDatum.Title}
             </h3>
-            <hr style={{ margin: "4px 0", borderColor: "#d9d9d9" }} />
-            {nodeDatum?.Summary && (
-              <div style={{ fontSize: "8px", marginTop: "8px" }}>
-                {nodeDatum.Summary}
-              </div>
-            )}
+            <hr style={{ margin: "2px 0", borderColor: "#d9d9d9" }} />
+
+            
+              {nodeDatum?.Summary && (
+                <> 
+                <div style={{ fontSize: "5px", marginTop: "3px" }}>
+                   Summary: {nodeDatum.Summary}
+                   <br/>
+                </div>
+                {/* <br/> */}
+                </>
+              )
+            }
+
+{nodeDatum?.Note && (
+                <> 
+                <div style={{ fontSize: "5px", marginTop: "3px", color: "#007BFF", fontWeight: "bold"  }}>
+                   Note by Doctor: {nodeDatum.Note}
+                   <br/>
+                </div>
+                {/* <br/> */}
+                </>
+              )
+            }
+
+{nodeDatum?.Current_status && (
+                <> 
+                <div style={{ fontSize: "5px", marginTop: "3px", color: "#008000", fontWeight: "bold" }}>
+                   Note by Patient: {nodeDatum.Current_status}
+                   <br/>
+                </div>
+                {/* <br/> */}
+                </>
+              )
+            }
+
+            
           </div>
 
           <div
@@ -112,8 +143,8 @@ export default function OrgChartTree({
   const foreignObjectProps = { width: 270, height: 270, x: -110, y: -50 };
 
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
-  const [zoomLevel, setZoomLevel] = useState(1.5);
-  const [text, setText] = useState(200);
+  const [zoomLevel, setZoomLevel] = useState(2.5);
+  const [text, setText] = useState(400);
   const [dragging, setDragging] = useState(false);
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
 
@@ -146,9 +177,9 @@ export default function OrgChartTree({
 
   useEffect(() => {
     if (treeWrapperRef.current) {
-      setTranslate({ x: text, y: text });
+      setTranslate({ x: 350, y: 150 });
       setText(text + 1e-9);
-      setZoomLevel(1.8);
+      setZoomLevel(2.8);
     }
   }, [refresh_key]);
 
