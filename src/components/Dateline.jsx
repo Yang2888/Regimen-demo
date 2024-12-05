@@ -33,6 +33,111 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
   }
 
   useEffect(() => {
+    const svg = d3.select(calendarRef.current);
+
+    let full_name = {
+      IV: "Intravenous",
+      SC: "Subcutaneous",
+      PO: "Oral",
+      IT: "Intrathecal",
+    };
+
+    // Remove any existing legend to avoid duplication
+    svg.select(".legend-group").remove();
+
+    // Create the legend group
+    const legendGroup = svg
+      .append("g")
+      .attr("class", "legend-group")
+      .attr("transform", `translate(20, 20)`); // Position legend at the top-left
+
+    // Define the size and spacing of legend items
+    const legendItemSize = 20;
+    const legendSpacing = 10;
+    const legendTextOffset = 30;
+
+    // Define the shape and route mapping
+    const shapeMap = [
+      { route: "IV", shape: "droplet" },
+      { route: "SC", shape: "arrow" },
+      { route: "PO", shape: "ellipse" },
+      { route: "IT", shape: "cross-circle" },
+    ];
+
+    // Iterate through the shapeMap to create legend items
+    shapeMap.forEach((entry, index) => {
+      const colorScheme = d3.schemeTableau10;
+      const colorScale = d3.scaleOrdinal(colorScheme);
+      const color = colorScale(index % colorScheme.length);
+      const yOffset = index * (legendItemSize + legendSpacing);
+
+      if (entry.shape === "droplet") {
+        // Add teardrop shape
+        legendGroup
+          .append("path")
+          .attr(
+            "d",
+            `M10,${yOffset + legendItemSize / 2 - 10} 
+              Q0,${yOffset + legendItemSize / 2} 
+              10,${yOffset + legendItemSize / 2 + 10} 
+              Q20,${yOffset + legendItemSize / 2} 
+              10,${yOffset + legendItemSize / 2 - 10} Z`
+          )
+          .attr("fill", color);
+      } else if (entry.shape === "arrow") {
+        // Add arrow shape
+        legendGroup
+          .append("polygon")
+          .attr(
+            "points",
+            `5,${yOffset + legendItemSize / 2} 
+             10,${yOffset + legendItemSize / 2 - 10} 
+             15,${yOffset + legendItemSize / 2} 
+             10,${yOffset + legendItemSize / 2 + 10}`
+          )
+          .attr("fill", color);
+      } else if (entry.shape === "ellipse") {
+        // Add ellipse shape
+        legendGroup
+          .append("ellipse")
+          .attr("cx", 10)
+          .attr("cy", yOffset + legendItemSize / 2)
+          .attr("rx", 10)
+          .attr("ry", 5)
+          .attr("fill", color);
+      } else if (entry.shape === "cross-circle") {
+        // Add circle with a cross
+        legendGroup
+          .append("circle")
+          .attr("cx", 10)
+          .attr("cy", yOffset + legendItemSize / 2)
+          .attr("r", 10)
+          .attr("fill", color);
+
+        legendGroup
+          .append("path")
+          .attr(
+            "d",
+            `M5,${yOffset + legendItemSize / 2} 
+             H15 
+             M10,${yOffset + legendItemSize / 2 - 5} 
+             V${yOffset + legendItemSize / 2 + 5}`
+          )
+          .attr("stroke", "black")
+          .attr("stroke-width", 2);
+      }
+
+      // Add text label next to each shape
+      legendGroup
+        .append("text")
+        .attr("x", legendTextOffset)
+        .attr("y", yOffset + legendItemSize / 2 + 5) // Vertically center text
+        .style("font-size", "14px")
+        .text(full_name[entry.route]);
+    });
+  }, []);
+
+  useEffect(() => {
     let rightMove = 111 * zoom;
 
     if (data_global["Regimen_Start_Date"]) {
@@ -43,6 +148,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     // console.log(data_global)
     // setStartDate(data_global["Regimen_Start_Date"])
     const svg = d3.select(calendarRef.current);
+
     let dates = 3; // Number of dates to display
     // const regimen_depth = getJsonDepth(data_global) - 1
     const regimen_depth = data_global["metadata"]["blocks"].length - 1;
