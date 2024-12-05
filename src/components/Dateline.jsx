@@ -286,7 +286,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
         // Compute the date for the current tick
         const tickDate = new Date(parsedStartDate);
-        tickDate.setDate(parsedStartDate.getDate() + cumulativeDays);
+        tickDate.setDate(parsedStartDate.getDate() + cumulativeDays + 2);
 
         // Format the date as "mm/dd"
         const day = String(tickDate.getDate()).padStart(2, "0");
