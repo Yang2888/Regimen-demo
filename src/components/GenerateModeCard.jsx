@@ -51,6 +51,8 @@ const ModePanel = () => {
   // console.log('CSV File Content:', csvText);
   
   let result = await response.json();
+
+  return result
   }
 
   const generateRegimenStructed = async (draft, flag) => {
@@ -59,14 +61,14 @@ const ModePanel = () => {
 
     console.log(draft);
 
-    const Regimen_Start_Date = draft.Regimen_Start_Date
+    let Regimen_Start_Date = draft.Regimen_Start_Date
 
     // return;
 
     try {
         
-
-        let result = await getResult(draft, true)
+        console.log(Regimen_Start_Date)
+        let result = await getResult(draft, false)
 
         result.Regimen_Start_Date = Regimen_Start_Date;
         console.log(result)

@@ -159,19 +159,19 @@ const Sidebar = () => {
           Example 1
         </Button>
 
-        <Button 
+        {/* <Button 
           onClick={handleExample2} // Trigger file save on button click
-        
-        type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
-          Example 2
-        </Button>
+         */}
+        {/* // type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
+        //   Example 2
+        // </Button> */}
 
-        <Button 
+        {/* <Button 
           onClick={handleDebug} // Trigger file save on button click
         
         type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
           Debug
-        </Button>
+        </Button> */}
 
         <Button 
         onClick={showModal} // Trigger modal on button click

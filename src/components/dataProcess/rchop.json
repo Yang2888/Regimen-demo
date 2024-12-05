@@ -1,0 +1,680 @@
+{
+    "Summary": "This is cycle1 of R-CHOP",
+    "Title": "R-CHOP Cycle1",
+    "children": [
+      {
+        "Summary": "This is cycle2 of R-CHOP",
+        "Title": "R-CHOP Cycle2",
+        "children": [
+          {
+            "Summary": "This is cycle3 of R-CHOP",
+            "Title": "R-CHOP Cycle3",
+            "children": [
+              {
+                "Summary": "This is cycle4 of R-CHOP",
+                "Title": "R-CHOP Cycle4",
+                "children": [
+                  {
+                    "Summary": "This is cycle5 of R-CHOP",
+                    "Title": "R-CHOP Cycle5",
+                    "children": [
+                      {
+                        "Summary": "This is cycle6 of R-CHOP",
+                        "Title": "R-CHOP Cycle6",
+                        "children": [
+                          {
+                            "Summary": "This is cycle7 of R-CHOP",
+                            "Title": "R-CHOP Cycle7",
+                            "children": [
+                              {
+                                "Summary": "This is cycle8 of R-CHOP",
+                                "Title": "R-CHOP Cycle8",
+                                "drugs": [
+                                  {
+                                    "component": "Prednisone",
+                                    "days": [
+                                      {
+                                        "number": 1,
+                                        "type": "normal"
+                                      },
+                                      {
+                                        "number": 2,
+                                        "type": "normal"
+                                      },
+                                      {
+                                        "number": 3,
+                                        "type": "normal"
+                                      },
+                                      {
+                                        "number": 4,
+                                        "type": "normal"
+                                      },
+                                      {
+                                        "number": 5,
+                                        "type": "normal"
+                                      }
+                                    ],
+                                    "doseMaxNum": "60",
+                                    "doseUnit": "mg/m^2",
+                                    "route": "PO"
+                                  }
+                                ],
+                                "number": 8,
+                                "type": "normal"
+                              }
+                            ],
+                            "drugs": [
+                              {
+                                "component": "Prednisone",
+                                "days": [
+                                  {
+                                    "number": 1,
+                                    "type": "normal"
+                                  },
+                                  {
+                                    "number": 2,
+                                    "type": "normal"
+                                  },
+                                  {
+                                    "number": 3,
+                                    "type": "normal"
+                                  },
+                                  {
+                                    "number": 4,
+                                    "type": "normal"
+                                  },
+                                  {
+                                    "number": 5,
+                                    "type": "normal"
+                                  }
+                                ],
+                                "doseMaxNum": "60",
+                                "doseUnit": "mg/m^2",
+                                "route": "PO"
+                              }
+                            ],
+                            "number": 7,
+                            "type": "normal"
+                          }
+                        ],
+                        "drugs": [
+                          {
+                            "component": "Prednisone",
+                            "days": [
+                              {
+                                "number": 1,
+                                "type": "normal"
+                              },
+                              {
+                                "number": 2,
+                                "type": "normal"
+                              },
+                              {
+                                "number": 3,
+                                "type": "normal"
+                              },
+                              {
+                                "number": 4,
+                                "type": "normal"
+                              },
+                              {
+                                "number": 5,
+                                "type": "normal"
+                              }
+                            ],
+                            "doseMaxNum": "60",
+                            "doseUnit": "mg/m^2",
+                            "route": "PO"
+                          }
+                        ],
+                        "number": 6,
+                        "type": "normal"
+                      }
+                    ],
+                    "drugs": [
+                      {
+                        "component": "Prednisone",
+                        "days": [
+                          {
+                            "number": 1,
+                            "type": "normal"
+                          },
+                          {
+                            "number": 2,
+                            "type": "normal"
+                          },
+                          {
+                            "number": 3,
+                            "type": "normal"
+                          },
+                          {
+                            "number": 4,
+                            "type": "normal"
+                          },
+                          {
+                            "number": 5,
+                            "type": "normal"
+                          }
+                        ],
+                        "doseMaxNum": "60",
+                        "doseUnit": "mg/m^2",
+                        "route": "PO"
+                      }
+                    ],
+                    "number": 5,
+                    "type": "normal"
+                  }
+                ],
+                "drugs": [
+                  {
+                    "component": "Prednisone",
+                    "days": [
+                      {
+                        "number": 1,
+                        "type": "normal"
+                      },
+                      {
+                        "number": 2,
+                        "type": "normal"
+                      },
+                      {
+                        "number": 3,
+                        "type": "normal"
+                      },
+                      {
+                        "number": 4,
+                        "type": "normal"
+                      },
+                      {
+                        "number": 5,
+                        "type": "normal"
+                      }
+                    ],
+                    "doseMaxNum": "60",
+                    "doseUnit": "mg/m^2",
+                    "route": "PO"
+                  }
+                ],
+                "number": 4,
+                "type": "normal"
+              }
+            ],
+            "drugs": [
+              {
+                "component": "Prednisone",
+                "days": [
+                  {
+                    "number": 1,
+                    "type": "normal"
+                  },
+                  {
+                    "number": 2,
+                    "type": "normal"
+                  },
+                  {
+                    "number": 3,
+                    "type": "normal"
+                  },
+                  {
+                    "number": 4,
+                    "type": "normal"
+                  },
+                  {
+                    "number": 5,
+                    "type": "normal"
+                  }
+                ],
+                "doseMaxNum": "60",
+                "doseUnit": "mg/m^2",
+                "route": "PO"
+              }
+            ],
+            "number": 3,
+            "type": "normal"
+          }
+        ],
+        "drugs": [
+          {
+            "component": "Prednisone",
+            "days": [
+              {
+                "number": 1,
+                "type": "normal"
+              },
+              {
+                "number": 2,
+                "type": "normal"
+              },
+              {
+                "number": 3,
+                "type": "normal"
+              },
+              {
+                "number": 4,
+                "type": "normal"
+              },
+              {
+                "number": 5,
+                "type": "normal"
+              }
+            ],
+            "doseMaxNum": "60",
+            "doseUnit": "mg/m^2",
+            "route": "PO"
+          }
+        ],
+        "number": 2,
+        "type": "normal"
+      }
+    ],
+    "drugs": [
+      {
+        "component": "Prednisone",
+        "days": [
+          {
+            "number": 1,
+            "type": "normal"
+          },
+          {
+            "number": 2,
+            "type": "normal"
+          },
+          {
+            "number": 3,
+            "type": "normal"
+          },
+          {
+            "number": 4,
+            "type": "normal"
+          },
+          {
+            "number": 5,
+            "type": "normal"
+          }
+        ],
+        "doseMaxNum": "60",
+        "doseUnit": "mg/m^2",
+        "route": "PO"
+      },
+      {
+        "component": "Rituximab",
+        "days": [
+          {
+            "number": 1,
+            "type": "normal"
+          }
+        ],
+        "doseMaxNum": "375",
+        "doseUnit": "mg/m^2",
+        "route": "IV"
+      },
+      {
+        "component": "Cyclophosphamide",
+        "days": [
+          {
+            "number": 1,
+            "type": "normal"
+          }
+        ],
+        "doseMaxNum": "750",
+        "doseUnit": "mg/m^2",
+        "route": "IV"
+      },
+      {
+        "component": "Doxorubicin",
+        "days": [
+          {
+            "number": 1,
+            "type": "normal"
+          }
+        ],
+        "doseMaxNum": "50",
+        "doseUnit": "mg/m^2",
+        "route": "IV"
+      },
+      {
+        "component": "Vincristine",
+        "days": [
+          {
+            "number": 1,
+            "type": "normal"
+          }
+        ],
+        "doseMaxNum": "1.4",
+        "doseUnit": "mg/m^2",
+        "route": "IV"
+      }
+    ],
+    "metadata": {
+      "blocks": [
+        {
+          "drugs": [
+            {
+              "component": "Prednisone",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                },
+                {
+                  "number": 2,
+                  "type": "normal"
+                },
+                {
+                  "number": 3,
+                  "type": "normal"
+                },
+                {
+                  "number": 4,
+                  "type": "normal"
+                },
+                {
+                  "number": 5,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "60",
+              "doseUnit": "mg/m^2",
+              "route": "PO"
+            },
+            {
+              "component": "Rituximab",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "375",
+              "doseUnit": "mg/m^2",
+              "route": "IV"
+            },
+            {
+              "component": "Cyclophosphamide",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "750",
+              "doseUnit": "mg/m^2",
+              "route": "IV"
+            },
+            {
+              "component": "Doxorubicin",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "50",
+              "doseUnit": "mg/m^2",
+              "route": "IV"
+            },
+            {
+              "component": "Vincristine",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "1.4",
+              "doseUnit": "mg/m^2",
+              "route": "IV"
+            }
+          ],
+          "number": 1,
+          "type": "normal"
+        },
+        {
+          "drugs": [
+            {
+              "component": "Prednisone",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                },
+                {
+                  "number": 2,
+                  "type": "normal"
+                },
+                {
+                  "number": 3,
+                  "type": "normal"
+                },
+                {
+                  "number": 4,
+                  "type": "normal"
+                },
+                {
+                  "number": 5,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "60",
+              "doseUnit": "mg/m^2",
+              "route": "PO"
+            }
+          ],
+          "number": 2,
+          "type": "normal"
+        },
+        {
+          "drugs": [
+            {
+              "component": "Prednisone",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                },
+                {
+                  "number": 2,
+                  "type": "normal"
+                },
+                {
+                  "number": 3,
+                  "type": "normal"
+                },
+                {
+                  "number": 4,
+                  "type": "normal"
+                },
+                {
+                  "number": 5,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "60",
+              "doseUnit": "mg/m^2",
+              "route": "PO"
+            }
+          ],
+          "number": 3,
+          "type": "normal"
+        },
+        {
+          "drugs": [
+            {
+              "component": "Prednisone",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                },
+                {
+                  "number": 2,
+                  "type": "normal"
+                },
+                {
+                  "number": 3,
+                  "type": "normal"
+                },
+                {
+                  "number": 4,
+                  "type": "normal"
+                },
+                {
+                  "number": 5,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "60",
+              "doseUnit": "mg/m^2",
+              "route": "PO"
+            }
+          ],
+          "number": 4,
+          "type": "normal"
+        },
+        {
+          "drugs": [
+            {
+              "component": "Prednisone",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                },
+                {
+                  "number": 2,
+                  "type": "normal"
+                },
+                {
+                  "number": 3,
+                  "type": "normal"
+                },
+                {
+                  "number": 4,
+                  "type": "normal"
+                },
+                {
+                  "number": 5,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "60",
+              "doseUnit": "mg/m^2",
+              "route": "PO"
+            }
+          ],
+          "number": 5,
+          "type": "normal"
+        },
+        {
+          "drugs": [
+            {
+              "component": "Prednisone",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                },
+                {
+                  "number": 2,
+                  "type": "normal"
+                },
+                {
+                  "number": 3,
+                  "type": "normal"
+                },
+                {
+                  "number": 4,
+                  "type": "normal"
+                },
+                {
+                  "number": 5,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "60",
+              "doseUnit": "mg/m^2",
+              "route": "PO"
+            }
+          ],
+          "number": 6,
+          "type": "normal"
+        },
+        {
+          "drugs": [
+            {
+              "component": "Prednisone",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                },
+                {
+                  "number": 2,
+                  "type": "normal"
+                },
+                {
+                  "number": 3,
+                  "type": "normal"
+                },
+                {
+                  "number": 4,
+                  "type": "normal"
+                },
+                {
+                  "number": 5,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "60",
+              "doseUnit": "mg/m^2",
+              "route": "PO"
+            }
+          ],
+          "number": 7,
+          "type": "normal"
+        },
+        {
+          "drugs": [
+            {
+              "component": "Prednisone",
+              "days": [
+                {
+                  "number": 1,
+                  "type": "normal"
+                },
+                {
+                  "number": 2,
+                  "type": "normal"
+                },
+                {
+                  "number": 3,
+                  "type": "normal"
+                },
+                {
+                  "number": 4,
+                  "type": "normal"
+                },
+                {
+                  "number": 5,
+                  "type": "normal"
+                }
+              ],
+              "doseMaxNum": "60",
+              "doseUnit": "mg/m^2",
+              "route": "PO"
+            }
+          ],
+          "number": 8,
+          "type": "normal"
+        }
+      ],
+      "cycle_length_ub": "21",
+      "cycle_length_unit": "day",
+      "drug_len": 5,
+      "name": "R-CHOP",
+      "phase": "Glucocorticoid"
+    },
+    "number": 1,
+    "type": "normal",
+    "Regimen_Start_Date": "2024-12-04"
+  }

@@ -2,7 +2,7 @@
 
 import Title from "antd/es/skeleton/Title";
 import exampleData from "./output.json";
-import exampleData1 from "./example1.json";
+import exampleData1 from "./rchop.json";
 // import exampleData2 from "./example1.json";
 
 
@@ -44,7 +44,7 @@ exmaple_json = {
 };
 
 exmaple_json = exampleData
-const InitialData = exmaple_json;
+const InitialData = exampleData1;
 
 
 let example1 = exampleData1
