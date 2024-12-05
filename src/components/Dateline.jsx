@@ -441,7 +441,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           const currentDate = new Date(today);
           const day = String(currentDate.getDate() + 1).padStart(2, "0");
           const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-          console.log(day, month, dateLabel);
+          // console.log(day, month, dateLabel);
           textElement
             .append("tspan")
             .attr("x", 0) // Align horizontally at the tick
@@ -500,8 +500,35 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       const colorScale = d3.scaleOrdinal(colorScheme);
 
       //TODO: get a map of chemo/non-chemo drugs and add corresponding colors
-      const drugChemo = {};
-      const colorMap = {};
+      const drugChemo = {
+        vincristine: "generic",
+        cyclophosphamide: "generic",
+        procytox: "brand",
+        dactinomycin: "generic",
+        calendarRefosmegen: "brand",
+        daunorubicin: "generic",
+        colorMaperubidine: "brand",
+        docetaxel: "generic",
+        caxotere: "brand",
+        doxorubicin: "generic",
+        eribulin: "generic",
+        halaven: "brand",
+        etoposide: "generic",
+        vepesid: "brand",
+        idarubicin: "generic",
+        ifosfamide: "generic",
+        ifex: "brand",
+        irinotecan: "generic",
+        onivyde: "brand",
+        paclitaxel: "generic",
+        abraxane: "brand",
+        topotecan: "generic",
+        hycamtin: "brand",
+      };
+      const colorMap = {
+        true: "#C30913",
+        false: "#45b3e0",
+      };
       const shapeMap = {
         IV: "droplet",
         SC: "arrow",
@@ -516,7 +543,6 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       // Dynamically calculate the number of sides for each drug
       //TODO: informed method of assigning drug colors/shapes (shape doesn't have to equal #sides)
       data.drugs.forEach((drug, index) => {
-        colorMap[index] = colorScale(index % colorScheme.length);
         drug.shape = shapeMap[drug.route]; // Map the shape based on the drug route
       });
 
@@ -547,10 +573,14 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
           // If scheduled, create a block for this drug on this date
           const tickPosition = xScale(date);
           let drugBlock;
+          console.log(drugChemo[drug.component.toLowerCase()]);
 
           // Get the unique color and shape for each drug
           const drugColor = isScheduledForDate
-            ? colorMap[index]
+            ? colorMap[
+                drugChemo[drug.component.toLowerCase()] === "generic" ||
+                  drugChemo[drug.component.toLowerCase()] === "brand"
+              ]
             : "transparent";
           if (drug.shape === "droplet") {
             // Create a teardrop shape
