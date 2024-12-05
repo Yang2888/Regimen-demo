@@ -51,7 +51,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     const legendGroup = svg
       .append("g")
       .attr("class", "legend-group")
-      .attr("transform", `translate(20, 20) scale(0.6)`); // Position legend at the top-left
+      .attr("transform", `translate(20, 20) scale(0.8)`); // Position legend at the top-left
 
     // Define the size and spacing of legend items
     const legendItemSize = 20;
@@ -144,12 +144,14 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     });
 
     // Define yOffset for drug legend items (offset to be placed below route legend)
-    let drugYOffset = yOffset + 20;
+    // let drugYOffset = yOffset + 20;
+    let drugYOffset = 0 + 20;
+    let drugXOffset = 200;
 
     // Add legend title for drugs
     legendGroup
       .append("text")
-      .attr("x", 0)
+      .attr("x", drugXOffset)
       .attr("y", drugYOffset - 10)
       .style("font-size", "14px")
       .style("font-weight", "bold")
@@ -160,6 +162,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
 
     // Update yOffset for the drug section (after the route section)
     drugYOffset = shapeMap.length * (legendItemSize + legendSpacing) + 20; // Adjusted to start after route section
+    drugYOffset =  20; // Adjusted to start after route section
 
     drugsReversed.forEach((drug, index) => {
       const colorScheme = d3.schemeTableau10;
@@ -170,17 +173,20 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       const yOffsetForDrug =
         drugYOffset + index * (legendItemSize + legendSpacing);
 
+
+      let xOffsetForDrug = drugXOffset
+
       if (drug.shape === "droplet") {
         // Add teardrop shape
         legendGroup
           .append("path")
           .attr(
             "d",
-            `M10,${yOffsetForDrug + legendItemSize / 2 - 10} 
-            Q0,${yOffsetForDrug + legendItemSize / 2} 
-            10,${yOffsetForDrug + legendItemSize / 2 + 10} 
-            Q20,${yOffsetForDrug + legendItemSize / 2} 
-            10,${yOffsetForDrug + legendItemSize / 2 - 10} Z`
+            `M${10 + xOffsetForDrug},${yOffsetForDrug + legendItemSize / 2 - 10} 
+             Q${0 + xOffsetForDrug},${yOffsetForDrug + legendItemSize / 2} 
+             ${10 + xOffsetForDrug},${yOffsetForDrug + legendItemSize / 2 + 10} 
+             Q${20 + xOffsetForDrug},${yOffsetForDrug + legendItemSize / 2} 
+             ${10 + xOffsetForDrug},${yOffsetForDrug + legendItemSize / 2 - 10} Z`
           )
           .attr("fill", color);
       } else if (drug.shape === "arrow") {
@@ -199,7 +205,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         // Add ellipse shape
         legendGroup
           .append("ellipse")
-          .attr("cx", 10)
+          .attr("cx", drugXOffset+ 10)
           .attr("cy", yOffsetForDrug + legendItemSize / 2)
           .attr("rx", 10)
           .attr("ry", 5)
@@ -208,7 +214,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         // Add circle with a cross
         legendGroup
           .append("circle")
-          .attr("cx", 10)
+          .attr("cx", drugXOffset + 10)
           .attr("cy", yOffsetForDrug + legendItemSize / 2)
           .attr("r", 10)
           .attr("fill", color);
@@ -229,7 +235,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       // Add text label for the drug name and route
       legendGroup
         .append("text")
-        .attr("x", legendTextOffset)
+        .attr("x", legendTextOffset + drugXOffset)
         .attr("y", yOffsetForDrug + legendItemSize / 2 + 5) // Vertically center text
         .style("font-size", "14px")
         .text(`${drug.component} (${drug.route})`);
@@ -412,7 +418,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       .call(xAxis)
       .attr(
         "transform",
-        `translate(${translate.x + margin.left}, ${height / 2 + translate.y})`
+        `translate(${translate.x + margin.left}, ${height / 2 + translate.y + 100})`
       )
       .selectAll(".tick text") // Select all tick labels
       .each(function (d) {
@@ -705,8 +711,9 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       <svg
         ref={calendarRef}
         width="900"
-        height="220"
+        height="420"
         style={{ marginTop: "20px", userSelect: "none", display: "flex" }}
+        
       />
     </div>
   );
