@@ -335,7 +335,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 }, zoomLev
         .text(`${drug.component} (${drug.route})`)
         .attr("class", "legend-drug");
     });
-  }, [data_global, zoom, translate]); // Re-run effect whenever data_global changes
+  }, [data_global, zoom]); // Re-run effect whenever data_global changes
 
   useEffect(() => {
     let rightMove = 111 * zoom;
