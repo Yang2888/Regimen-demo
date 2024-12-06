@@ -52,6 +52,8 @@ const ModePanel = () => {
   
   let result = await response.json();
 
+
+
   return result
   }
 
@@ -71,9 +73,12 @@ const ModePanel = () => {
         let result = await getResult(draft, false)
 
         result.Regimen_Start_Date = Regimen_Start_Date;
+        result.Content = draft.Content
         console.log(result)
 
         updateDataGlobal(result)
+
+
 
         if (!cancelled) {
             // Example: Save the CSV content or parse it if needed

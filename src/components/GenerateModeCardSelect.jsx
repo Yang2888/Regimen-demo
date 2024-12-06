@@ -64,7 +64,8 @@ const GenerateContentSelect = ({confirmGenerate= ()=>{}} ) => {
 
   const handleConfirm = () => {
     setFormData(formDraft); // Save the draft as the new original data
-    confirmGenerate(formDraft, fieldEditable)
+    confirmGenerate(formDraft, fieldEditable);
+    
   };
 
   const onCancel = () => {

@@ -3,7 +3,7 @@ import { Layout, Button, Card, Modal } from 'antd'; // Ant Design components
 import { DataContext } from './dataProcess/dataContext'; // Access data context
 import { saveAs } from 'file-saver'; // Import FileSaver for saving files
 
-import {InitialData, example1, example2} from './dataProcess/initData';
+import {InitialData, example1, example2, example3} from './dataProcess/initData';
 
 const { Sider } = Layout;
 
@@ -67,6 +67,12 @@ const Sidebar = () => {
   const handleExample2 = () => {
     set_data_global(example2)
     set_node_displayed(example2)
+    // set_data_global(example1)
+  }
+
+  const handleExample3 = () => {
+    set_data_global(example3)
+    set_node_displayed(example3)
     // set_data_global(example1)
   }
 
@@ -175,6 +181,20 @@ const Sidebar = () => {
         
         type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
           Example 1
+        </Button>
+
+        <Button 
+          onClick={handleExample2} // Trigger file save on button click
+        
+        type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
+          Example 2
+        </Button>
+
+        <Button 
+          onClick={handleExample3} // Trigger file save on button click
+        
+        type="primary" style={{ marginBottom: '20px', padding: '25px', width: '100%' }}>
+          Example 3
         </Button>
 
         {/* <Button 

@@ -246,6 +246,7 @@ export default function OrgChartTree({
         zoom={zoomLevel}
         // translate={{ x: (translate.x) - 100 , y: 0 }}
         translate={{ x: translate.x, y: 0 }}
+        zoomLevelTrigger={zoomLevel}
       ></DateLine>
       <div
         id="treeWrapper"

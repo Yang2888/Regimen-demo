@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import * as d3 from "d3";
 import { DataContext } from "./dataProcess/dataContext";
 
-export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
+export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 }, zoomLevelTrigger }) {
   const calendarRef = useRef(null);
   const [startDate, setStartDate] = useState(getToday());
   const [parsedStartDate, setParsedStartDate] = useState(new Date(startDate));
@@ -253,7 +253,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
     drugsReversed.forEach((drug, index) => {
       // calculate color from drug
       const color = getDrugColor(drug.component.toLowerCase());
-
+      console.log(color)
+      
       // Update yOffset for each drug item
       const yOffsetForDrug =
         drugYOffset + index * (legendItemSize + legendSpacing);
@@ -334,7 +335,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
         .text(`${drug.component} (${drug.route})`)
         .attr("class", "legend-drug");
     });
-  }, [data_global]); // Re-run effect whenever data_global changes
+  }, [data_global, zoom, translate]); // Re-run effect whenever data_global changes
 
   useEffect(() => {
     let rightMove = 111 * zoom;
@@ -513,7 +514,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 } }) {
       .attr(
         "transform",
         `translate(${translate.x + margin.left}, ${
-          height / 2 + translate.y + 100
+          height / 2 + translate.y + 200
         })`
       )
       .selectAll(".tick text") // Select all tick labels

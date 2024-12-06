@@ -3,6 +3,8 @@
 import Title from "antd/es/skeleton/Title";
 import exampleData from "./output.json";
 import exampleData1 from "./rchop.json";
+import exampleData2 from "./CyBorD.json";
+import exampleData3 from "./CarboPemPem.json";
 // import exampleData2 from "./example1.json";
 
 
@@ -49,7 +51,9 @@ const InitialData = exampleData1;
 
 let example1 = exampleData1
 
-let example2 = exampleData
+let example2 = exampleData2
 
-export {example1, InitialData, example2}
+let example3 = exampleData3
+
+export {example1, InitialData, example2, example3}
 
