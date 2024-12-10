@@ -638,7 +638,8 @@ export default function DateLine({
       // Iterate over each day within the specified date range
       d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
         // Get the current date object from the scaled date value
-        const currentDate = new Date(baseDate.getTime());
+        //TODO: make sure this date calculation is correct
+        const currentDate = new Date(date);
         currentDate.setDate(currentDate.getDate() + Math.floor(date));
 
         // Check if the date is a weekend or holiday
