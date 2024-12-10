@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import * as d3 from "d3";
 import { DataContext } from "./dataProcess/dataContext";
 
-export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 }, zoomLevelTrigger }) {
+export default function DateLine({
+  zoom = 1,
+  translate = { x: 0, y: 0 },
+  zoomLevelTrigger,
+}) {
   const calendarRef = useRef(null);
   const [startDate, setStartDate] = useState(getToday());
   const [parsedStartDate, setParsedStartDate] = useState(new Date(startDate));
@@ -253,8 +257,8 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 }, zoomLev
     drugsReversed.forEach((drug, index) => {
       // calculate color from drug
       const color = getDrugColor(drug.component.toLowerCase());
-      console.log(color)
-      
+      console.log(color);
+
       // Update yOffset for each drug item
       const yOffsetForDrug =
         drugYOffset + index * (legendItemSize + legendSpacing);
@@ -771,7 +775,7 @@ export default function DateLine({ zoom = 1, translate = { x: 0, y: 0 }, zoomLev
       <svg
         ref={calendarRef}
         width="900"
-        height="420"
+        height="440"
         style={{ marginTop: "20px", userSelect: "none", display: "flex" }}
       />
     </div>
