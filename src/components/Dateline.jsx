@@ -30,18 +30,18 @@ export default function DateLine({
 
   const colorMap = {
     vincristine: "#FF5733", // Warm red-orange
-    cyclophosphamide: "#FF8C00", // Bright orange
-    dactinomycin: "#FFC300", // Yellow
-    daunorubicin: "#FF6347", // Tomato red
-    docetaxel: "#FFA07A", // Light salmon
-    doxorubicin: "#FF4500", // Orange-red
-    eribulin: "#FFD700", // Gold
-    etoposide: "#FFB347", // Peach
-    idarubicin: "#FF7F50", // Coral
-    ifosfamide: "#FF6F61", // Bright salmon
-    irinotecan: "#FFA500", // Orange
-    paclitaxel: "#FF8C69", // Light coral
-    topotecan: "#FF6347", // Another tomato red
+    cyclophosphamide: "#FFA500", // Bright orange
+    dactinomycin: "#FFD700", // Vibrant gold
+    daunorubicin: "#FF4500", // Deep orange-red
+    docetaxel: "#FFB6C1", // Soft pink
+    doxorubicin: "#FF6347", // Tomato red
+    eribulin: "#FFD12A", // Yellow-gold
+    etoposide: "#FF9E80", // Light peach
+    idarubicin: "#FF6F61", // Bright salmon
+    ifosfamide: "#FFA07A", // Light salmon
+    irinotecan: "#FF4E50", // Crimson
+    paclitaxel: "#FF7F50", // Coral
+    topotecan: "#FF3E96", // Hot pink
   };
 
   // Assign colors dynamically to each drug in the groups
@@ -61,12 +61,13 @@ export default function DateLine({
   };
 
   const generateCoolColorPalette = (size) => {
-    const startColor = [0, 191, 255]; // Deep sky blue (RGB)
-    const endColor = [0, 206, 209]; // Dark turquoise (RGB)
+    const startColor = [0, 0, 139]; // Deep Blue (RGB)
+    const endColor = [0, 255, 180]; // Aqua Blue-Green (RGB)
+
     const palette = [];
 
     for (let i = 0; i < size; i++) {
-      const ratio = i / (size - 1);
+      const ratio = i / (size - 1); // Interpolation ratio
       const r = Math.round(
         startColor[0] + ratio * (endColor[0] - startColor[0])
       );
@@ -82,9 +83,13 @@ export default function DateLine({
     return palette;
   };
 
-  const coolColorPalette = generateCoolColorPalette(
-    Object.keys(drugColorMap).length || 10
+  const warmDrugs = new Set(
+    Object.keys(drugColorMap).filter((drug) => colorMap[drug])
   );
+  const unmappedDrugsCount = Object.keys(drugColorMap).length - warmDrugs.size;
+
+  // Generate cool colors dynamically
+  const coolColorPalette = generateCoolColorPalette(unmappedDrugsCount || 10);
 
   const getDrugColor = (drug) => {
     if (drugColorMap[drug]) {
