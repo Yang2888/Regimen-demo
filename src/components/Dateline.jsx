@@ -9,6 +9,7 @@ export default function DateLine({
 }) {
   const calendarRef = useRef(null);
   const [startDate, setStartDate] = useState(getToday());
+  console.log(startDate);
   const [parsedStartDate, setParsedStartDate] = useState(new Date(startDate));
 
   const drugGroups = {
@@ -257,7 +258,6 @@ export default function DateLine({
     drugsReversed.forEach((drug, index) => {
       // calculate color from drug
       const color = getDrugColor(drug.component.toLowerCase());
-      console.log(color);
 
       // Update yOffset for each drug item
       const yOffsetForDrug =
@@ -344,7 +344,9 @@ export default function DateLine({
   useEffect(() => {
     let rightMove = 111 * zoom;
 
+    // these would go in the data jsons, which I've removed for now since it's causing some errors
     if (data_global["Regimen_Start_Date"]) {
+      console.log(data_global["Regimen_Start_Date"]);
       setParsedStartDate(new Date(data_global["Regimen_Start_Date"]));
     } else {
     }
@@ -488,7 +490,7 @@ export default function DateLine({
 
         // Compute the date for the current tick
         const tickDate = new Date(parsedStartDate);
-        tickDate.setDate(parsedStartDate.getDate() + cumulativeDays + 2);
+        tickDate.setDate(parsedStartDate.getDate() + cumulativeDays + 1);
 
         // Format the date as "mm/dd"
         const day = String(tickDate.getDate()).padStart(2, "0");
