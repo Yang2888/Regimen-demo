@@ -12,6 +12,28 @@ export default function DateLine({
   console.log(startDate);
   const [parsedStartDate, setParsedStartDate] = useState(new Date(startDate));
 
+  //TODO: Birthday input
+  // Dictionary of closure days
+  const officeClosures = {
+    "01/01": "New Year's Day",
+    "01/15": "MLK Day",
+    "2/14": "Valentine's Day",
+    "02/19": "Presidents' Day",
+    "05/28": "Memorial Day",
+    "07/04": "Independence Day",
+    "09/03": "Labor Day",
+    "10/08": "Columbus Day",
+    "11/05": "Election Day",
+    "11/11": "Veterans Day",
+    "11/22": "Thanksgiving Day",
+    "12/25": "Christmas Day",
+  };
+
+  function isWeekend(date) {
+    const day = date.getDay();
+    return day === 0 || day === 6; // Returns true if it's Sunday (0) or Saturday (6)
+  }
+
   const drugGroups = {
     vincristine: ["vincristine"],
     cyclophosphamide: ["cyclophosphamide", "procytox"],
@@ -444,28 +466,6 @@ export default function DateLine({
 
     let lastCycleDisplayed = 0;
 
-    //TODO: Birthday input
-    // Dictionary of closure days
-    const officeClosures = {
-      "01/01": "New Year's Day",
-      "01/15": "MLK Day",
-      "2/14": "Valentine's Day",
-      "02/19": "Presidents' Day",
-      "05/28": "Memorial Day",
-      "07/04": "Independence Day",
-      "09/03": "Labor Day",
-      "10/08": "Columbus Day",
-      "11/05": "Election Day",
-      "11/11": "Veterans Day",
-      "11/22": "Thanksgiving Day",
-      "12/25": "Christmas Day",
-    };
-
-    function isWeekend(date) {
-      const day = date.getDay();
-      return day === 0 || day === 6; // Returns true if it's Sunday (0) or Saturday (6)
-    }
-
     // Update scale and transformation based on zoom and translate props
     const newXScale = xScale
       .copy()
@@ -563,6 +563,7 @@ export default function DateLine({
             .style(
               "fill",
               // Check if the date is the current date
+              //TODO: add a function to check for weekend and holidays together
               dateLabel === `${month}/${day}`
                 ? "red" // Set to red if it is the current date
                 : isWeekend(new Date(dateLabel)) || officeClosures[dateLabel]
@@ -573,7 +574,6 @@ export default function DateLine({
         }
 
         // Check if the date matches a closure date and add the closure reason
-        //TODO: make sure this is being displayed
         if (dateLabel && officeClosures[dateLabel]) {
           // console.log(officeClosures[dateLabel]);
           textElement
@@ -637,6 +637,18 @@ export default function DateLine({
 
       // Iterate over each day within the specified date range
       d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
+        // Get the current date object from the scaled date value
+        const currentDate = new Date(baseDate.getTime());
+        currentDate.setDate(currentDate.getDate() + Math.floor(date));
+
+        // Check if the date is a weekend or holiday
+        const formattedDate = `${String(currentDate.getMonth() + 1).padStart(
+          2,
+          "0"
+        )}/${String(currentDate.getDate()).padStart(2, "0")}`;
+        const isHoliday = officeClosures.hasOwnProperty(formattedDate);
+        const isOnWeekend = isWeekend(currentDate);
+
         // Track the vertical position offset for each drug block on the same date
         let yOffset = -15;
 
@@ -725,6 +737,12 @@ export default function DateLine({
               )
               .attr("stroke", crossColor)
               .attr("stroke-width", 2);
+          }
+
+          // Leave space for weekends/holidays if no drug is scheduled
+          if (isOnWeekend || isHoliday) {
+            //TODO: add fuzzy shadows on nearest dates that are not also weekends/holidays
+            return; // Skip this iteration
           }
 
           // Append a colored block to the .axis-group for each scheduled date
