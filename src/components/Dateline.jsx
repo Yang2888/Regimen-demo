@@ -524,11 +524,20 @@ export default function DateLine({
           const tickMonth = parseInt(dateLabel.split("/")[0]);
           const tickDay = parseInt(dateLabel.split("/")[1]);
 
-          const adjustedDate = new Date(
+          let adjustedDate = new Date(
             currentDate.getFullYear(),
             tickMonth - 1,
             tickDay
           );
+
+          // If the date has already passed this year, adjust to the next year
+          if (adjustedDate < currentDate) {
+            adjustedDate = new Date(
+              currentDate.getFullYear() + 1,
+              tickMonth - 1,
+              tickDay
+            );
+          }
 
           //TODO: correct year adjustment, otherwise it's better
           if (isWeekend(adjustedDate)) {
