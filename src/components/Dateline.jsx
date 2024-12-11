@@ -30,7 +30,7 @@ export default function DateLine({
 
   function isWeekend(date) {
     const day = date.getDay();
-    return day === 0 || day === 6; // Returns true if it's Sunday (0) or Saturday (6)
+    return day === 0 || day === 6; // Returns true if it's Saturday (5) or Sunday (6)
   }
 
   const drugGroups = {
@@ -520,6 +520,21 @@ export default function DateLine({
           const currentDate = new Date(today);
           const day = String(currentDate.getDate() + 1).padStart(2, "0");
           const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+
+          const tickMonth = parseInt(dateLabel.split("/")[0]);
+          const tickDay = parseInt(dateLabel.split("/")[1]);
+
+          const adjustedDate = new Date(
+            currentDate.getFullYear(),
+            tickMonth - 1,
+            tickDay
+          );
+
+          //TODO: correct year adjustment, otherwise it's better
+          if (isWeekend(adjustedDate)) {
+            console.log("Weekend Date:", adjustedDate);
+          }
+
           textElement
             .append("tspan")
             .attr("x", 0) // Align horizontally at the tick
@@ -530,7 +545,7 @@ export default function DateLine({
               //TODO: add a function to check for weekend and holidays together
               dateLabel === `${month}/${day}`
                 ? "red" // Set to red if it is the current date
-                : isWeekend(new Date(dateLabel)) || officeClosures[dateLabel]
+                : isWeekend(adjustedDate) || officeClosures[dateLabel]
                 ? "violet" // Set to violet for weekends or closures
                 : "black" // Default to black
             )
@@ -587,15 +602,14 @@ export default function DateLine({
 
         // Iterate over each date in the cycle
         d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
-          let currentDate = new Date(parsedStartDate);
+          const currentDate = new Date(parsedStartDate);
           currentDate.setDate(
-            currentDate.getDate() + 1 + date * cycle_length_ub
+            Math.round(currentDate.getDate() + date * cycle_length_ub)
           );
 
           const isScheduledForDate = drug.days.some(
             (day) =>
-              day.number ===
-              (Math.round(date * cycle_length_ub) % cycle_length_ub) + 1
+              day.number === ((date * cycle_length_ub) % cycle_length_ub) + 1
           );
 
           const tickPosition = xScale(date);
@@ -637,7 +651,6 @@ export default function DateLine({
             (isWeekend(currentDate) ||
               officeClosures.hasOwnProperty(currentDate))
           ) {
-            console.log(currentDate);
             // Only generate afterimages under specific conditions
             let offsetDays = 1;
             let foundValidDate = false;
@@ -710,7 +723,6 @@ export default function DateLine({
               // const adjustedTickPosition = xScale(date + offsetDays);
               const adjustedTickPosition = xScale(date);
 
-              // Use drawDrugBlock instead of drawAfterimageShape
               drawDrugBlock(
                 svg, // SVG element
                 drug, // Drug object
