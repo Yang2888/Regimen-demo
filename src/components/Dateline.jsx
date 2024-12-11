@@ -638,7 +638,7 @@ export default function DateLine({
       // Iterate over each day within the specified date range
       d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
         // Get the current date object from the scaled date value
-        //TODO: make sure this date calculation is correct
+        //TODO: make sur ethis
         const currentDate = new Date(date);
         currentDate.setDate(currentDate.getDate() + Math.floor(date));
 
@@ -740,12 +740,6 @@ export default function DateLine({
               .attr("stroke-width", 2);
           }
 
-          // Leave space for weekends/holidays if no drug is scheduled
-          if (isOnWeekend || isHoliday) {
-            //TODO: add fuzzy shadows on nearest dates that are not also weekends/holidays
-            return; // Skip this iteration
-          }
-
           // Append a colored block to the .axis-group for each scheduled date
 
           if (isScheduledForDate) {
@@ -779,6 +773,12 @@ export default function DateLine({
 
           // Increment yOffset to avoid overlapping blocks on the same date
           yOffset -= 25;
+
+          // Leave space for weekends/holidays if no drug is scheduled
+          if (isOnWeekend || isHoliday) {
+            //TODO: add fuzzy shadows on nearest dates that are not also weekends/holidays
+            return; // Skip this iteration
+          }
         });
       });
     }
