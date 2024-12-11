@@ -9,7 +9,6 @@ export default function DateLine({
 }) {
   const calendarRef = useRef(null);
   const [startDate, setStartDate] = useState(getToday());
-  console.log(startDate);
   const [parsedStartDate, setParsedStartDate] = useState(new Date(startDate));
 
   //TODO: Birthday input
@@ -373,7 +372,6 @@ export default function DateLine({
 
     // these would go in the data jsons, which I've removed for now since it's causing some errors
     if (data_global["Regimen_Start_Date"]) {
-      console.log(data_global["Regimen_Start_Date"]);
       setParsedStartDate(new Date(data_global["Regimen_Start_Date"]));
     } else {
     }
@@ -746,6 +744,133 @@ export default function DateLine({
             addBlockInteractivity(drugBlock, drugColor, drug);
           }
 
+          // Leave space for weekends/holidays if no drug is scheduled
+          if (isOnWeekend || isHoliday) {
+            let offsetDays = 1; // Start checking from the nearest adjacent date
+            let foundValidDate = false;
+
+            while (!foundValidDate) {
+              const nextDate = new Date(currentDate); // Create a copy of the currentDate
+              nextDate.setDate(currentDate.getDate() + offsetDays); // Move forward by offsetDays
+
+              const prevDate = new Date(currentDate); // Create another copy of the currentDate
+              prevDate.setDate(currentDate.getDate() - offsetDays); // Move backward by offsetDays
+
+              // Check forward for the closest valid date
+              const isNextDateValid =
+                !isWeekend(nextDate) &&
+                !officeClosures.hasOwnProperty(nextDate) &&
+                !data.drugs.some((d) =>
+                  d.days.some(
+                    (day) =>
+                      day.number ===
+                      (Math.round(nextDate.getTime() / cycle_length_ub) %
+                        cycle_length_ub) +
+                        1
+                  )
+                );
+
+              // Check backward for the closest valid date
+              const isPrevDateValid =
+                !isWeekend(prevDate) &&
+                !officeClosures.hasOwnProperty(prevDate) &&
+                !data.drugs.some((d) =>
+                  d.days.some(
+                    (day) =>
+                      day.number ===
+                      (Math.round(prevDate.getTime() / cycle_length_ub) %
+                        cycle_length_ub) +
+                        1
+                  )
+                );
+
+              if (isNextDateValid) {
+                foundValidDate = true;
+                drawAfterimageShape(drug, nextDate, yOffset);
+              } else if (isPrevDateValid) {
+                foundValidDate = true;
+                drawAfterimageShape(drug, prevDate, yOffset);
+              } else {
+                offsetDays++; // Increase search range
+              }
+            }
+          }
+
+          // Function to draw afterimages with transparency
+          function drawAfterimageShape(drug, targetDate, yOffset) {
+            const tickPosition = xScale(targetDate.getTime());
+            const afterimageColor = `rgba(${hexToRgb(drugColor)}, 0.3)`; // Always apply transparency for fuzziness
+            if (drug.shape === "droplet") {
+              svg
+                .select(".axis-group")
+                .append("path")
+                .attr("class", "drug-afterimage")
+                .attr(
+                  "d",
+                  `M${tickPosition},${yOffset + 10 - 10} 
+           Q${tickPosition - 10},${yOffset + 10} 
+           ${tickPosition},${yOffset + 10 + 10} 
+           Q${tickPosition + 10},${yOffset + 10} 
+           ${tickPosition},${yOffset + 10 - 10} Z`
+                )
+                .attr("fill", afterimageColor);
+            } else if (drug.shape === "arrow") {
+              svg
+                .select(".axis-group")
+                .append("polygon")
+                .attr("class", "drug-afterimage")
+                .attr(
+                  "points",
+                  `${tickPosition - 10},${yOffset + 10} 
+           ${tickPosition},${yOffset} 
+           ${tickPosition + 10},${yOffset + 10} 
+           ${tickPosition},${yOffset + 20}`
+                )
+                .attr("fill", afterimageColor);
+            } else if (drug.shape === "ellipse") {
+              svg
+                .select(".axis-group")
+                .append("ellipse")
+                .attr("class", "drug-afterimage")
+                .attr("cx", tickPosition)
+                .attr("cy", yOffset + 10)
+                .attr("rx", 10)
+                .attr("ry", 5)
+                .attr("fill", afterimageColor);
+            } else if (drug.shape === "cross-circle") {
+              svg
+                .select(".axis-group")
+                .append("circle")
+                .attr("class", "drug-afterimage")
+                .attr("cx", tickPosition)
+                .attr("cy", yOffset + 10)
+                .attr("r", 10)
+                .attr("fill", afterimageColor);
+
+              svg
+                .select(".axis-group")
+                .append("path")
+                .attr("class", "drug-afterimage-cross")
+                .attr(
+                  "d",
+                  `M${tickPosition - 5},${yOffset + 10} 
+           H${tickPosition + 5} 
+           M${tickPosition},${yOffset + 5} 
+           V${yOffset + 15}`
+                )
+                .attr("stroke", "rgba(0, 0, 0, 0.3)")
+                .attr("stroke-width", 2);
+            }
+          }
+
+          // Helper function to convert hex color to RGB
+          function hexToRgb(hex) {
+            const bigint = parseInt(hex.slice(1), 16);
+            return `${(bigint >> 16) & 255}, ${(bigint >> 8) & 255}, ${
+              bigint & 255
+            }`;
+          }
+
           //sketching fuzzy drug implementation
 
           // if (drug.fuzzy && isScheduledForDate) {
@@ -773,12 +898,6 @@ export default function DateLine({
 
           // Increment yOffset to avoid overlapping blocks on the same date
           yOffset -= 25;
-
-          // Leave space for weekends/holidays if no drug is scheduled
-          if (isOnWeekend || isHoliday) {
-            //TODO: add fuzzy shadows on nearest dates that are not also weekends/holidays
-            return; // Skip this iteration
-          }
         });
       });
     }
