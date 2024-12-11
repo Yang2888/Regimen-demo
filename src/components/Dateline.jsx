@@ -539,11 +539,6 @@ export default function DateLine({
             );
           }
 
-          //TODO: correct year adjustment, otherwise it's better
-          if (isWeekend(adjustedDate)) {
-            console.log("Weekend Date:", adjustedDate);
-          }
-
           textElement
             .append("tspan")
             .attr("x", 0) // Align horizontally at the tick
@@ -628,6 +623,7 @@ export default function DateLine({
 
           // If drug is scheduled on this date, draw the main block
           if (isScheduledForDate) {
+            console.log(currentDate);
             drawDrugBlock(
               svg,
               drug,
