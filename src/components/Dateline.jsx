@@ -431,9 +431,6 @@ export default function DateLine({
 
     // const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
 
-    // Remove any existing circle before adding a new one
-    svg.select(".current-date-circle").remove();
-
     let lastCycleDisplayed = 0;
 
     // Update scale and transformation based on zoom and translate props
@@ -602,9 +599,9 @@ export default function DateLine({
           );
 
           const tickPosition = xScale(date);
-          // const drugColor = getDrugColor(drug.component.toLowerCase());
+          const drugColor = getDrugColor(drug.component.toLowerCase());
           //TODO: change back once drug shadows are appearing
-          const drugColor = "rgba(1, 1, 1, 0.01)";
+          // const drugColor = "rgba(1, 1, 1, 0.01)";
 
           // If drug is scheduled on this date, draw the main block
           if (isScheduledForDate) {
@@ -640,6 +637,7 @@ export default function DateLine({
             (isWeekend(currentDate) ||
               officeClosures.hasOwnProperty(currentDate))
           ) {
+            console.log(currentDate);
             // Only generate afterimages under specific conditions
             let offsetDays = 1;
             let foundValidDate = false;
@@ -711,7 +709,6 @@ export default function DateLine({
               //TODO: adjust tickposition for aferimage
               // const adjustedTickPosition = xScale(date + offsetDays);
               const adjustedTickPosition = xScale(date);
-              console.log(adjustedTickPosition);
 
               // Use drawDrugBlock instead of drawAfterimageShape
               drawDrugBlock(
@@ -738,13 +735,17 @@ export default function DateLine({
       isMainBlock,
       isScheduledForDate
     ) {
-      if (!isMainBlock) {
-        console.log(yOffset);
-        console.log("afterimage");
-        console.log(tickPosition);
-        console.log(drug.shape);
-        console.log(color);
-      }
+      // if (!isMainBlock) {
+      //   console.log(
+      //     svg,
+      //     drug,
+      //     tickPosition,
+      //     yOffset,
+      //     color,
+      //     isMainBlock,
+      //     isScheduledForDate
+      //   );
+      // }
       let drugBlock;
       switch (drug.shape) {
         case "droplet":
@@ -1122,6 +1123,18 @@ export default function DateLine({
     svg.append("g").attr("class", "axis-group");
 
     generateDrugGroups(data_global, svg, newXScale, dates);
+
+    // svg
+    //   .select(".axis-group")
+    //   .selectAll(".drug-afterimage")
+    //   .attr("transform", () => {
+    //     // Get the SVG's total width and calculate the center
+    //     const svgWidth = +svg.attr("width");
+    //     const centerX = svgWidth / 2;
+
+    //     // Return a translation to move the afterimage to the center
+    //     return `translate(${centerX}, 0)`;
+    //   });
 
     // Ensure the font size and line thickness stay consistent after updating the axis
     svg.selectAll(".tick text").style("font-size", "14px"); // Keep font large
