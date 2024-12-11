@@ -427,35 +427,12 @@ export default function DateLine({
       svg.selectAll(".domain").style("stroke-width", "2px"); // Bolder axis line
     }
 
-    //TODO: start date specified by data
     const today = formatDate(new Date()); // Current date
-
-    //TODO: make circle disappear when zoomed out
-    const handleStartDateChange = (newDate) => {
-      setStartDate(newDate); // Update React state
-      setParsedStartDate(new Date(newDate + 1)); // Update parsed date
-    };
-    const daysSinceStart = Math.floor(
-      (new Date(today) - new Date(parsedStartDate)) / (1000 * 60 * 60 * 24)
-    );
 
     // const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
 
     // Remove any existing circle before adding a new one
     svg.select(".current-date-circle").remove();
-
-    //TODO: make it so 2.5here is mapped to by a constant corresponding to date height
-    // svg
-    //   .append("circle")
-    //   .attr("class", "current-date-circle")
-    //   .attr("cx", (currentDatePosition ) * zoom)
-    //   .attr("cy", height / 2 + parseFloat(2.5) * 16) // corresponds to 2.5em
-    //   .attr("r", 40) // Circle radius
-    //   .attr("stroke", "red")
-    //   .attr("fill", "none")
-    //   .attr("stroke-width", 2)
-    //   .attr("stroke-dasharray", "5, 3") // Dashed line to mimic hand-drawn style
-    //   .attr("transform", `translate(${translate.x }, ${translate.y})`);
 
     let lastCycleDisplayed = 0;
 
@@ -609,10 +586,15 @@ export default function DateLine({
       data.drugs.forEach((drug, drugIndex) => {
         let yOffset = -15 - drugIndex * 25; // Adjust vertical positioning
 
+        let checked = false;
+
         // Iterate over each date in the cycle
         d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
-          const currentDate = new Date(date);
-          currentDate.setDate(currentDate.getDate() + Math.floor(date));
+          let currentDate = new Date(parsedStartDate);
+          currentDate.setDate(
+            currentDate.getDate() + 1 + date * cycle_length_ub
+          );
+
           const isScheduledForDate = drug.days.some(
             (day) =>
               day.number ===
@@ -620,11 +602,21 @@ export default function DateLine({
           );
 
           const tickPosition = xScale(date);
-          const drugColor = getDrugColor(drug.component.toLowerCase());
+          // const drugColor = getDrugColor(drug.component.toLowerCase());
+          //TODO: change back once drug shadows are appearing
+          const drugColor = "rgba(1, 1, 1, 0.01)";
 
           // If drug is scheduled on this date, draw the main block
           if (isScheduledForDate) {
-            drawDrugBlock(svg, drug, tickPosition, yOffset, drugColor, true);
+            drawDrugBlock(
+              svg,
+              drug,
+              tickPosition,
+              yOffset,
+              drugColor,
+              true,
+              isScheduledForDate
+            );
           }
 
           // Always try to draw afterimages, with more lenient conditions
@@ -643,50 +635,62 @@ export default function DateLine({
           //     (Math.round(prevDate * cycle_length_ub) % cycle_length_ub) + 1
           // );
 
-          // Only generate afterimages under specific conditions
           if (
-            isWeekend(currentDate) ||
-            officeClosures.hasOwnProperty(currentDate)
+            isScheduledForDate &&
+            (isWeekend(currentDate) ||
+              officeClosures.hasOwnProperty(currentDate))
           ) {
+            // Only generate afterimages under specific conditions
             let offsetDays = 1;
             let foundValidDate = false;
             let targetDate;
 
             while (!foundValidDate && offsetDays < 7) {
               // Limit search to prevent infinite loop
-              const nextDate = new Date(date); // Create a copy of the current date
+              const nextDate = new Date(currentDate); // Create a copy of the current date
               nextDate.setDate(nextDate.getDate() + offsetDays);
 
-              const prevDate = new Date(date);
+              const nextDateValue = nextDate.getTime() / (24 * 60 * 60 * 1000); // Convert to days
+              const normalizedNextDate =
+                Math.round(nextDateValue * cycle_length_ub) / cycle_length_ub;
+
+              const prevDate = new Date(currentDate);
               prevDate.setDate(prevDate.getDate() - offsetDays);
+
+              const prevDateValue = prevDate.getTime() / (24 * 60 * 60 * 1000); // Convert to days
+              const normalizedPrevDate =
+                Math.round(prevDateValue * cycle_length_ub) / cycle_length_ub;
+
+              const isNextDateConflicting = data.drugs.some((d) =>
+                d.days.some(
+                  (day) =>
+                    day.number ===
+                    (Math.round(normalizedNextDate * cycle_length_ub) %
+                      cycle_length_ub) +
+                      1
+                )
+              );
+
+              const isPrevDateConflicting = data.drugs.some((d) =>
+                d.days.some(
+                  (day) =>
+                    day.number ===
+                    (Math.round(normalizedPrevDate * cycle_length_ub) %
+                      cycle_length_ub) +
+                      1
+                )
+              );
 
               // Check forward for a valid date
               const isNextDateValid =
                 !isWeekend(nextDate) &&
                 !officeClosures.hasOwnProperty(nextDate) &&
-                !data.drugs.some((d) =>
-                  d.days.some(
-                    (day) =>
-                      day.number ===
-                      (Math.round(nextDate.getTime() / cycle_length_ub) %
-                        cycle_length_ub) +
-                        1
-                  )
-                );
-
+                !isNextDateConflicting;
               // Check backward for a valid date
               const isPrevDateValid =
                 !isWeekend(prevDate) &&
                 !officeClosures.hasOwnProperty(prevDate) &&
-                !data.drugs.some((d) =>
-                  d.days.some(
-                    (day) =>
-                      day.number ===
-                      (Math.round(prevDate.getTime() / cycle_length_ub) %
-                        cycle_length_ub) +
-                        1
-                  )
-                );
+                !isPrevDateConflicting;
 
               if (isNextDateValid) {
                 foundValidDate = true;
@@ -700,25 +704,26 @@ export default function DateLine({
             }
 
             // If a valid date is found, draw the afterimage
-            // if (foundValidDate) {
-            //   const afterimageColor = `rgba(${hexToRgb(drugColor)}, 0.3)`;
-            //   //TODO: correct tick position
+            if (foundValidDate) {
+              // const afterimageColor = `rgba(${hexToRgb(drugColor)}, 0.3)`;
+              const afterimageColor = "rgba(0, 0, 0, 1)";
 
-            //   const targetDateValue =
-            //     Math.round(targetDate.getTime() / (24 * 60 * 60 * 1000)) /
-            //     cycle_length_ub;
-            //   const tickPosition = xScale(targetDateValue);
+              //TODO: adjust tickposition for aferimage
+              // const adjustedTickPosition = xScale(date + offsetDays);
+              const adjustedTickPosition = xScale(date);
+              console.log(adjustedTickPosition);
 
-            //   // Use drawDrugBlock instead of drawAfterimageShape
-            //   drawDrugBlock(
-            //     svg, // SVG element
-            //     drug, // Drug object
-            //     tickPosition, // X position on the timeline
-            //     yOffset, // Y offset for placement
-            //     afterimageColor, // Transparent color for afterimage
-            //     false // Indicates this is an afterimage, not a main block
-            //   );
-            // }
+              // Use drawDrugBlock instead of drawAfterimageShape
+              drawDrugBlock(
+                svg, // SVG element
+                drug, // Drug object
+                adjustedTickPosition, // X position on the timeline
+                yOffset, // Y offset for placement
+                afterimageColor, // Transparent color for afterimage
+                false, // Indicates this is an afterimage, not a main block
+                isScheduledForDate
+              );
+            }
           }
         });
       });
@@ -730,8 +735,16 @@ export default function DateLine({
       tickPosition,
       yOffset,
       color,
-      isMainBlock
+      isMainBlock,
+      isScheduledForDate
     ) {
+      if (!isMainBlock) {
+        console.log(yOffset);
+        console.log("afterimage");
+        console.log(tickPosition);
+        console.log(drug.shape);
+        console.log(color);
+      }
       let drugBlock;
       switch (drug.shape) {
         case "droplet":
@@ -741,11 +754,11 @@ export default function DateLine({
             .attr("class", isMainBlock ? "drug-block" : "drug-afterimage")
             .attr(
               "d",
-              `M${tickPosition},${yOffset + 10 - 10} 
+              `M${tickPosition},${yOffset} 
                          Q${tickPosition - 10},${yOffset + 10} 
                          ${tickPosition},${yOffset + 10 + 10} 
                          Q${tickPosition + 10},${yOffset + 10} 
-                         ${tickPosition},${yOffset + 10 - 10} Z`
+                         ${tickPosition},${yOffset} Z`
             )
             .attr("fill", color);
           break;
@@ -785,15 +798,16 @@ export default function DateLine({
             .attr("fill", color);
 
           // Add the cross inside the circle
-          const crossColor = isMainBlock ? "black" : "transparent";
+          const crossColor = isScheduledForDate ? "black" : "transparent";
           svg
             .select(".axis-group")
             .append("path")
+            .attr("class", isMainBlock ? "drug-block" : "drug-afterimage")
             .attr(
               "d",
-              `M${tickPosition - 5},${yOffset + 10} 
-                         H${tickPosition + 5} 
-                         M${tickPosition},${yOffset + 5} 
+              `M${tickPosition - 5},${yOffset + 10}
+                         H${tickPosition + 5}
+                         M${tickPosition},${yOffset + 5}
                          V${yOffset + 15}`
             )
             .attr("stroke", crossColor)
