@@ -47,6 +47,9 @@ export default function DateLine({
     irinotecan: ["irinotecan", "onivyde"],
     paclitaxel: ["paclitaxel", "abraxane"],
     topotecan: ["topotecan", "hycamtin"],
+    bortezomib: ["bortezomib", "velcade"],
+    pemetrexed: ["pemetrexed", "alimta"],
+    carboplatin: ["carboplatin", "paraplatin"],
   };
 
   const colorMap = {
@@ -63,6 +66,9 @@ export default function DateLine({
     irinotecan: "#FF4E50", // Crimson
     paclitaxel: "#FF7F50", // Coral
     topotecan: "#FF3E96", // Hot pink
+    bortezomib: "#FF69B4", // Pink
+    pemetrexed: "#FF1493", // Deep pink
+    carboplatin: "#FFC0CB", // Pink
   };
 
   // Assign colors dynamically to each drug in the groups
