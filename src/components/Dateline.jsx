@@ -422,7 +422,7 @@ export default function DateLine({
       .data([
         { offset: "0%", color: "#FF5733" },
         { offset: "50%", color: "#FFA500" },
-        { offset: "100%", color: "#FF4500" },
+        { offset: "100%", color: "#FFC0CB" },
       ])
       .enter()
       .append("stop")
