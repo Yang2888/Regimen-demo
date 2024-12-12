@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Regimen-demo/static/css/main.e6c13ad2.css",
-    "main.js": "/Regimen-demo/static/js/main.43da9a93.js",
+    "main.js": "/Regimen-demo/static/js/main.4e9bf7b0.js",
     "static/js/453.c108b053.chunk.js": "/Regimen-demo/static/js/453.c108b053.chunk.js",
     "index.html": "/Regimen-demo/index.html",
     "main.e6c13ad2.css.map": "/Regimen-demo/static/css/main.e6c13ad2.css.map",
-    "main.43da9a93.js.map": "/Regimen-demo/static/js/main.43da9a93.js.map",
+    "main.4e9bf7b0.js.map": "/Regimen-demo/static/js/main.4e9bf7b0.js.map",
     "453.c108b053.chunk.js.map": "/Regimen-demo/static/js/453.c108b053.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.43da9a93.js"
+    "static/js/main.4e9bf7b0.js"
   ]
 }
