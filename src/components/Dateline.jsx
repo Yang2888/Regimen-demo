@@ -47,7 +47,6 @@ export default function DateLine({
     irinotecan: ["irinotecan", "onivyde"],
     paclitaxel: ["paclitaxel", "abraxane"],
     topotecan: ["topotecan", "hycamtin"],
-    bortezomib: ["bortezomib", "velcade"],
     pemetrexed: ["pemetrexed", "alimta"],
     carboplatin: ["carboplatin", "paraplatin"],
   };
@@ -66,9 +65,8 @@ export default function DateLine({
     irinotecan: "#FF4E50", // Crimson
     paclitaxel: "#FF7F50", // Coral
     topotecan: "#FF3E96", // Hot pink
-    bortezomib: "#FF69B4", // Pink
-    pemetrexed: "#FF1493", // Deep pink
-    carboplatin: "#FFC0CB", // Pink
+    pemetrexed: "#FF69B4", // Deep pink
+    carboplatin: "#FF1493", // Pink
   };
 
   // Assign colors dynamically to each drug in the groups
@@ -422,7 +420,7 @@ export default function DateLine({
       .data([
         { offset: "0%", color: "#FF5733" },
         { offset: "50%", color: "#FFA500" },
-        { offset: "100%", color: "#FF4500" },
+        { offset: "100%", color: "#FFC0CB" },
       ])
       .enter()
       .append("stop")
@@ -566,6 +564,80 @@ export default function DateLine({
           return `D${cycleDay}\n${formattedDate}`;
         }
       });
+
+    // Append a horizontal arrow with "drag"
+    svg
+      .select(".axis-group")
+      .append("text")
+      .attr("x", -300) // Adjust the x-coordinate
+      .attr("y", 85) // Adjust the y-coordinate above the axis
+      .attr("text-anchor", "middle")
+      .style("font-size", "12px")
+      .text("drag")
+      .style("stroke-width", ".5px")
+      .attr("stroke", "black");
+
+    svg
+      .select(".axis-group")
+      .append("line")
+      .attr("x1", -300) // Start of the horizontal arrow
+      .attr("x2", -350) // End of the horizontal arrow
+      .attr("y1", 70) // Position above the axis
+      .attr("y2", 70)
+      .attr("stroke", "black")
+      .attr("marker-end", "url(#arrowhead)")
+      .attr("marker-start", "url(#reversed-arrowhead)");
+
+    // Append a vertical arrow with "scroll"
+    svg
+      .select(".axis-group")
+      .append("text")
+      .attr("x", -355) // Adjust the x-coordinate for vertical arrow label
+      .attr("y", 65) // Adjust the y-coordinate
+      .attr("text-anchor", "middle")
+      .style("font-size", "12px")
+      .text("scroll")
+      .style("stroke-width", ".5px")
+      .attr("stroke", "black");
+
+    svg
+      .select(".axis-group")
+      .append("line")
+      .attr("x1", -325) // Fixed x-coordinate for vertical arrow
+      .attr("x2", -325)
+      .attr("y1", 55) // Start of the vertical arrow
+      .attr("y2", 85) // End of the vertical arrow
+      .attr("stroke", "black")
+      .attr("marker-end", "url(#arrowhead)")
+      .attr("marker-start", "url(#reversed-arrowhead)");
+
+    // Define arrowhead markers
+    const defs = svg.append("defs");
+    defs
+      .append("marker")
+      .attr("id", "arrowhead")
+      .attr("viewBox", "0 0 10 10")
+      .attr("refX", 5)
+      .attr("refY", 5)
+      .attr("markerWidth", 6)
+      .attr("markerHeight", 6)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M 0 0 L 10 5 L 0 10 Z") // Arrow shape
+      .attr("fill", "black");
+
+    defs
+      .append("marker")
+      .attr("id", "reversed-arrowhead")
+      .attr("viewBox", "0 0 10 10")
+      .attr("refX", 5) // Adjust refX if needed for alignment
+      .attr("refY", 5)
+      .attr("markerWidth", 6)
+      .attr("markerHeight", 6)
+      .attr("orient", "auto")
+      .append("path")
+      .attr("d", "M 10 0 L 0 5 L 10 10 Z") // Flipped arrowhead shape
+      .attr("fill", "black");
 
     svg
       .select(".axis-group")
