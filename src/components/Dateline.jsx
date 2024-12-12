@@ -365,6 +365,81 @@ export default function DateLine({
         .text(`${drug.component} (${drug.route})`)
         .attr("class", "legend-drug");
     });
+
+    // Add chemo and non-chemo bars
+    const barYOffset = 10; // Offset below existing legend items
+    const barXOffset = 400; // New column for bars
+
+    // Create chemo bar
+    legendGroup
+      .append("rect")
+      .attr("x", barXOffset)
+      .attr("y", barYOffset)
+      .attr("width", 120)
+      .attr("height", 20)
+      .style("fill", "url(#chemoGradient)");
+
+    legendGroup
+      .append("text")
+      .attr("x", barXOffset + 130)
+      .attr("y", barYOffset + 15)
+      .style("font-size", "14px")
+      .text("Chemo");
+
+    // Create non-chemo bar
+    legendGroup
+      .append("rect")
+      .attr("x", barXOffset)
+      .attr("y", barYOffset + 40)
+      .attr("width", 120)
+      .attr("height", 20)
+      .style("fill", "url(#nonChemoGradient)");
+
+    legendGroup
+      .append("text")
+      .attr("x", barXOffset + 130)
+      .attr("y", barYOffset + 55)
+      .style("font-size", "14px")
+      .text("Non-Chemo");
+
+    // Define gradients
+    const defs = svg.append("defs");
+
+    defs
+      .append("linearGradient")
+      .attr("id", "chemoGradient")
+      .attr("x1", "0%")
+      .attr("y1", "0%")
+      .attr("x2", "100%")
+      .attr("y2", "0%")
+      .selectAll("stop")
+      .data([
+        { offset: "0%", color: "#FF5733" },
+        { offset: "50%", color: "#FFA500" },
+        { offset: "100%", color: "#FF4500" },
+      ])
+      .enter()
+      .append("stop")
+      .attr("offset", (d) => d.offset)
+      .attr("stop-color", (d) => d.color);
+
+    defs
+      .append("linearGradient")
+      .attr("id", "nonChemoGradient")
+      .attr("x1", "0%")
+      .attr("y1", "0%")
+      .attr("x2", "100%")
+      .attr("y2", "0%")
+      .selectAll("stop")
+      .data([
+        { offset: "0%", color: "#0000FF" },
+        { offset: "50%", color: "#00FF00" },
+        { offset: "100%", color: "#00FFFF" },
+      ])
+      .enter()
+      .append("stop")
+      .attr("offset", (d) => d.offset)
+      .attr("stop-color", (d) => d.color);
   }, [data_global, zoom]); // Re-run effect whenever data_global changes
 
   useEffect(() => {
@@ -664,14 +739,12 @@ export default function DateLine({
             (isWeekend(currentDate) ||
               officeClosures.hasOwnProperty(currentDate))
           ) {
-            console.log(currentDate);
             // Only generate afterimages under specific conditions
             let offsetDays = 1;
             let foundValidDate = false;
             let targetDate;
 
             while (!foundValidDate && offsetDays < 7) {
-              console.log(offsetDays);
               // Limit search to prevent infinite loop
               const nextDate = new Date(currentDate); // Create a copy of the current date
               nextDate.setDate(nextDate.getDate() + offsetDays);
@@ -687,8 +760,6 @@ export default function DateLine({
               const normalizedPrevDate =
                 (prevDateValue * cycle_length_ub) / cycle_length_ub;
 
-              console.log(normalizedNextDate, normalizedPrevDate);
-
               const isNextDateConflicting = data.drugs.some((d) =>
                 d.days.some(
                   (day) =>
@@ -696,8 +767,6 @@ export default function DateLine({
                     (normalizedNextDate * cycle_length_ub) % cycle_length_ub
                 )
               );
-
-              console.log(isNextDateConflicting);
 
               const isPrevDateConflicting = data.drugs.some((d) =>
                 d.days.some(
@@ -734,21 +803,17 @@ export default function DateLine({
               // const afterimageColor = `rgba(${hexToRgb(drugColor)}, 0.3)`;
               const afterimageColor = "rgba(0, 0, 0, 1)";
 
-              //TODO: adjust tickposition for aferimage
-              // const adjustedTickPosition = xScale(date + offsetDays);
-              const adjustedTickPosition = xScale(date);
+              //TODO: adjust tickposition based on offsetDays and direction
 
-              // console.log(currentDate);
-
-              drawDrugBlock(
-                svg, // SVG element
-                drug, // Drug object
-                tickPosition, // X position on the timeline
-                yOffset, // Y offset for placement
-                afterimageColor, // Transparent color for afterimage
-                false, // Indicates this is an afterimage, not a main block
-                isScheduledForDate
-              );
+              // drawDrugBlock(
+              //   svg, // SVG element
+              //   drug, // Drug object
+              //   tickPosition, // X position on the timeline
+              //   yOffset, // Y offset for placement
+              //   afterimageColor, // Transparent color for afterimage
+              //   false, // Indicates this is an afterimage, not a main block
+              //   isScheduledForDate
+              // );
             }
           }
         });
@@ -764,17 +829,6 @@ export default function DateLine({
       isMainBlock,
       isScheduledForDate
     ) {
-      // if (!isMainBlock) {
-      //   console.log(
-      //     svg,
-      //     drug,
-      //     tickPosition,
-      //     yOffset,
-      //     color,
-      //     isMainBlock,
-      //     isScheduledForDate
-      //   );
-      // }
       let drugBlock;
       switch (drug.shape) {
         case "droplet":
