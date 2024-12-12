@@ -737,15 +737,17 @@ export default function DateLine({
               // const adjustedTickPosition = xScale(date + offsetDays);
               const adjustedTickPosition = xScale(date);
 
-              // drawDrugBlock(
-              //   svg, // SVG element
-              //   drug, // Drug object
-              //   adjustedTickPosition, // X position on the timeline
-              //   yOffset, // Y offset for placement
-              //   afterimageColor, // Transparent color for afterimage
-              //   false, // Indicates this is an afterimage, not a main block
-              //   isScheduledForDate
-              // );
+              console.log(currentDate);
+
+              drawDrugBlock(
+                svg, // SVG element
+                drug, // Drug object
+                tickPosition, // X position on the timeline
+                yOffset, // Y offset for placement
+                afterimageColor, // Transparent color for afterimage
+                false, // Indicates this is an afterimage, not a main block
+                isScheduledForDate
+              );
             }
           }
         });
