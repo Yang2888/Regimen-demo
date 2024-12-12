@@ -9,7 +9,6 @@ export default function DateLine({
 }) {
   const calendarRef = useRef(null);
   const [startDate, setStartDate] = useState(getToday());
-  console.log(startDate);
   const [parsedStartDate, setParsedStartDate] = useState(new Date(startDate));
 
   //TODO: Birthday input
@@ -31,7 +30,7 @@ export default function DateLine({
 
   function isWeekend(date) {
     const day = date.getDay();
-    return day === 0 || day === 6; // Returns true if it's Sunday (0) or Saturday (6)
+    return day === 0 || day === 6; // Returns true if it's Saturday (5) or Sunday (6)
   }
 
   const drugGroups = {
@@ -373,12 +372,10 @@ export default function DateLine({
 
     // these would go in the data jsons, which I've removed for now since it's causing some errors
     if (data_global["Regimen_Start_Date"]) {
-      console.log(data_global["Regimen_Start_Date"]);
       setParsedStartDate(new Date(data_global["Regimen_Start_Date"]));
     } else {
     }
     // setParsedStartDate(Date(data_global["Regimen_Start_Date"]))
-    // console.log(data_global)
     // setStartDate(data_global["Regimen_Start_Date"])
     const svg = d3.select(calendarRef.current);
 
@@ -423,8 +420,6 @@ export default function DateLine({
             : `${Math.round(d * cycle_length_ub)}`;
         });
 
-      // console.log(xAxis);
-
       g.call(xAxis);
 
       // Apply larger font size for tick labels and bolder axis line
@@ -432,37 +427,9 @@ export default function DateLine({
       svg.selectAll(".domain").style("stroke-width", "2px"); // Bolder axis line
     }
 
-    //TODO: start date specified by data
     const today = formatDate(new Date()); // Current date
 
-    //TODO: make circle disappear when zoomed out
-    const handleStartDateChange = (newDate) => {
-      setStartDate(newDate); // Update React state
-      setParsedStartDate(new Date(newDate + 1)); // Update parsed date
-    };
-    const daysSinceStart = Math.floor(
-      (new Date(today) - new Date(parsedStartDate)) / (1000 * 60 * 60 * 24)
-    );
-
-    // console.log(daysSinceStart)
-    // console.log(cycle_length_ub)
     // const currentDatePosition = xScale(daysSinceStart / cycle_length_ub);
-
-    // Remove any existing circle before adding a new one
-    svg.select(".current-date-circle").remove();
-
-    //TODO: make it so 2.5here is mapped to by a constant corresponding to date height
-    // svg
-    //   .append("circle")
-    //   .attr("class", "current-date-circle")
-    //   .attr("cx", (currentDatePosition ) * zoom)
-    //   .attr("cy", height / 2 + parseFloat(2.5) * 16) // corresponds to 2.5em
-    //   .attr("r", 40) // Circle radius
-    //   .attr("stroke", "red")
-    //   .attr("fill", "none")
-    //   .attr("stroke-width", 2)
-    //   .attr("stroke-dasharray", "5, 3") // Dashed line to mimic hand-drawn style
-    //   .attr("transform", `translate(${translate.x }, ${translate.y})`);
 
     let lastCycleDisplayed = 0;
 
@@ -535,8 +502,6 @@ export default function DateLine({
         // Split the text content into cycle label and date label
         const [cycleLabel, dateLabel] = textElement.text().split("\n");
 
-        // console.log(dateLabel)
-
         // Clear existing text and append tspans for better separation
         textElement.text(null);
 
@@ -555,7 +520,25 @@ export default function DateLine({
           const currentDate = new Date(today);
           const day = String(currentDate.getDate() + 1).padStart(2, "0");
           const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-          // console.log(day, month, dateLabel);
+
+          const tickMonth = parseInt(dateLabel.split("/")[0]);
+          const tickDay = parseInt(dateLabel.split("/")[1]);
+
+          let adjustedDate = new Date(
+            currentDate.getFullYear(),
+            tickMonth - 1,
+            tickDay
+          );
+
+          // If the date has already passed this year, adjust to the next year
+          if (adjustedDate < currentDate) {
+            adjustedDate = new Date(
+              currentDate.getFullYear() + 1,
+              tickMonth - 1,
+              tickDay
+            );
+          }
+
           textElement
             .append("tspan")
             .attr("x", 0) // Align horizontally at the tick
@@ -566,7 +549,7 @@ export default function DateLine({
               //TODO: add a function to check for weekend and holidays together
               dateLabel === `${month}/${day}`
                 ? "red" // Set to red if it is the current date
-                : isWeekend(new Date(dateLabel)) || officeClosures[dateLabel]
+                : isWeekend(adjustedDate) || officeClosures[dateLabel]
                 ? "violet" // Set to violet for weekends or closures
                 : "black" // Default to black
             )
@@ -575,7 +558,6 @@ export default function DateLine({
 
         // Check if the date matches a closure date and add the closure reason
         if (dateLabel && officeClosures[dateLabel]) {
-          // console.log(officeClosures[dateLabel]);
           textElement
             .append("tspan")
             .attr("x", 0) // Align horizontally at the tick
@@ -607,186 +589,578 @@ export default function DateLine({
     const drugNames = data_global.drugs.map((drug) => drug.component);
 
     function generateDrugGroups(data, svg, xScale, dates) {
-      // Remove any existing blocks to avoid duplication
-      svg.select(".axis-group").selectAll(".drug-block").remove();
-
-      const colorScheme = d3.schemeTableau10;
-      const colorScale = d3.scaleOrdinal(colorScheme);
-
-      //TODO: get a map of chemo/non-chemo drugs and add corresponding colors
-
-      // Define the minimum and maximum number of sides for the polygons
-      // const minSides = 3;
-      // const maxSides = Math.min(10, minSides + data.drugs.length - 1); // Limit max sides to avoid overly complex shapes
-
-      // Dynamically calculate the number of sides for each drug
-      //TODO: informed method of assigning drug colors/shapes (shape doesn't have to equal #sides)
       data.drugs.forEach((drug, index) => {
         drug.shape = shapeMap[drug.route]; // Map the shape based on the drug route
       });
+      // Remove existing blocks and afterimages
+      svg
+        .select(".axis-group")
+        .selectAll(".drug-block, .drug-afterimage")
+        .remove();
 
-      // const getPolygonPoints = (cx, cy, radius, sides) => {
-      //   const angleStep = (2 * Math.PI) / sides;
-      //   return Array.from({ length: sides }, (_, i) => {
-      //     const angle = i * angleStep - Math.PI / 2; // Start pointing upwards
-      //     const x = cx + radius * Math.cos(angle);
-      //     const y = cy + radius * Math.sin(angle);
-      //     return `${x},${y}`;
-      //   }).join(" ");
-      // };
+      // Iterate over each drug
+      data.drugs.forEach((drug, drugIndex) => {
+        let yOffset = -15 - drugIndex * 25; // Adjust vertical positioning
 
-      // Iterate over each day within the specified date range
-      d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
-        // Get the current date object from the scaled date value
-        //TODO: make sur ethis
-        const currentDate = new Date(date);
-        currentDate.setDate(currentDate.getDate() + Math.floor(date));
+        // Iterate over each date in the cycle
+        d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
+          const currentDate = new Date(parsedStartDate);
+          currentDate.setDate(
+            Math.round(currentDate.getDate() + date * cycle_length_ub)
+          );
 
-        // Check if the date is a weekend or holiday
-        const formattedDate = `${String(currentDate.getMonth() + 1).padStart(
-          2,
-          "0"
-        )}/${String(currentDate.getDate()).padStart(2, "0")}`;
-        const isHoliday = officeClosures.hasOwnProperty(formattedDate);
-        const isOnWeekend = isWeekend(currentDate);
-
-        // Track the vertical position offset for each drug block on the same date
-        let yOffset = -15;
-
-        // Iterate over each drug in the data
-        data.drugs.forEach((drug, index) => {
-          // Check if the drug is scheduled for the current date
           const isScheduledForDate = drug.days.some(
             (day) =>
               day.number ===
-              (Math.round(date * cycle_length_ub) % cycle_length_ub) + 1
+              Math.round(date * cycle_length_ub) % cycle_length_ub
           );
 
-          // If scheduled, create a block for this drug on this date
-          const tickPosition = xScale(date);
-          let drugBlock;
-          // console.log(getDrugColor(drug.component.toLowerCase());
+          // // console.log(currentDate.toString());
+          // const dateString =
+          //   "Fri Jan 24 2025 19:00:00 GMT-0500 (Eastern Standard Time)";
 
-          // Get the unique color and shape for each drug
-          const drugColor = isScheduledForDate
-            ? getDrugColor(drug.component.toLowerCase())
-            : "transparent";
-
-          if (drug.shape === "droplet") {
-            // Create a teardrop shape
-            drugBlock = svg
-              .select(".axis-group")
-              .append("path")
-              .attr("class", "drug-block")
-              .attr(
-                "d",
-                `M${tickPosition},${yOffset + 10 - 10} 
-                   Q${tickPosition - 10},${yOffset + 10} 
-                   ${tickPosition},${yOffset + 10 + 10} 
-                   Q${tickPosition + 10},${yOffset + 10} 
-                   ${tickPosition},${yOffset + 10 - 10} Z`
-              )
-              .attr("fill", drugColor);
-          } else if (drug.shape === "arrow") {
-            // Create an arrow shape
-            drugBlock = svg
-              .select(".axis-group")
-              .append("polygon")
-              .attr("class", "drug-block")
-              .attr(
-                "points",
-                `${tickPosition - 10},${yOffset + 10} 
-                   ${tickPosition},${yOffset} 
-                   ${tickPosition + 10},${yOffset + 10} 
-                   ${tickPosition},${yOffset + 20}`
-              )
-              .attr("fill", drugColor);
-          } else if (drug.shape === "ellipse") {
-            // Create an ellipse
-            drugBlock = svg
-              .select(".axis-group")
-              .append("ellipse")
-              .attr("class", "drug-block")
-              .attr("cx", tickPosition)
-              .attr("cy", yOffset + 10)
-              .attr("rx", 10)
-              .attr("ry", 5)
-              .attr("fill", drugColor);
-          } else if (drug.shape === "cross-circle") {
-            // Create a circle with a cross inside
-            drugBlock = svg
-              .select(".axis-group")
-              .append("circle")
-              .attr("class", "drug-block")
-              .attr("cx", tickPosition)
-              .attr("cy", yOffset + 10)
-              .attr("r", 10)
-              .attr("fill", drugColor);
-
-            // Add the cross inside the circle
-            const crossColor = isScheduledForDate ? "black" : "transparent";
-            svg
-              .select(".axis-group")
-              .append("path")
-              .attr("class", "drug-block")
-              .attr(
-                "d",
-                `M${tickPosition - 5},${yOffset + 10} 
-                   H${tickPosition + 5} 
-                   M${tickPosition},${yOffset + 5} 
-                   V${yOffset + 15}`
-              )
-              .attr("stroke", crossColor)
-              .attr("stroke-width", 2);
-          }
-
-          // Append a colored block to the .axis-group for each scheduled date
-
-          if (isScheduledForDate) {
-            addBlockInteractivity(drugBlock, drugColor, drug);
-          }
-
-          //sketching fuzzy drug implementation
-
-          // if (drug.fuzzy && isScheduledForDate) {
-          //   const shadowOffsets = [-10, 10]; // Small offsets for shadow positions
-          //   shadowOffsets.forEach((offsetX) => {
-          //     if (offsetX !== 0) {
-          //       svg
-          //         .select(".axis-group")
-          //         .append("polygon")
-          //         .attr("class", "drug-block shadow")
-          //         .attr(
-          //           "points",
-          //           getPolygonPoints(
-          //             tickPosition + offsetX,
-          //             yOffset + 10,
-          //             10,
-          //             shapeSides
-          //           )
-          //         )
-          //         .attr("fill", drugColor)
-          //         .attr("opacity", 0.3); // Lower opacity for shadow effect
-          //     }
-          //   });
+          // if (currentDate.toString() === dateString) {
+          //   // console.log("hit");
+          //   // console.log(currentDate);
+          //   console.log(isScheduledForDate);
           // }
 
-          // Increment yOffset to avoid overlapping blocks on the same date
-          yOffset -= 25;
+          const tickPosition = xScale(date - 1 / cycle_length_ub);
+          const drugColor = getDrugColor(drug.component.toLowerCase());
+          //TODO: change back once drug shadows are appearing
+          // const drugColor = "rgba(1, 1, 1, 0.01)";
 
-          // Leave space for weekends/holidays if no drug is scheduled
-          if (isOnWeekend || isHoliday) {
-            //TODO: add fuzzy shadows on nearest dates that are not also weekends/holidays
-            return; // Skip this iteration
+          // If drug is scheduled on this date, draw the main block
+          if (isScheduledForDate) {
+            drawDrugBlock(
+              svg,
+              drug,
+              tickPosition,
+              yOffset,
+              drugColor,
+              true,
+              isScheduledForDate
+            );
+          }
+
+          // Always try to draw afterimages, with more lenient conditions
+          // const afterimageColor = `rgba(${hexToRgb(drugColor)}, 0.3)`;
+          // const nextDate = date + 1 / cycle_length_ub;
+          // const prevDate = date - 1 / cycle_length_ub;
+          // // Check if adjacent dates have this drug scheduled
+          // const isNextDateScheduled = drug.days.some(
+          //   (day) =>
+          //     day.number ===
+          //     (Math.round(nextDate * cycle_length_ub) % cycle_length_ub) + 1
+          // );
+          // const isPrevDateScheduled = drug.days.some(
+          //   (day) =>
+          //     day.number ===
+          //     (Math.round(prevDate * cycle_length_ub) % cycle_length_ub) + 1
+          // );
+
+          if (
+            isScheduledForDate &&
+            (isWeekend(currentDate) ||
+              officeClosures.hasOwnProperty(currentDate))
+          ) {
+            console.log(currentDate);
+            // Only generate afterimages under specific conditions
+            let offsetDays = 1;
+            let foundValidDate = false;
+            let targetDate;
+
+            while (!foundValidDate && offsetDays < 7) {
+              // Limit search to prevent infinite loop
+              const nextDate = new Date(currentDate); // Create a copy of the current date
+              nextDate.setDate(nextDate.getDate() + offsetDays);
+
+              const nextDateValue = nextDate.getTime() / (24 * 60 * 60 * 1000); // Convert to days
+              const normalizedNextDate =
+                Math.round(nextDateValue * cycle_length_ub) / cycle_length_ub;
+
+              const prevDate = new Date(currentDate);
+              prevDate.setDate(prevDate.getDate() - offsetDays);
+
+              const prevDateValue = prevDate.getTime() / (24 * 60 * 60 * 1000); // Convert to days
+              const normalizedPrevDate =
+                Math.round(prevDateValue * cycle_length_ub) / cycle_length_ub;
+
+              const isNextDateConflicting = data.drugs.some((d) =>
+                d.days.some(
+                  (day) =>
+                    day.number ===
+                    (Math.round(normalizedNextDate * cycle_length_ub) %
+                      cycle_length_ub) +
+                      1
+                )
+              );
+
+              const isPrevDateConflicting = data.drugs.some((d) =>
+                d.days.some(
+                  (day) =>
+                    day.number ===
+                    (Math.round(normalizedPrevDate * cycle_length_ub) %
+                      cycle_length_ub) +
+                      1
+                )
+              );
+
+              // Check forward for a valid date
+              const isNextDateValid =
+                !isWeekend(nextDate) &&
+                !officeClosures.hasOwnProperty(nextDate) &&
+                !isNextDateConflicting;
+              // Check backward for a valid date
+              const isPrevDateValid =
+                !isWeekend(prevDate) &&
+                !officeClosures.hasOwnProperty(prevDate) &&
+                !isPrevDateConflicting;
+
+              if (isNextDateValid) {
+                foundValidDate = true;
+                targetDate = nextDate;
+              } else if (isPrevDateValid) {
+                foundValidDate = true;
+                targetDate = prevDate;
+              } else {
+                offsetDays++; // Increase search range
+              }
+            }
+
+            // If a valid date is found, draw the afterimage
+            if (foundValidDate) {
+              // const afterimageColor = `rgba(${hexToRgb(drugColor)}, 0.3)`;
+              const afterimageColor = "rgba(0, 0, 0, 1)";
+
+              //TODO: adjust tickposition for aferimage
+              // const adjustedTickPosition = xScale(date + offsetDays);
+              const adjustedTickPosition = xScale(date);
+
+              // drawDrugBlock(
+              //   svg, // SVG element
+              //   drug, // Drug object
+              //   adjustedTickPosition, // X position on the timeline
+              //   yOffset, // Y offset for placement
+              //   afterimageColor, // Transparent color for afterimage
+              //   false, // Indicates this is an afterimage, not a main block
+              //   isScheduledForDate
+              // );
+            }
           }
         });
       });
     }
 
+    function drawDrugBlock(
+      svg,
+      drug,
+      tickPosition,
+      yOffset,
+      color,
+      isMainBlock,
+      isScheduledForDate
+    ) {
+      // if (!isMainBlock) {
+      //   console.log(
+      //     svg,
+      //     drug,
+      //     tickPosition,
+      //     yOffset,
+      //     color,
+      //     isMainBlock,
+      //     isScheduledForDate
+      //   );
+      // }
+      let drugBlock;
+      switch (drug.shape) {
+        case "droplet":
+          drugBlock = svg
+            .select(".axis-group")
+            .append("path")
+            .attr("class", isMainBlock ? "drug-block" : "drug-afterimage")
+            .attr(
+              "d",
+              `M${tickPosition},${yOffset} 
+                         Q${tickPosition - 10},${yOffset + 10} 
+                         ${tickPosition},${yOffset + 10 + 10} 
+                         Q${tickPosition + 10},${yOffset + 10} 
+                         ${tickPosition},${yOffset} Z`
+            )
+            .attr("fill", color);
+          break;
+        case "arrow":
+          drugBlock = svg
+            .select(".axis-group")
+            .append("polygon")
+            .attr("class", isMainBlock ? "drug-block" : "drug-afterimage")
+            .attr(
+              "points",
+              `${tickPosition - 10},${yOffset + 10} 
+                         ${tickPosition},${yOffset} 
+                         ${tickPosition + 10},${yOffset + 10} 
+                         ${tickPosition},${yOffset + 20}`
+            )
+            .attr("fill", color);
+          break;
+        case "ellipse":
+          drugBlock = svg
+            .select(".axis-group")
+            .append("ellipse")
+            .attr("class", isMainBlock ? "drug-block" : "drug-afterimage")
+            .attr("cx", tickPosition)
+            .attr("cy", yOffset + 10)
+            .attr("rx", 10)
+            .attr("ry", 5)
+            .attr("fill", color);
+          break;
+        case "cross-circle":
+          drugBlock = svg
+            .select(".axis-group")
+            .append("circle")
+            .attr("class", isMainBlock ? "drug-block" : "drug-afterimage")
+            .attr("cx", tickPosition)
+            .attr("cy", yOffset + 10)
+            .attr("r", 10)
+            .attr("fill", color);
+
+          // Add the cross inside the circle
+          const crossColor = isScheduledForDate ? "black" : "transparent";
+          svg
+            .select(".axis-group")
+            .append("path")
+            .attr("class", isMainBlock ? "drug-block" : "drug-afterimage")
+            .attr(
+              "d",
+              `M${tickPosition - 5},${yOffset + 10}
+                         H${tickPosition + 5}
+                         M${tickPosition},${yOffset + 5}
+                         V${yOffset + 15}`
+            )
+            .attr("stroke", crossColor)
+            .attr("stroke-width", 2);
+          break;
+        default:
+          break;
+      }
+
+      // Add interactivity to the block
+      addBlockInteractivity(drugBlock, color, drug);
+
+      return drugBlock;
+    }
+
+    // function generateDrugGroups(data, svg, xScale, dates) {
+    //   // Remove any existing blocks to avoid duplication
+    //   svg.select(".axis-group").selectAll(".drug-block").remove();
+
+    //   const colorScheme = d3.schemeTableau10;
+    //   const colorScale = d3.scaleOrdinal(colorScheme);
+
+    //   //TODO: get a map of chemo/non-chemo drugs and add corresponding colors
+
+    //   // Define the minimum and maximum number of sides for the polygons
+    //   // const minSides = 3;
+    //   // const maxSides = Math.min(10, minSides + data.drugs.length - 1); // Limit max sides to avoid overly complex shapes
+
+    //   // Dynamically calculate the number of sides for each drug
+    //   //TODO: informed method of assigning drug colors/shapes (shape doesn't have to equal #sides)
+    //   data.drugs.forEach((drug, index) => {
+    //     drug.shape = shapeMap[drug.route]; // Map the shape based on the drug route
+    //   });
+
+    //   // const getPolygonPoints = (cx, cy, radius, sides) => {
+    //   //   const angleStep = (2 * Math.PI) / sides;
+    //   //   return Array.from({ length: sides }, (_, i) => {
+    //   //     const angle = i * angleStep - Math.PI / 2; // Start pointing upwards
+    //   //     const x = cx + radius * Math.cos(angle);
+    //   //     const y = cy + radius * Math.sin(angle);
+    //   //     return `${x},${y}`;
+    //   //   }).join(" ");
+    //   // };
+
+    //   // Iterate over each day within the specified date range
+    //   d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
+    //     // Get the current date object from the scaled date value
+    //     //TODO: make sur ethis
+    //     const currentDate = new Date(date);
+    //     currentDate.setDate(currentDate.getDate() + Math.floor(date));
+
+    //     // Check if the date is a weekend or holiday
+    //     const formattedDate = `${String(currentDate.getMonth() + 1).padStart(
+    //       2,
+    //       "0"
+    //     )}/${String(currentDate.getDate()).padStart(2, "0")}`;
+    //     const isHoliday = officeClosures.hasOwnProperty(formattedDate);
+    //     const isOnWeekend = isWeekend(currentDate);
+
+    //     // Track the vertical position offset for each drug block on the same date
+    //     let yOffset = -15;
+
+    //     // Iterate over each drug in the data
+    //     data.drugs.forEach((drug, index) => {
+    //       // Check if the drug is scheduled for the current date
+    //       const isScheduledForDate = drug.days.some(
+    //         (day) =>
+    //           day.number ===
+    //           (Math.round(date * cycle_length_ub) % cycle_length_ub) + 1
+    //       );
+
+    //       // If scheduled, create a block for this drug on this date
+    //       const tickPosition = xScale(date);
+    //       let drugBlock;
+
+    //       // Get the unique color and shape for each drug
+    //       const drugColor = isScheduledForDate
+    //         ? getDrugColor(drug.component.toLowerCase())
+    //         : "transparent";
+
+    //       if (drug.shape === "droplet") {
+    //         // Create a teardrop shape
+    //         drugBlock = svg
+    //           .select(".axis-group")
+    //           .append("path")
+    //           .attr("class", "drug-block")
+    //           .attr(
+    //             "d",
+    //             `M${tickPosition},${yOffset + 10 - 10}
+    //                Q${tickPosition - 10},${yOffset + 10}
+    //                ${tickPosition},${yOffset + 10 + 10}
+    //                Q${tickPosition + 10},${yOffset + 10}
+    //                ${tickPosition},${yOffset + 10 - 10} Z`
+    //           )
+    //           .attr("fill", drugColor);
+    //       } else if (drug.shape === "arrow") {
+    //         // Create an arrow shape
+    //         drugBlock = svg
+    //           .select(".axis-group")
+    //           .append("polygon")
+    //           .attr("class", "drug-block")
+    //           .attr(
+    //             "points",
+    //             `${tickPosition - 10},${yOffset + 10}
+    //                ${tickPosition},${yOffset}
+    //                ${tickPosition + 10},${yOffset + 10}
+    //                ${tickPosition},${yOffset + 20}`
+    //           )
+    //           .attr("fill", drugColor);
+    //       } else if (drug.shape === "ellipse") {
+    //         // Create an ellipse
+    //         drugBlock = svg
+    //           .select(".axis-group")
+    //           .append("ellipse")
+    //           .attr("class", "drug-block")
+    //           .attr("cx", tickPosition)
+    //           .attr("cy", yOffset + 10)
+    //           .attr("rx", 10)
+    //           .attr("ry", 5)
+    //           .attr("fill", drugColor);
+    //       } else if (drug.shape === "cross-circle") {
+    //         // Create a circle with a cross inside
+    //         drugBlock = svg
+    //           .select(".axis-group")
+    //           .append("circle")
+    //           .attr("class", "drug-block")
+    //           .attr("cx", tickPosition)
+    //           .attr("cy", yOffset + 10)
+    //           .attr("r", 10)
+    //           .attr("fill", drugColor);
+
+    //         // Add the cross inside the circle
+    //         const crossColor = isScheduledForDate ? "black" : "transparent";
+    //         svg
+    //           .select(".axis-group")
+    //           .append("path")
+    //           .attr("class", "drug-block")
+    //           .attr(
+    //             "d",
+    //             `M${tickPosition - 5},${yOffset + 10}
+    //                H${tickPosition + 5}
+    //                M${tickPosition},${yOffset + 5}
+    //                V${yOffset + 15}`
+    //           )
+    //           .attr("stroke", crossColor)
+    //           .attr("stroke-width", 2);
+    //       }
+
+    //       // Append a colored block to the .axis-group for each scheduled date
+
+    //       if (isScheduledForDate) {
+    //         addBlockInteractivity(drugBlock, drugColor, drug);
+    //       }
+
+    //       // Leave space for weekends/holidays if no drug is scheduled
+    //       if (isOnWeekend || isHoliday) {
+    //         let offsetDays = 1; // Start checking from the nearest adjacent date
+    //         let foundValidDate = false;
+
+    //         while (!foundValidDate) {
+    //           const nextDate = new Date(currentDate); // Create a copy of the currentDate
+    //           nextDate.setDate(currentDate.getDate() + offsetDays); // Move forward by offsetDays
+
+    //           const prevDate = new Date(currentDate); // Create another copy of the currentDate
+    //           prevDate.setDate(currentDate.getDate() - offsetDays); // Move backward by offsetDays
+
+    //           // Check forward for the closest valid date
+    //           const isNextDateValid =
+    //             !isWeekend(nextDate) &&
+    //             !officeClosures.hasOwnProperty(nextDate) &&
+    //             !data.drugs.some((d) =>
+    //               d.days.some(
+    //                 (day) =>
+    //                   day.number ===
+    //                   (Math.round(nextDate.getTime() / cycle_length_ub) %
+    //                     cycle_length_ub) +
+    //                     1
+    //               )
+    //             );
+
+    //           // Check backward for the closest valid date
+    //           const isPrevDateValid =
+    //             !isWeekend(prevDate) &&
+    //             !officeClosures.hasOwnProperty(prevDate) &&
+    //             !data.drugs.some((d) =>
+    //               d.days.some(
+    //                 (day) =>
+    //                   day.number ===
+    //                   (Math.round(prevDate.getTime() / cycle_length_ub) %
+    //                     cycle_length_ub) +
+    //                     1
+    //               )
+    //             );
+
+    //           if (isNextDateValid) {
+    //             foundValidDate = true;
+    //             drawAfterimageShape(drug, nextDate, yOffset);
+    //           } else if (isPrevDateValid) {
+    //             foundValidDate = true;
+    //             drawAfterimageShape(drug, prevDate, yOffset);
+    //           } else {
+    //             offsetDays++; // Increase search range
+    //           }
+    //         }
+    //       }
+
+    //       // Function to draw afterimages with transparency
+    //       function drawAfterimageShape(drug, targetDate, yOffset) {
+    //         const tickPosition = xScale(targetDate.getTime());
+    //         const afterimageColor = `rgba(${hexToRgb(drugColor)}, 0.3)`; // Always apply transparency for fuzziness
+    //         if (drug.shape === "droplet") {
+    //           svg
+    //             .select(".axis-group")
+    //             .append("path")
+    //             .attr("class", "drug-afterimage")
+    //             .attr(
+    //               "d",
+    //               `M${tickPosition},${yOffset + 10 - 10}
+    //        Q${tickPosition - 10},${yOffset + 10}
+    //        ${tickPosition},${yOffset + 10 + 10}
+    //        Q${tickPosition + 10},${yOffset + 10}
+    //        ${tickPosition},${yOffset + 10 - 10} Z`
+    //             )
+    //             .attr("fill", afterimageColor);
+    //         } else if (drug.shape === "arrow") {
+    //           svg
+    //             .select(".axis-group")
+    //             .append("polygon")
+    //             .attr("class", "drug-afterimage")
+    //             .attr(
+    //               "points",
+    //               `${tickPosition - 10},${yOffset + 10}
+    //        ${tickPosition},${yOffset}
+    //        ${tickPosition + 10},${yOffset + 10}
+    //        ${tickPosition},${yOffset + 20}`
+    //             )
+    //             .attr("fill", afterimageColor);
+    //         } else if (drug.shape === "ellipse") {
+    //           svg
+    //             .select(".axis-group")
+    //             .append("ellipse")
+    //             .attr("class", "drug-afterimage")
+    //             .attr("cx", tickPosition)
+    //             .attr("cy", yOffset + 10)
+    //             .attr("rx", 10)
+    //             .attr("ry", 5)
+    //             .attr("fill", afterimageColor);
+    //         } else if (drug.shape === "cross-circle") {
+    //           svg
+    //             .select(".axis-group")
+    //             .append("circle")
+    //             .attr("class", "drug-afterimage")
+    //             .attr("cx", tickPosition)
+    //             .attr("cy", yOffset + 10)
+    //             .attr("r", 10)
+    //             .attr("fill", afterimageColor);
+
+    //           svg
+    //             .select(".axis-group")
+    //             .append("path")
+    //             .attr("class", "drug-afterimage-cross")
+    //             .attr(
+    //               "d",
+    //               `M${tickPosition - 5},${yOffset + 10}
+    //        H${tickPosition + 5}
+    //        M${tickPosition},${yOffset + 5}
+    //        V${yOffset + 15}`
+    //             )
+    //             .attr("stroke", "rgba(0, 0, 0, 0.3)")
+    //             .attr("stroke-width", 2);
+    //         }
+    //       }
+
+    // // Helper function to convert hex color to RGB
+    function hexToRgb(hex) {
+      const bigint = parseInt(hex.slice(1), 16);
+      return `${(bigint >> 16) & 255}, ${(bigint >> 8) & 255}, ${bigint & 255}`;
+    }
+
+    //sketching fuzzy drug implementation
+
+    // if (drug.fuzzy && isScheduledForDate) {
+    //   const shadowOffsets = [-10, 10]; // Small offsets for shadow positions
+    //   shadowOffsets.forEach((offsetX) => {
+    //     if (offsetX !== 0) {
+    //       svg
+    //         .select(".axis-group")
+    //         .append("polygon")
+    //         .attr("class", "drug-block shadow")
+    //         .attr(
+    //           "points",
+    //           getPolygonPoints(
+    //             tickPosition + offsetX,
+    //             yOffset + 10,
+    //             10,
+    //             shapeSides
+    //           )
+    //         )
+    //         .attr("fill", drugColor)
+    //         .attr("opacity", 0.3); // Lower opacity for shadow effect
+    //     }
+    //   });
+    // }
+
+    //       // Increment yOffset to avoid overlapping blocks on the same date
+    //       yOffset -= 25;
+    //     });
+    //   });
+    // }
+
     // Ensure axis-group exists in the SVG
     svg.append("g").attr("class", "axis-group");
 
     generateDrugGroups(data_global, svg, newXScale, dates);
+
+    // svg
+    //   .select(".axis-group")
+    //   .selectAll(".drug-afterimage")
+    //   .attr("transform", () => {
+    //     // Get the SVG's total width and calculate the center
+    //     const svgWidth = +svg.attr("width");
+    //     const centerX = svgWidth / 2;
+
+    //     // Return a translation to move the afterimage to the center
+    //     return `translate(${centerX}, 0)`;
+    //   });
 
     // Ensure the font size and line thickness stay consistent after updating the axis
     svg.selectAll(".tick text").style("font-size", "14px"); // Keep font large
