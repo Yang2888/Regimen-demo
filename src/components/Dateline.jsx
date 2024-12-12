@@ -671,38 +671,39 @@ export default function DateLine({
             let targetDate;
 
             while (!foundValidDate && offsetDays < 7) {
+              console.log(offsetDays);
               // Limit search to prevent infinite loop
               const nextDate = new Date(currentDate); // Create a copy of the current date
               nextDate.setDate(nextDate.getDate() + offsetDays);
 
               const nextDateValue = nextDate.getTime() / (24 * 60 * 60 * 1000); // Convert to days
               const normalizedNextDate =
-                Math.round(nextDateValue * cycle_length_ub) / cycle_length_ub;
+                (nextDateValue * cycle_length_ub) / cycle_length_ub;
 
               const prevDate = new Date(currentDate);
               prevDate.setDate(prevDate.getDate() - offsetDays);
 
               const prevDateValue = prevDate.getTime() / (24 * 60 * 60 * 1000); // Convert to days
               const normalizedPrevDate =
-                Math.round(prevDateValue * cycle_length_ub) / cycle_length_ub;
+                (prevDateValue * cycle_length_ub) / cycle_length_ub;
+
+              console.log(normalizedNextDate, normalizedPrevDate);
 
               const isNextDateConflicting = data.drugs.some((d) =>
                 d.days.some(
                   (day) =>
                     day.number ===
-                    (Math.round(normalizedNextDate * cycle_length_ub) %
-                      cycle_length_ub) +
-                      1
+                    (normalizedNextDate * cycle_length_ub) % cycle_length_ub
                 )
               );
+
+              console.log(isNextDateConflicting);
 
               const isPrevDateConflicting = data.drugs.some((d) =>
                 d.days.some(
                   (day) =>
                     day.number ===
-                    (Math.round(normalizedPrevDate * cycle_length_ub) %
-                      cycle_length_ub) +
-                      1
+                    (normalizedPrevDate * cycle_length_ub) % cycle_length_ub
                 )
               );
 
@@ -737,7 +738,7 @@ export default function DateLine({
               // const adjustedTickPosition = xScale(date + offsetDays);
               const adjustedTickPosition = xScale(date);
 
-              console.log(currentDate);
+              // console.log(currentDate);
 
               drawDrugBlock(
                 svg, // SVG element
