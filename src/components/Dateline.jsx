@@ -602,8 +602,6 @@ export default function DateLine({
       data.drugs.forEach((drug, drugIndex) => {
         let yOffset = -15 - drugIndex * 25; // Adjust vertical positioning
 
-        let checked = false;
-
         // Iterate over each date in the cycle
         d3.range(0, dates + 1, 1 / cycle_length_ub).forEach((date) => {
           const currentDate = new Date(parsedStartDate);
@@ -613,17 +611,27 @@ export default function DateLine({
 
           const isScheduledForDate = drug.days.some(
             (day) =>
-              day.number === ((date * cycle_length_ub) % cycle_length_ub) + 1
+              day.number ===
+              Math.round(date * cycle_length_ub) % cycle_length_ub
           );
 
-          const tickPosition = xScale(date);
+          // // console.log(currentDate.toString());
+          // const dateString =
+          //   "Fri Jan 24 2025 19:00:00 GMT-0500 (Eastern Standard Time)";
+
+          // if (currentDate.toString() === dateString) {
+          //   // console.log("hit");
+          //   // console.log(currentDate);
+          //   console.log(isScheduledForDate);
+          // }
+
+          const tickPosition = xScale(date - 1 / cycle_length_ub);
           const drugColor = getDrugColor(drug.component.toLowerCase());
           //TODO: change back once drug shadows are appearing
           // const drugColor = "rgba(1, 1, 1, 0.01)";
 
           // If drug is scheduled on this date, draw the main block
           if (isScheduledForDate) {
-            console.log(currentDate);
             drawDrugBlock(
               svg,
               drug,
@@ -656,6 +664,7 @@ export default function DateLine({
             (isWeekend(currentDate) ||
               officeClosures.hasOwnProperty(currentDate))
           ) {
+            console.log(currentDate);
             // Only generate afterimages under specific conditions
             let offsetDays = 1;
             let foundValidDate = false;
@@ -728,15 +737,15 @@ export default function DateLine({
               // const adjustedTickPosition = xScale(date + offsetDays);
               const adjustedTickPosition = xScale(date);
 
-              drawDrugBlock(
-                svg, // SVG element
-                drug, // Drug object
-                adjustedTickPosition, // X position on the timeline
-                yOffset, // Y offset for placement
-                afterimageColor, // Transparent color for afterimage
-                false, // Indicates this is an afterimage, not a main block
-                isScheduledForDate
-              );
+              // drawDrugBlock(
+              //   svg, // SVG element
+              //   drug, // Drug object
+              //   adjustedTickPosition, // X position on the timeline
+              //   yOffset, // Y offset for placement
+              //   afterimageColor, // Transparent color for afterimage
+              //   false, // Indicates this is an afterimage, not a main block
+              //   isScheduledForDate
+              // );
             }
           }
         });
