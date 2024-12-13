@@ -878,20 +878,24 @@ export default function DateLine({
 
             // If a valid date is found, draw the afterimage
             if (foundValidDate) {
-              // const afterimageColor = `rgba(${hexToRgb(drugColor)}, 0.3)`;
-              const afterimageColor = "rgba(0, 0, 0, 1)";
+              const afterimageColor = drugColor
+                .replace("rgb", "rgba")
+                .replace(")", ", 0.4)");
+
+              console.log(afterimageColor);
+              // const afterimageColor = "rgba(0, 0, 0, 1)";
 
               //TODO: adjust tickposition based on offsetDays and direction
 
-              // drawDrugBlock(
-              //   svg, // SVG element
-              //   drug, // Drug object
-              //   tickPosition, // X position on the timeline
-              //   yOffset, // Y offset for placement
-              //   afterimageColor, // Transparent color for afterimage
-              //   false, // Indicates this is an afterimage, not a main block
-              //   isScheduledForDate
-              // );
+              drawDrugBlock(
+                svg, // SVG element
+                drug, // Drug object
+                tickPosition + 107.5, // X position on the timeline
+                yOffset, // Y offset for placement
+                afterimageColor, // Transparent color for afterimage
+                false, // Indicates this is an afterimage, not a main block
+                isScheduledForDate
+              );
             }
           }
         });
